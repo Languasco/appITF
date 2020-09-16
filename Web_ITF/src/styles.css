@@ -1,0 +1,292 @@
+ /* You can add global styles to this file, and also import other style files */
+ 
+ body {
+     background-color: white;
+ }
+ 
+ label {
+     color: #6c757d !important;
+     font-size: 11px;
+     font-family: tahoma;
+     font-weight: 700;
+     margin-bottom: 2px;
+     margin-bottom: 2px;
+ }
+ /* Fondo de los inputs */
+ 
+ textarea:focus,
+ input:focus,
+ input[type]:focus {
+     border-color: #0ab59f;
+     box-shadow: 0 1px 1px #0ab59f inset, 0 0 8px #0ab59f;
+     outline: 0 none;
+ }
+ 
+ select:active,
+ select:hover,
+ select:focus {
+     outline: none!important;
+     border-color: #0ab59f!important;
+ }
+ 
+ hr {
+     background-color: cyan;
+ }
+ 
+ .form-control,
+ input {
+     font-family: 'Montserrat', sans-serif !important;
+ }
+ 
+ .form-control,
+ input {
+     font-family: tahoma;
+     font-size: 12px;
+     height: 28px;
+     margin-bottom: 2px;
+ }
+ 
+ .puntero {
+     cursor: pointer;
+ }
+ 
+ .border-left-warning {
+     border-left: 5px solid #00b6ad !important;
+ }
+ 
+ table thead {
+     font-size: 13px;
+     text-transform: uppercase;
+     font-family: 'Montserrat', sans-serif;
+ }
+ 
+ table tbody {
+     font-size: 11px;
+     color: #746660;
+     font-family: 'Montserrat', sans-serif;
+ }
+ 
+ .h5,
+ h5 {
+     font-size: 1rem;
+ }
+ 
+ .table .theadTable th {
+     background-color: #117a8b;
+     color: white;
+     border-color: cyan;
+ }
+ /* 
+.table .theadTableModal th {
+    background-color: #FFE0CC;
+    color: #746660;
+    border-color: #B8AFAC;
+} */
+ 
+ .fc-toolbar h2 {
+     text-transform: capitalize !important;
+ }
+ 
+ .bs-timepicker-field {
+     width: 40px !important;
+     padding: .375rem .55rem;
+ }
+ /* input file */
+ 
+ .botonFile {
+     position: relative;
+     overflow: hidden;
+     display: inline-block;
+     width: 98%;
+ }
+ 
+ .botonFile .btn {
+     border: 2px solid gray;
+     color: gray;
+     background-color: white;
+     padding: 8px 20px;
+     border-radius: 8px;
+     font-size: 10px;
+     font-weight: bold;
+ }
+ /* Fin de input file */
+ 
+ table {
+     border-collapse: separate;
+     border-spacing: 0.5px;
+ }
+ 
+ @media (min-width: 768px) {
+     .modal-lg,
+     .modal-xl {
+         max-width: 760px !important;
+     }
+     .navbar-expand-md .navbar-nav .nav-link {
+         padding-right: 3.5rem;
+         padding-left: .5rem;
+     }
+ }
+ 
+ @media (min-width: 992px) {
+     .modal-lg,
+     .modal-xl {
+         max-width: 1000px !important;
+     }
+ }
+ 
+ @media (min-width: 1200px) {
+     .modal-lg,
+     .modal-xl {
+         max-width: 1200px !important;
+     }
+ }
+ /* //// desabilitar elementos */
+ 
+ .disabledForm {
+     pointer-events: none;
+     cursor: default;
+     opacity: 0.6;
+     background-color: #ecf0f3;
+     color: black;
+ }
+ /* //// desabilitar elementos */
+ 
+ #example_info {
+     color: #333333;
+     font-size: 10px !important;
+ }
+ 
+ @media (min-width: 576px) {
+     .card-columns {
+         column-count: 3;
+     }
+ }
+ 
+ @media (min-width: 768px) {
+     .card-columns {
+         column-count: 4;
+     }
+ }
+ 
+ @media (min-width: 992px) {
+     .card-columns {
+         column-count: 4;
+     }
+ }
+ 
+ @media (min-width: 1200px) {
+     .card-columns {
+         column-count: 5;
+     }
+ }
+ 
+ .comboBox {
+     height: 30px;
+     /* color: #746660; */
+     margin-bottom: 2px;
+     font-size: 11px !important;
+     font-family: tahoma;
+     font-weight: 500;
+ }
+ 
+ .select2-container--default .select2-selection--single {
+     font-size: 11px !important;
+     font-family: 'Montserrat', sans-serif;
+ }
+ 
+ .select2-container--default .select2-search--dropdown .select2-search__field {
+     height: 30px;
+ }
+ 
+ .select2-container--default .select2-results__option--highlighted[aria-selected] {
+     height: 30px;
+     /* color: #746660; */
+     margin-bottom: 2px;
+     font-size: 11px !important;
+     font-family: 'Montserrat', sans-serif;
+     font-weight: 500;
+ }
+ 
+ .select2-container--default .select2-results__option--highlighted[aria-selected] {
+     background-color: #117a8b !important;
+     color: white;
+ }
+ 
+ .select2-results__option {
+     /* color: #746660; */
+     margin-bottom: 2px;
+     font-size: 11px !important;
+     font-family: 'Montserrat', sans-serif;
+ }
+ 
+ .select2-container {
+     width: 98% !important;
+ }
+ /* input file */
+ 
+ .botonFile {
+     position: relative;
+     overflow: hidden;
+     display: inline-block;
+     width: 98%;
+ }
+ 
+ .botonFile .btn {
+     border: 2px solid gray;
+     color: gray;
+     background-color: white;
+     padding: 8px 20px;
+     border-radius: 8px;
+     font-size: 10px;
+     font-weight: bold;
+ }
+ 
+ .botonFile .input {
+     height: 40px;
+ }
+ /* //- cabecera del titulo  */
+ 
+ .card-header {
+     background-color: #00b6ad !important;
+     color: white;
+ }
+ /* Fin de input file */
+ /* resaltado de una table */
+ 
+ tbody tr:hover {
+     /* background-color: aquamarine !important; */
+     cursor: pointer;
+ }
+ 
+ .linkOpcion {
+     color: red !important;
+     font-weight: 800;
+     text-decoration: underline !important;
+ }
+ 
+ .swal2-popup.swal2-toast .swal2-title {
+     font-size: 12px !important;
+     font-family: 'Montserrat', sans-serif !important;
+     color: #117a8b !important;
+ }
+ 
+ .headerTitleModal {
+     color: #117a8b;
+     font-family: 'Montserrat', sans-serif !important;
+     font-weight: 600;
+ }
+ /*  Menu ----- TreeeView */
+ 
+ .treeview-container .row-item {
+     margin-bottom: -16px !important;
+     flex-wrap: nowrap;
+ }
+ 
+ .swal2-title {
+     color: #17a2b8 !important;
+ }
+ 
+ .swal2-content {
+     color: #117a8b !important;
+     font-size: 15px !important;
+ }

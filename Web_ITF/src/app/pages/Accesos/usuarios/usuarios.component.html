@@ -1,0 +1,266 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> MANTENIMIENTO USUARIOS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <select class="form-control comboBox" formControlName="idEstado">
+                        <!-- <option value="0"> [ --SELECCIONE-- ]</option> -->
+                        <!-- <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option> -->
+                        <option value="1"> Activo </option>
+                        <option value="0"> Inactivo </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label> Rol</label>
+                    <select class="form-control comboBox" id="cbo_cargo" formControlName="idRol">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="cargo.id_perfil" *ngFor="let cargo of perfiles">{{cargo.descripcion_perfil}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                        <button class="btn btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Dni</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Nombres</th>
+                        <th scope="col">Login</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <th class="text-center">Anular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of usuarios |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 0 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.nrodoc_usuario}}</td>
+                        <td>{{item.apellido_paterno_usuario}} {{item.apellido_materno_usuario}} </td>
+                        <td>{{item.nombres_usuario}}</td>
+                        <td>{{item.login_usuario}}</td>
+                        <td>{{item.descripcion_estado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-danger puntero" style="padding: 5px;" (click)="anular(item)">  Anular </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE USUARIOS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-8">
+                        <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                            <fieldset class="shadow">
+                                <legend>Datos Generales</legend>
+                                <div class="panel panel-default ">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label> ID Usuario</label>
+                                                <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Usuario">
+                                            </div>
+                                            <div class="col-3">
+                                                <br>
+                                                <div class="custom-control custom-checkbox custom-control-inline ">
+                                                    <input type="checkbox" [id]="9999" formControlName="es_supervisor" (change)="onChange_supervisor($event)" class="custom-control-input">
+                                                    <label class="custom-control-label" [for]="9999">ES SUPERVISOR </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <label> Apellido Paterno </label>
+                                                <input type="text" class="form-control " maxlength="250" formControlName="apellido_paterno_usuario">
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <label> Apellido Materno  </label>
+                                                <input type="text" class="form-control " maxlength="250" formControlName="apellido_materno_usuario">
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <label> Nombres </label>
+                                                <input type="text" class="form-control " maxlength="150" formControlName="nombres_usuario">
+                                            </div>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col-4">
+                                                <label> Nro Documento</label>
+                                                <input type="number" id="txtBuscarDoc" class="form-control form-control-sm  " maxlength="20" formControlName="nrodoc_usuario">
+                                            </div>
+                                            <div class="col-4">
+                                                <label> Fecha Nacimiento</label>
+                                                <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_nacimiento_usuario" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                            <div class="col-4">
+                                                <label> Sexo</label>
+                                                <select class="form-control comboBox" formControlName="sexo_usuario">
+                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                    <option value="M"> Masculino </option>
+                                                    <option value="F"> Femenino </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label> Email </label>
+                                                <input type="text" class="form-control " maxlength="150" formControlName="email_usuario">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Nro Celular </label>
+                                                <input type="number" class="form-control " maxlength="150" formControlName="celular_usuario">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6" style="margin-bottom: 15px;">
+                                                <label> Supervisor</label>
+                                                <select class="form-control comboBox" id="cbo_supervisor" formControlName="id_supervisor">
+                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                    <option [value]="sup.id_Usuario" *ngFor="let sup of supervisores">{{sup.supervisor}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <fieldset class="shadow">
+                                        <legend>Ingreso al sistema</legend>
+                                        <div class="panel panel-default ">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label> Login </label>
+                                                        <input type="text" class="form-control " maxlength="100" formControlName="login_usuario">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label> Constraseña </label>
+                                                        <input type="password" class="form-control " maxlength="50" formControlName="contrasenia_usuario">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for=""> Rol</label>
+                                                        <select class="form-control comboBox" id="cbo_cargo" formControlName="id_Perfil">
+                                                            <option value="0"> [ --SELECCIONE-- ]</option>
+                                                            <option [value]="cargo.id_perfil" *ngFor="let cargo of perfiles">{{cargo.descripcion_perfil}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label> Estado</label>
+                                                        <select class="form-control comboBox" formControlName="estado">
+                                                            <option value="-1"> [ --SELECCIONE-- ]</option>
+                                                            <option value="1"> Activo </option>
+                                                            <option value="0"> Anulado </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <fieldset class="shadow" style=" margin-top: -15px;">
+                            <legend>Imagen</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-sm-12">
+                                                <div (click)="openFile();" style="text-align: center; cursor:pointer" title=" Click para agregar o reemplazar la imagen">
+                                                    <img [src]="imgProducto" title=" Click para agregar o reemplazar la imagen" class="mx-auto d-block" style="width: 100%;height: 230px;">
+                                                </div>
+                                                <label class="import-file" style="display:none;">                                                  
+                                                    <input type="file" id="inputFileOpen" class="form-control-file btn" name="file" accept="image/x-png,image/gif,image/jpeg" (change)="onFileChange($event)" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

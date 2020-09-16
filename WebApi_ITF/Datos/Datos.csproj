@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D26500D5-90C9-43CA-BFCF-10B0DB1AC923}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Datos</RootNamespace>
+    <AssemblyName>Datos</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proyecto_ITF.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Proyecto_ITF.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Proyecto_ITF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Proyecto_ITF.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Proyecto_ITF.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Accesos_Evento.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Actividades.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Categorias.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Ciclos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Control_Stock.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Definicion_Opciones.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Duracion_Actividades.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Especialidades.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Estados.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Evento.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Feriados.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Identificador_Medico.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Medicos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Medicos_Direccion.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Monedas.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Perfil.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Perfil_Accesos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Productos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Resultados_Visitas.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Tipos_Productos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Usuarios.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Proyecto_ITF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Proyecto_ITF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+    <None Include="Proyecto_ITF.edmx.diagram">
+      <DependentUpon>Proyecto_ITF.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Proyecto_ITF.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Proyecto_ITF.Context.cs</LastGenOutput>
+      <DependentUpon>Proyecto_ITF.edmx</DependentUpon>
+    </Content>
+    <Content Include="Proyecto_ITF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Proyecto_ITF.edmx</DependentUpon>
+      <LastGenOutput>Proyecto_ITF.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,181 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> MANTENIMIENTO ACTIVIDADES </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Ciclo</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idCiclo">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <br>
+
+                    <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 11px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                    <button class="btn btn-warning ml-1 " (click)="nuevo()" style="font-size: 11px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Duracion</th>
+                        <th scope="col">Comentario</th>
+
+                        <th scope="col">Aprobador</th>
+                        <th scope="col">Observacion</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <!-- <th class="text-center">Anular</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of actividades |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 8 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.usuario}}</td>
+                        <td>{{item.fecha}} </td>
+                        <td>{{item.descripcionDuracion}} </td>
+                        <td>{{item.detalle_actividad}} </td>
+
+                        <td>{{item.Aprobador}} </td>
+                        <td>{{item.observacion}} </td>
+                        <td>{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                        </td>
+                        <!-- <td class="text-center">
+                            <span class="badge badge-danger puntero" *ngIf="item.estado != 8" style="padding: 5px;" (click)="anular(item)">  Anular </span>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="width: 400px;">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE ACTIVIDAD </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                            <div class="panel-body">
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Ciclo </label>
+                                        <select class="form-control comboBox " formControlName="id_Ciclo">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <label> Fecha </label>
+                                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_actividad" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Duracion </label>
+                                        <select class="form-control comboBox " formControlName="id_Duracion">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="durac.id_Duracion_Actividad" *ngFor="let durac of duracionActividades">{{durac.descripcion_duracion_actividad}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Detalle </label>
+                                        <textarea class="form-control" maxlength="255" formControlName="detalle_actividad" rows="2"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Estado</label>
+                                        <br>
+                                        <select class="form-control comboBox " formControlName="estado">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

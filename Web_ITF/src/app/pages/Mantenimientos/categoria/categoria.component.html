@@ -1,0 +1,145 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> MANTENIMIENTO CATEGORIA </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="-1"> [-- TODOS -- ] </option>
+                        <option value="1"> Activo </option>
+                        <option value="0"> Inactivo </option>
+                    </select>
+                </div>
+                <div class="col-md-6 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                        <button class="btn btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <th class="text-center">Anular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of categorias |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 0 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.codigo_categoria}}</td>
+                        <td>{{item.descripcion_categoria}} </td>
+                        <td>{{item.descripcion_estado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="anular(item)">  Anular </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="width: 500px;">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE CATEGORIA </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label> ID </label>
+                                        <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Categoria">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-4">
+                                        <label> Codigo Categoria</label>
+                                        <input type="text" id="txtcodigo" class="form-control form-control-sm  " maxlength="5" formControlName="codigo_categoria">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Descripcion de Categoria </label>
+                                        <input type="text" class="form-control " maxlength="150" formControlName="descripcion_categoria">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Estado</label>
+                                        <br>
+                                        <select id="cboEstado" class="form-control comboBox" formControlName="estado">
+                                            <option value="-1"> [ --SELECCIONE-- ]</option>
+                                            <option value="1"> Activo </option>
+                                            <option value="0"> Anulado </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
