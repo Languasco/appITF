@@ -22,6 +22,8 @@ namespace Entidades.Mantenimientos
         public string  id_Especialidad2 { get; set; }
         public string  email_medico { get; set; }
         public string  fecha_nacimiento_medico { get; set; }
+        public DateTime fechaNacimientoMedico { get; set; }
+        
         public string  sexo_medico { get; set; }
         public string  telefono_medico { get; set; }
         public string  estado { get; set; }

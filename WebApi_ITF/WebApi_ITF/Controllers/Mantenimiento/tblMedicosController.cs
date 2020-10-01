@@ -11,6 +11,7 @@ using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Datos;
 using Negocio.Mantenimientos;
+using Negocio.Procesos;
 using Negocio.Resultados;
 
 namespace WebApi_ITF.Controllers.Mantenimiento
@@ -163,6 +164,33 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 10)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+
+                    Mantenimientos_BL obj_negocio = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_grabar_ImportacionMedicos(idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 11)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idMedico = Convert.ToInt32(parametros[0].ToString());
+                    int idSolDet = Convert.ToInt32(parametros[1].ToString());
+
+                    SolicitudesCab_BL obj_negocio = new SolicitudesCab_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_eliminar_solicitudDetalle_det(idMedico, idSolDet);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+
+
                 else
                 {
                     res.ok = false;

@@ -23,6 +23,8 @@ export class ResultadoVisitaComponent implements OnInit {
   formParams: FormGroup;
 
   idUserGlobal :number = 0;
+  pordefectoresultadoGlobal = 0;
+
   flag_modoEdicion :boolean =false;
 
   visitas :any[]=[]; 
@@ -123,6 +125,15 @@ export class ResultadoVisitaComponent implements OnInit {
       this.alertasService.Swal_alert('error','El resultado ya se encuentra registrada, verifique..');
       return;
      }   
+ 
+    if (this.formParams.value.por_defecto_resultado_visita == true || this.formParams.value.por_defecto_resultado_visita == 1 ){ 
+        const  valordefecto  = await this.resultadoVisitaService.get_verificar_porDefecto();
+        if (valordefecto) {
+        Swal.close();
+        this.alertasService.Swal_alert('error','Existe actualmente un Resultado ya por  Defecto, verifique..');
+        return;
+        }          
+    }
 
      this.resultadoVisitaService.set_save_resultadoVisita(this.formParams.value).subscribe((res:RespuestaServer)=>{
        Swal.close();    
@@ -131,6 +142,7 @@ export class ResultadoVisitaComponent implements OnInit {
          this.formParams.patchValue({ "id_Resultado_Visita" : Number(res.data[0].id_Resultado_Visita) });
          console.log(res.data[0])
          this.visitas.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -139,6 +151,19 @@ export class ResultadoVisitaComponent implements OnInit {
      })
      
    }else{ /// editar
+
+    const resPorDefecto = (this.formParams.value.por_defecto_resultado_visita) ? 1 : 0 ;
+    if (this.pordefectoresultadoGlobal != resPorDefecto ) {
+      if (this.formParams.value.por_defecto_resultado_visita == true || this.formParams.value.por_defecto_resultado_visita == 1 ){
+
+        const  valordefecto  = await this.resultadoVisitaService.get_verificar_porDefecto();
+        if (valordefecto) {
+         Swal.close();
+         this.alertasService.Swal_alert('error','Existe actualmente un Resultado ya por  Defecto, verifique..');
+         return;
+        }          
+     }
+    }
 
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Actualizando, espere por favor'  })
      Swal.showLoading();
@@ -155,6 +180,7 @@ export class ResultadoVisitaComponent implements OnInit {
               break;
            }
          }
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -169,6 +195,10 @@ export class ResultadoVisitaComponent implements OnInit {
    this.flag_modoEdicion=true;
    this.formParams.patchValue({ "id_Resultado_Visita" : id_Resultado_Visita ,"descripcion_resultado_visita" : descripcion_resultado_visita,  
                                  "por_defecto_resultado_visita" : (por_defecto_resultado_visita == 1) ? true: false , "estado" : estado, "usuario_creacion" : this.idUserGlobal });
+
+
+   this.pordefectoresultadoGlobal = por_defecto_resultado_visita;
+                                 
    setTimeout(()=>{ // 
     // $('#txtcodigo').addClass('disabledForm');
     $('#modal_mantenimiento').modal('show');  

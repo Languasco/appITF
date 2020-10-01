@@ -114,6 +114,14 @@ export class MedicoService {
     return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
   }
 
+  set_eliminar_medico(idMedico : number, idSolDet :number){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '11');
+    parametros = parametros.append('filtro',  String(idMedico) + '|' + idSolDet  );
+
+    return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
+  }
+
   // DIRECCIONES DE MEDICOS
 
   get_mostrar_direccionMedicos(idMedico:number){

@@ -19,8 +19,8 @@ namespace WebApi_3R_Dominion.Controllers.upload
         private ITF_PERUEntities db = new ITF_PERUEntities();
 
         [HttpPost]
-        [Route("api/Uploads/post_archivoExcel")]
-        public object post_archivoExcel(string filtros)
+        [Route("api/Uploads/post_archivoExcel_medicos")]
+        public object post_archivoExcel_medicos(string filtros)
         {
             Resultado res = new Resultado();
             var nombreFile = "";
@@ -35,11 +35,8 @@ namespace WebApi_3R_Dominion.Controllers.upload
                 string extension = Path.GetExtension(file.FileName);
 
                 string[] parametros = filtros.Split('|');
-                string fechaImportacion = parametros[0].ToString();
-                string idUsuario = parametros[1].ToString();
-
-                //nombreFile = "Impotacion_Excels" + "_" + idUsuario + extension;
-
+                string idUsuario = parametros[0].ToString();
+                 
                 //-----generando clave unica---
                 var guid = Guid.NewGuid();
                 var guidB = guid.ToString("B");
@@ -47,21 +44,17 @@ namespace WebApi_3R_Dominion.Controllers.upload
 
                 //-------almacenando la archivo---
                 sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
-                //if (System.IO.File.Exists(sPath))
-                //{
-                //    System.IO.File.Delete(sPath);
-                //}
                 file.SaveAs(sPath);
 
                 //-------almacenando la archivo---
                 if (File.Exists(sPath))
                 {
                     Upload_BL obj_negocio = new Upload_BL();
-                    string valor = obj_negocio.setAlmacenandoFile_Excel(sPath, file.FileName, fechaImportacion, idUsuario);
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelMedico(sPath, file.FileName, idUsuario);
                     if (valor == "OK")
                     {
                         res.ok = true;
-                        res.data = obj_negocio.get_datosCargados(idUsuario, fechaImportacion);
+                        res.data = obj_negocio.get_datosCargadosMedicos(idUsuario);
                         res.totalpage = 0;
                     }
                 }
@@ -156,6 +149,119 @@ namespace WebApi_3R_Dominion.Controllers.upload
             return res;
         }
 
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_stock")]
+        public object post_archivoExcel_stock(string filtros)
+        {
+            Resultado res = new Resultado();
+            var nombreFile = "";
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                int ciclo = Convert.ToInt32(parametros[0].ToString());
+                int idusuario = Convert.ToInt32(parametros[1].ToString());
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFile = idusuario.ToString() + "_Importacion_Stock_Excel_" + Guid.Parse(guidB) + extension;
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelStock(sPath, file.FileName, ciclo, idusuario);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = obj_negocio.get_datosCargadosStock(idusuario);
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_target")]
+        public object post_archivoExcel_target(string filtros)
+        {
+            Resultado res = new Resultado();
+            var nombreFile = "";
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                string opcionTarget = parametros[0].ToString();
+                int idusuario = Convert.ToInt32(parametros[1].ToString());
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFile = idusuario.ToString() + "_Importacion_target_Excel_" + Guid.Parse(guidB) + extension;
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelTarget(sPath, file.FileName, opcionTarget, idusuario);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = obj_negocio.get_datosCargadosTarget(idusuario, opcionTarget);
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
 
 
     }

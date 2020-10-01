@@ -60,6 +60,9 @@
     <Compile Include="Conexion\ConexionExcel.cs" />
     <Compile Include="Mantenimientos\Mantenimientos_BL.cs" />
     <Compile Include="Mantenimientos\Usuarios_BL.cs" />
+    <Compile Include="Procesos\AsignacionProducto_BL.cs" />
+    <Compile Include="Procesos\SolicitudesCab_BL.cs" />
+    <Compile Include="Procesos\Target_BL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resultados\Resultado.cs" />
     <Compile Include="upload\Upload_BL.cs" />
@@ -74,7 +77,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Procesos\" />
     <Folder Include="Reportes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

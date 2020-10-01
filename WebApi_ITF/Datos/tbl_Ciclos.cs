@@ -14,8 +14,6 @@ namespace Datos
     
     public partial class tbl_Ciclos
     {
-        public object id_Tipo_Producto;
-
         public int id_Ciclo { get; set; }
         public string nombre_ciclo { get; set; }
         public Nullable<System.DateTime> desde_ciclo { get; set; }

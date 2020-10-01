@@ -1,0 +1,237 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> TARGET DE USUARIO </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-4">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for=""> Categoria</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="categoria">
+                        <option value="0"> [ --TODOS-- ]</option>
+                        <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for=""> Especialidad</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="especialidad">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label for=""> Medico</label>
+                    <br>
+                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Nombes o Apellidos" maxlength="20" formControlName="medico">
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="estado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
+                        <br>
+                        <div class="btn-group btn-block ">
+                            <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                            <div class="dropdown-menu text-center ">
+                                <div class="p-2">
+                                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-success btn-block  " style="font-size: 13px;" (click)="open_modalImportacion('A')">   <i class="fas fa-file-upload"> Alta Masiva</i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-danger btn-block  " style="font-size: 13px;" (click)="open_modalImportacion('B')">   <i class="fas fa-file-download"> Baja Masiva</i> </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">USUARIO</th>
+                        <th scope="col">IDENTIFICADOR </th>
+                        <th scope="col">CODIGO </th>
+                        <th scope="col">MEDICO</th>
+                        <th scope="col">CATEGORIA</th>
+                        <th scope="col">ESPECIALIDAD</th>
+                        <th scope="col">ESTADO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of asignacionProductosCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.usuario}}</td>
+                        <td>{{item.identificador}}</td>
+                        <td>{{item.codigo}}</td>
+                        <td>{{item.medico}}</td>
+                        <td>{{item.categoria}}</td>
+                        <td>{{item.especialidad}}</td>
+                        <td>{{item.descripcionEstado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> {{tituloTarget}} </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div *ngIf="flagImportar">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <form [formGroup]="formParamsFile">
+                                <div class="botonFile">
+                                    <input type="file" class="form-control-file btn" style="height: 40px  !important ; " formControlName="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onFileChange($event)" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="center-text ">
+                                <button id="btnVer" class="btn btn-sm btn-success disabledForm" (click)="subirArchivo()">  <i class="fas fa-eye"> Ver</i> </button>
+                                <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                <button class="btn btn-sm btn-primary ml-2" (click)="downloadFormat()">  <i class="fas fa-file-download"> Formato</i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div *ngFor="let fil of filesExcel; let i=index">
+                                <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                    <h5>Sistemas</h5>
+                                    <hr>
+                                    <p><small>{{fil.message}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" tableFixHead ">
+                    <table class="table table-hover table-sm">
+                        <thead class="theadTable">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th class="text-center">IDENTIFICADOR</th>
+                                <th scope="col">CMP</th>
+                                <th class="text-center">NOMBRES MEDICO</th>
+                                <th class="text-center">APELLIDOS MEDICO</th>
+
+                                <th class="text-center">DNI USUARIO </th>
+                                <th class="text-center">CÓDIGO USUARIO </th>
+                                <th class="text-center">NOMBRE USUARIO </th>
+                                <th class="text-center">APELLIDO USUARIO </th>
+
+                                <th class="text-center">ESPECIALIDAD </th>
+                                <th class="text-center">CATEGORIA </th>
+                                <th class="text-center">N° CONTACTOS </th>
+
+                                <th scope="col">MENSAJE </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of importacion; index as j" style="color: black;" [ngStyle]="{'color':getColorEstado(item.estado_importacion)}">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td class="text-center">{{item.identificador}}</td>
+                                <td>{{item.cmp}}</td>
+                                <td class="text-right">{{item.nombresMedico}}</td>
+                                <td class="text-center">{{item.apellidosMedico}}</td>
+
+                                <td class="text-center">{{item.dniUsuario}}</td>
+                                <td class="text-center">{{item.codigoUsuario}}</td>
+                                <td class="text-center">{{item.nombreUsuario}}</td>
+                                <td class="text-center">{{item.apellidoUsuario}}</td>
+
+                                <td class="text-center">{{item.especialidad}}</td>
+                                <td class="text-center">{{item.categoria}}</td>
+                                <td class="text-center">{{item.nroContactos}}</td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.mensaje}}
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <!--  -->
+                <div class="text-center" *ngIf="importacion.length >0">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacion_target()" title="Grabar el target importadas">
+                        <i class="fas fa-save"></i> Grabar
+                    </button>
+                </div>
+                <br>
+            </div>
+
+        </div>
+    </div>
+</div>

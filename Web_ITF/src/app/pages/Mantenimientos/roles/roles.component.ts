@@ -140,6 +140,7 @@ export class RolesComponent implements OnInit {
          this.formParams.patchValue({ "id_perfil" : Number(res.data[0].id_perfil) });
          console.log(res.data[0])
          this.roles.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -164,7 +165,7 @@ export class RolesComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

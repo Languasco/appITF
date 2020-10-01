@@ -72,6 +72,7 @@ export class ActividadService {
                   }) );
     }
   }
+
   get_estados(){
     if (this.estados.length > 0) {
       return of( this.estados )
@@ -87,7 +88,6 @@ export class ActividadService {
                   }) );
     }
   }
-
 
   get_mostrar_actividad(idUsuario:number, idCiclo :number, idEstado:number){
     let parametros = new HttpParams();
@@ -129,5 +129,29 @@ export class ActividadService {
 
     return this.http.get( this.URL + 'tblActividades' , {params: parametros});
   }
+
+  // APROBAR RECHAZAR ACTIVIDADES
+
+  get_mostrar_actividadAprobar(idUsuario:number, fechaIni :string, fechaFin :string,  idEstado:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '7');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin)   + '|' + String(idEstado)   );
+
+    return this.http.get( this.URL + 'tblActividades' , {params: parametros});
+  }
+
+
+  set_aprobarRechazar( id_actividad :number, descripcion : string , proceso: string, id_usuario :number  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '8');
+    parametros = parametros.append('filtro', String(id_actividad)  + '|' + String(descripcion) + '|' + String(proceso)  + '|' + String(id_usuario)  );
+
+    console.log(parametros)
+
+    return this.http.get( this.URL + 'tblActividades' , {params: parametros});
+  }
+
+
+
 
 }

@@ -77,9 +77,9 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                                                      {
                                                          nombre_page = od.nombre_opcion,
                                                          url_page = od.url_opcion,
-                                                         orden = od.orden_Opcion
+                                                         orden = od.orden_Opcion,
+                                                         url_image = od.urlImagen_Opcion
                                                      })
-                                            //.Distinct()
                                             .ToList()
                                             .Distinct();
 

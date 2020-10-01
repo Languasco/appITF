@@ -76,7 +76,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> REGISTRO DE MONEDAS </h5>
@@ -93,29 +93,29 @@
                         <form [formGroup]="formParams" style=" margin-top: -15px;">
 
                             <div class="panel-body">
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-4">
                                         <label> ID </label>
                                         <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Moneda">
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row ">
                                     <div class="col-4">
-                                        <label> Codigo Moneda</label>
+                                        <label> Código Moneda</label>
                                         <input type="text" id="txtcodigo" class="form-control form-control-sm  " maxlength="5" formControlName="codigo_moneda">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label> Descripcion de Moneda </label>
+                                        <label> Descripción de Moneda </label>
                                         <input type="text" class="form-control " maxlength="250" formControlName="descripcion_moneda">
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <label> Simbolo de Moneda </label>
                                         <input type="text" class="form-control " maxlength="250" formControlName="simbolo_moneda">
                                     </div>
@@ -147,9 +147,9 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

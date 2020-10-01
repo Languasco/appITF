@@ -73,4 +73,12 @@ export class ResultadoVisitaService {
     return this.http.get( this.URL + 'tblResultadosVisitas' , {params: parametros});
   }
 
+  get_verificar_porDefecto(){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '5');
+    parametros = parametros.append('filtro', 'vv');
+
+    return this.http.get( this.URL + 'tblResultadosVisitas' , {params: parametros}).toPromise();
+  }
+
 }

@@ -24,5 +24,9 @@ namespace Datos
         public Nullable<System.DateTime> fecha_creacion { get; set; }
         public Nullable<int> usuario_edicion { get; set; }
         public Nullable<System.DateTime> fecha_edicion { get; set; }
+        public Nullable<int> usuario_aprobador_actividad { get; set; }
+        public Nullable<System.DateTime> fecha_respuesta_actividad { get; set; }
+        public string mensaje_respuesta_actividad { get; set; }
+        public string tipo_interfaz_actividad { get; set; }
     }
 }

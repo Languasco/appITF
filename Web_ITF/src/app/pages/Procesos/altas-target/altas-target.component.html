@@ -1,0 +1,97 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> ALTAS DE TARGET </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label"> Rango Fecha </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="estado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
+                        <br>
+                        <div class="btn-group btn-block ">
+                            <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                            <div class="dropdown-menu text-center ">
+                                <div class="p-2">
+                                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-warning btn-block  " style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <!-- <button class="btn btn-danger btn-block  " style="font-size: 13px;" (click)="open_modalImportacion('B')">   <i class="fas fa-file-download"> Baja Masiva</i> </button> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">USUARIO </th>
+                        <th scope="col">FECHA SOL </th>
+                        <th scope="col">TEXTO SOL</th>
+                        <th scope="col">FECHA RPTA</th>
+                        <th scope="col">TEXTO RPTA</th>
+                        <th scope="col">ESTADO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of targetCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.id}}</td>
+                        <td>{{item.usuario}}</td>
+                        <td>{{item.fechaSol}}</td>
+                        <td>{{item.textoSol}}</td>
+                        <td>{{item.fechaRespuesta}}</td>
+                        <td>{{item.textoRespuesta}}</td>
+                        <td>{{item.descripcionEstado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

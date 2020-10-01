@@ -12,6 +12,8 @@ import { combineLatest } from 'rxjs';
 import { CategoriaService } from '../../../services/Mantenimientos/categoria.service';
 import { EspecialidadService } from '../../../services/Mantenimientos/especialidad.service';
 import { MedicoService } from '../../../services/Mantenimientos/medico.service';
+import { InputFileI } from 'src/app/models/inputFile.models';
+import { SolicitudMedicoService } from '../../../services/Procesos/solicitud-medico.service';
 
 declare var $:any;
 
@@ -25,6 +27,7 @@ export class MedicoComponent implements OnInit {
 
   formParamsFiltro : FormGroup;
   formParams: FormGroup;
+  formParamsFile: FormGroup;
   formParamsDirection: FormGroup;
 
   idUserGlobal :number = 0;
@@ -48,8 +51,15 @@ export class MedicoComponent implements OnInit {
   distritos :any[]=[]; 
 
   direccionDetalle :any[]=[]; 
+
+
+  // -------importaciones 
+
+  flagImportar=false;
+  filesExcel:InputFileI[] = [];
+  importacion:any [] = [];
  
-  constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService,private funcionGlobalServices : FuncionesglobalesService, private medicoService : MedicoService , private uploadService : UploadService, private categoriaService : CategoriaService, private especialidadService: EspecialidadService ) {         
+  constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService,private funcionGlobalServices : FuncionesglobalesService, private medicoService : MedicoService , private uploadService : UploadService, private categoriaService : CategoriaService, private especialidadService: EspecialidadService , private solicitudMedicoService : SolicitudMedicoService) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
   }
  
@@ -142,6 +152,7 @@ export class MedicoComponent implements OnInit {
  nuevo(){
     this.flag_modoEdicion = false;
     this.inicializarFormulario();  
+    this.direccionDetalle =[];
     setTimeout(()=>{ // 
       $('#txtcodigo').removeClass('disabledForm');
       $('#modal_mantenimiento').modal('show');  
@@ -193,6 +204,15 @@ export class MedicoComponent implements OnInit {
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
 
+    
+  
+    const codMed  = await this.solicitudMedicoService.get_verificar_nuevoMedico(this.formParams.value.id_Identificador_Medico + '_' + this.formParams.value.cmp_medico );
+    if (codMed) {
+     Swal.close();
+     this.alertasService.Swal_alert('error','El médico se encuentra registrado, verifique..');
+     return;
+    } 
+
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
      Swal.showLoading();
 
@@ -202,6 +222,8 @@ export class MedicoComponent implements OnInit {
          this.flag_modoEdicion = true;
          this.formParams.patchValue({ "id_Medico" : Number(res.data[0].id_Medico) });
          console.log(res.data[0])
+
+         this.id_MedicoGlobal = res.data[0].id_Medico;
          this.medicos.push(res.data[0]);
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
@@ -263,13 +285,13 @@ export class MedicoComponent implements OnInit {
  } 
 
  editar({ id_Medico, id_Identificador_Medico, cmp_medico, nombres_medico, apellido_paterno_medico, apellido_materno_medico, id_Categoria, id_Especialidad1, 
-  id_Especialidad2, email_medico, fecha_nacimiento_medico, sexo_medico, telefono_medico, estado }){
+  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado }){
 
   this.flag_modoEdicion=true;
   this.id_MedicoGlobal = id_Medico;
 
-  this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : id_Identificador_Medico ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
-   "email_medico" : email_medico, "fecha_nacimiento_medico" : new Date(fecha_nacimiento_medico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
+  this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : String(id_Identificador_Medico) ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
+   "email_medico" : email_medico, "fecha_nacimiento_medico" : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
    "estado" : estado, "usuario_creacion" : this.idUserGlobal 
   });
    
@@ -320,7 +342,7 @@ export class MedicoComponent implements OnInit {
  }
 
 
-//  DIRECCIONES MEDICOS
+//-----  DIRECCIONES MEDICOS -------
 
 changeDepartamento(e:any){
   this.get_provincias(this.formParamsDirection.value.codigo_departamento);
@@ -572,6 +594,172 @@ blank_Direccion(){
 
 }
  
+//-----  CARGA MASIVA MEDICOS -------
+
+
+
+
+inicializarFormulario_file(){ 
+  this.formParamsFile = new FormGroup({
+    file : new FormControl('')
+   })
+} 
+
+
+cerrarModal_importacion(){
+  setTimeout(()=>{ // 
+    $('#modal_importacion').modal('hide');  
+  },0); 
+}
+
+
+open_modalImportacion(){ 
+  this.blank();
+  this.flagImportar = true; 
+  setTimeout(() => { 
+    //// quitando una clase la que desabilita---
+     $('#btnVer').removeClass('disabledForm');
+     $('#modal_importacion').modal('show');  
+   }, 100);
+; 
+} 
+
+blank(){
+  this.filesExcel = [];
+  this.importacion = [];
+  this.inicializarFormulario_file()
+  setTimeout(() => {
+   $('#btnGrabar').addClass('disabledForm');
+   $('#btnVer').removeClass('disabledForm');
+  }, 100);
+
+ }
+
+ onFileChange(event:any) {   
+  var filesTemporal = event.target.files; //FileList object       
+    var fileE:InputFileI [] = []; 
+    for (var i = 0; i < event.target.files.length; i++) { //for multiple files          
+      fileE.push({
+          'file': filesTemporal[i],
+          'namefile': filesTemporal[i].name,
+          'status': '',
+          'message': ''
+      })  
+    }
+     this.filesExcel = fileE;
+ }
+
+
+subirArchivo(){ 
+  if (!this.formParamsFile.value.file) {
+    this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel.');
+    return;
+  }
+   
+  Swal.fire({
+    icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
+  })
+  Swal.showLoading();
+ this.uploadService.upload_Excel_medicos( this.filesExcel[0].file , this.idUserGlobal ).subscribe(
+   (res:RespuestaServer) =>{
+    Swal.close();
+     if (res.ok==true) { 
+         this.importacion = res.data;
+         this.filesExcel = [];
+         setTimeout(() => {
+          //// quitando una clase la que desabilita---
+           $('#btnGrabar').removeClass('disabledForm');
+           $('#btnVer').addClass('disabledForm');
+         }, 100);
+     }else{
+         this.filesExcel[0].message = String(res.data);
+         this.filesExcel[0].status = 'error';   
+     }
+     },(err) => {
+       this.spinner.hide();
+       this.filesExcel[0].message = JSON.stringify(err);
+       this.filesExcel[0].status = 'error';   
+     }
+ );
+
+} 
+
+downloadFormat(){
+  window.open('./assets/format/FORMATO_ALTA_MEDICOS.xlsx');    
+}
+
+getColorEstado(estado:number){ 
+  switch (estado) {
+    case 1:
+      return 'black';
+    case 2:
+      return 'red';
+  } 
+}
+
+getVerificaEstado(){
+  let flagBloquear=false;
+
+  if ( this.importacion.length > 0){ 
+    for (const item of this.importacion) {
+        if (item.estado_importacion) {
+          if (item.estado_importacion > 1) {
+            flagBloquear=true;
+            break;
+          }            
+        }else{
+          alert('No se cargó el dato del estado correctamente desde BD.')
+          flagBloquear=true;
+          break;
+        }
+    }  
+    return flagBloquear;
+  }else{
+    flagBloquear=true; 
+    return flagBloquear;
+  } 
+}
+
+
+guardar_importacionMedicos(){
+  if (!this.formParamsFile.value.file) {
+    this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel.');
+    return;
+  }
+  if (this.getVerificaEstado()) {
+  this.alertasService.Swal_alert('error', 'Aun no puede grabar, debe de corregir su archivo.');
+  return 
+  }
+
+  this.alertasService.Swal_Question('Sistemas', 'Esta seguro de grabar ?')
+  .then((result)=>{
+    if(result.value){
+
+      this.spinner.show();
+      this.uploadService.save_archivoExcel_medicos(this.idUserGlobal )
+      .subscribe((res:RespuestaServer) =>{  
+          this.spinner.hide();   
+          if (res.ok==true) { 
+             this.alertasService.Swal_Success('Se grabó correctamente la información..');
+
+             setTimeout(() => {
+              $('#btnGrabar').addClass('disabledForm');
+             }, 100);
+
+          }else{
+            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+            alert(JSON.stringify(res.data));
+          }
+          },(err) => {
+            this.spinner.hide();
+            this.filesExcel[0].message = JSON.stringify(err);
+            this.filesExcel[0].status = 'error';   
+          }
+      );  
+      
+    }
+  })       
+}
 
 
 

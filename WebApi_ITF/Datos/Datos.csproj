@@ -124,7 +124,19 @@
     <Compile Include="tbl_Resultados_Visitas.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Sol_Medico_Cab.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Sol_Medico_Det.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Stock.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Tipos_Productos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Ubigeo.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_Usuarios.cs">

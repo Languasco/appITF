@@ -26,25 +26,29 @@ namespace Datos
         }
     
         public virtual DbSet<tbl_Accesos_Evento> tbl_Accesos_Evento { get; set; }
+        public virtual DbSet<tbl_Actividades> tbl_Actividades { get; set; }
         public virtual DbSet<tbl_Categorias> tbl_Categorias { get; set; }
+        public virtual DbSet<tbl_Ciclos> tbl_Ciclos { get; set; }
         public virtual DbSet<tbl_Control_Stock> tbl_Control_Stock { get; set; }
         public virtual DbSet<tbl_Definicion_Opciones> tbl_Definicion_Opciones { get; set; }
+        public virtual DbSet<tbl_Duracion_Actividades> tbl_Duracion_Actividades { get; set; }
         public virtual DbSet<tbl_Especialidades> tbl_Especialidades { get; set; }
+        public virtual DbSet<tbl_Estados> tbl_Estados { get; set; }
         public virtual DbSet<tbl_Evento> tbl_Evento { get; set; }
+        public virtual DbSet<tbl_Feriados> tbl_Feriados { get; set; }
+        public virtual DbSet<tbl_Identificador_Medico> tbl_Identificador_Medico { get; set; }
+        public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
+        public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
         public virtual DbSet<tbl_Monedas> tbl_Monedas { get; set; }
         public virtual DbSet<tbl_Perfil> tbl_Perfil { get; set; }
         public virtual DbSet<tbl_Perfil_Accesos> tbl_Perfil_Accesos { get; set; }
         public virtual DbSet<tbl_Productos> tbl_Productos { get; set; }
         public virtual DbSet<tbl_Resultados_Visitas> tbl_Resultados_Visitas { get; set; }
+        public virtual DbSet<tbl_Sol_Medico_Cab> tbl_Sol_Medico_Cab { get; set; }
+        public virtual DbSet<tbl_Sol_Medico_Det> tbl_Sol_Medico_Det { get; set; }
+        public virtual DbSet<tbl_Stock> tbl_Stock { get; set; }
         public virtual DbSet<tbl_Tipos_Productos> tbl_Tipos_Productos { get; set; }
+        public virtual DbSet<tbl_Ubigeo> tbl_Ubigeo { get; set; }
         public virtual DbSet<tbl_Usuarios> tbl_Usuarios { get; set; }
-        public virtual DbSet<tbl_Feriados> tbl_Feriados { get; set; }
-        public virtual DbSet<tbl_Actividades> tbl_Actividades { get; set; }
-        public virtual DbSet<tbl_Duracion_Actividades> tbl_Duracion_Actividades { get; set; }
-        public virtual DbSet<tbl_Identificador_Medico> tbl_Identificador_Medico { get; set; }
-        public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
-        public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
-        public virtual DbSet<tbl_Ciclos> tbl_Ciclos { get; set; }
-        public virtual DbSet<tbl_Estados> tbl_Estados { get; set; }
     }
 }

@@ -111,6 +111,20 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                         resul = false;
                     }
                 }
+                else if (opcion == 5)
+                {
+                    string[] parametros = filtro.Split('|');
+                    string des = parametros[0].ToString().ToUpper();
+
+                    if (db.tbl_Resultados_Visitas.Count(e => e.por_defecto_resultado_visita == "1") > 0)
+                    {
+                        resul = true;
+                    }
+                    else
+                    {
+                        resul = false;
+                    }
+                }
                 else
                 {
                     res.ok = false;

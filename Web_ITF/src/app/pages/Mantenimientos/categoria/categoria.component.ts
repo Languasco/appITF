@@ -134,7 +134,10 @@ export class CategoriaComponent implements OnInit {
          this.formParams.patchValue({ "id_Categoria" : Number(res.data[0].id_Categoria) });
          console.log(res.data[0])
          this.categorias.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
+ 
+
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
          alert(JSON.stringify(res.data));
@@ -159,6 +162,8 @@ export class CategoriaComponent implements OnInit {
               break;
            }
          }
+
+         this.cerrarModal();
 
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{

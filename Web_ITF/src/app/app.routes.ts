@@ -17,6 +17,12 @@ import { ActividadComponent } from './pages/Mantenimientos/actividad/actividad.c
 import { FeriadoComponent } from './pages/Mantenimientos/feriado/feriado.component';
 import { MedicoComponent } from './pages/Mantenimientos/medico/medico.component';
 import { CicloComponent } from './pages/Mantenimientos/ciclo/ciclo.component';
+import { AprobarActividadComponent } from './pages/Procesos/aprobar-actividad/aprobar-actividad.component';
+import { SolicitudMedicoComponent } from './pages/Procesos/solicitud-medico/solicitud-medico.component';
+import { AprobarSolicitudMedicoComponent } from './pages/Procesos/aprobar-solicitud-medico/aprobar-solicitud-medico.component';
+import { AsignacionProductoComponent } from './pages/Procesos/asignacion-producto/asignacion-producto.component';
+import { TargetComponent } from './pages/Procesos/target/target.component';
+import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target.component';
  
   
 const APP_ROUTERS: Routes = [
@@ -41,6 +47,13 @@ const APP_ROUTERS: Routes = [
     { path: 'mant-medico', component: MedicoComponent , canActivate: [ AuthGuard]}, 
 
     { path: 'mant-ciclos', component: CicloComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proc-aprobar-actividad', component: AprobarActividadComponent , canActivate: [ AuthGuard]}, 
+
+    { path: 'proc-solicitud-medico', component: SolicitudMedicoComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proc-aprobar-solicitud-medico', component: AprobarSolicitudMedicoComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-asignacion-producto', component: AsignacionProductoComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-target', component: TargetComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-altas-target/:opcionTarget', component: AltasTargetComponent , canActivate: [ AuthGuard]}, 
 
     { path: '', pathMatch:'full', redirectTo:'inicio' },
     { path: '**', pathMatch:'full', redirectTo:'inicio' },

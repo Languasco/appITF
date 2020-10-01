@@ -33,8 +33,11 @@ export class ActividadComponent implements OnInit {
 
   usuarios :any[]=[]; 
   ciclos :any[]=[]; 
+  ciclosM :any[]=[]; 
+
   duracionActividades :any[]=[]; 
   estados :any[]=[]; 
+  estadosMant :any[]=[]; 
  
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private actividadService : ActividadService ) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
@@ -61,7 +64,7 @@ export class ActividadComponent implements OnInit {
       fecha_actividad: new FormControl( new Date()), 
       id_Duracion: new FormControl('0'), 
       detalle_actividad: new FormControl(''), 
-      estado : new FormControl('6'),   
+      estado : new FormControl('7'),   
       usuario_creacion : new FormControl('')
     }) 
  }
@@ -73,9 +76,11 @@ export class ActividadComponent implements OnInit {
 
     this.usuarios = _usuarios;
     this.ciclos = _ciclos;
-    this.duracionActividades = _duracionActividades; 
-    this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Actividades'); 
+    this.ciclosM = _ciclos.filter((c) => c.estado == '4' ) ;
 
+    this.duracionActividades = _duracionActividades; 
+    this.estados = _estados.filter((estado) => estado.grupo_estado =='tbl_Actividades');  
+    this.estadosMant =  this.estados.filter((estado) => (estado.id_Estado =='6' || estado.id_Estado =='7') ); 
     this.spinner.hide(); 
   })
 }
@@ -131,6 +136,7 @@ export class ActividadComponent implements OnInit {
   if (this.formParams.value.id_Ciclo == '' || this.formParams.value.id_Ciclo == 0) {
     this.alertasService.Swal_alert('error','Por favor seleccione el ciclo');
     return 
+
   }
 
   if (this.formParams.value.fecha_actividad == '' || this.formParams.value.fecha_actividad == 0) {
@@ -159,7 +165,9 @@ export class ActividadComponent implements OnInit {
          this.formParams.patchValue({ "id_actividad" : Number(res.data) });
 
          this.mostrarInformacion();
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
+
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
          alert(JSON.stringify(res.data));
@@ -190,6 +198,9 @@ export class ActividadComponent implements OnInit {
          }
 
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
+
+         this.cerrarModal();
+
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
          alert(JSON.stringify(res.data));

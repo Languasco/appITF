@@ -1,0 +1,597 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle">APROBACION DE SOLICITUD DE NUEVOS MEDICOS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+
+                    <label class="control-label"> Rango Fecha </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
+                        <br>
+                        <div class="btn-group btn-block ">
+                            <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                            <div class="dropdown-menu text-center ">
+                                <div class="p-2">
+                                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion_solicitudCabecera()">  <i class="fas fa-search"> Mostrar </i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-warning btn-block  " style="font-size: 13px;" (click)="nuevoSolicitud()">   <i class="fa fa-plus-circle"> Nueva</i> </button>
+                                </div>
+                                <!-- <div class="dropdown-divider"></div>
+                                <div class="p-2">
+                                    <button class="btn btn-success btn-block  " style="font-size: 13px;">  <i class="fa fa-download"> Exportar</i> </button>
+                                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <hr>
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Solicitante</th>
+                        <th scope="col">Fecha Solicitud</th>
+                        <th scope="col">Descripcion Solicitud</th>
+                        <th scope="col">Fecha Respuesta</th>
+                        <th scope="col">Comentario Respuesta</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of solicitudCab |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.id_estado == 12 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.solicitante}} </td>
+                        <td>{{item.fechaSolicitudFormateado}} </td>
+                        <td>{{item.descripcionSolicitud}} </td>
+
+                        <td>{{item.fechaRespuesta}} </td>
+                        <td>{{item.comentarioRespuesta}} </td>
+                        <td style="font-size: 13px;">{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero btn-block" *ngIf="(item.id_estado == 11 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Aprobar - Rechazar </span>
+                            <span class="badge badge-dark puntero btn-block" *ngIf="(item.id_estado == 12 || item.id_estado == 13 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Visualizar </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- ------------------------------ SOLICITUDES ---------------------- -->
+<!-- ------------------------------         ---------------------- -->
+
+<div class="modal fade " id="modal_solicitud" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_solicitud()">  </i> -->
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> APROBACION SOLICITUD DE MEDICO </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_solicitud()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="p-2 bd-highlight"> </div>
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight">
+                        <div class="card border-warning " *ngIf="idEstadoGlobal==10 ">
+                            <div class="card-body text-warning" style="    margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-info " *ngIf="idEstadoGlobal ==11">
+                            <div class="card-body text-info" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-window-close"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+
+                        <div class="card border-danger " *ngIf="idEstadoGlobal ==12">
+                            <div class="card-body text-danger" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-window-close"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-success " *ngIf="idEstadoGlobal ==13">
+                            <div class="card-body text-success" style=" margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="far fa-check-circle"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <form [formGroup]="formParamsSolCab" style=" margin-top: -15px;">
+
+                    <fieldset class="shadow-sm  ">
+                        <legend>CABECERA SOLICITUD</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <div class="row ">
+                                            <div class="col-md-8">
+                                                <label> Usuario </label>
+                                                <input type="text" class="form-control disabledForm " maxlength="250" formControlName="solicitante">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Fecha Solicitud </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaSolicitud" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Mensaje solicitud </label>
+                                                <textarea class="form-control " maxlength="255" style=" font-weight: 500;font-size: 12px;" formControlName="descripcionSolicitud" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row" style="margin-top: 10px;margin-bottom: -6px;">
+                        <div class="col-md-12 text-center" *ngIf="idEstadoGlobal == 10">
+                            <button class="btn btn-sm btn-success" (click)="saveUpdate_solicitudCabecera()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar Cabecera </i></button>
+                            <button class="btn btn-sm btn-warning ml-2" *ngIf="idSol_CabGlobal > 0" (click)="nuevo()">  <i class="fa fa-plus-circle"> Agregar Medico</i> </button>
+                        </div>
+                    </div>
+
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE DE SOLICITUD</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+
+                                <div class="search-results tableFixHead">
+                                    <table class="table  table-hover table-sm">
+                                        <thead class="theadTable">
+
+                                            <tr style="height: 40px !important;">
+                                                <th scope="col">#</th>
+                                                <th scope="col">CMP</th>
+                                                <th scope="col">Medico</th>
+                                                <th scope="col">Categoria</th>
+                                                <th scope="col">Especialidad</th>
+
+
+                                                <th scope="col">Aprobador Rechazador</th>
+                                                <th scope="col">Fecha Respuesta</th>
+                                                <th scope="col">Mensaje Respuesta</th>
+
+                                                <th scope="col">Estado</th>
+                                                <th class="text-center">Aprobar o Rechazar</th>
+                                                <th class="text-center">Editar</th>
+                                                <th class="text-center" *ngIf="idEstadoGlobal == 10">Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of solicitudDetalle; index as j" [ngStyle]="item.estado == 12 && {'color': 'red'}">
+                                                <th scope="row"> {{j + 1}} </th>
+                                                <td>{{item.cmp_medico}} </td>
+                                                <td>{{item.nombres_medico}} {{item.apellido_paterno_medico}} {{item.apellido_materno_medico}} </td>
+                                                <td>{{item.codigo_categoria}} </td>
+                                                <td>{{item.codigo_especialidad}} </td>
+
+                                                <td>{{item.aprobadorRechazador}} </td>
+                                                <td>{{item.fechaRespuesta}} </td>
+                                                <td>{{item.descripcionRespuesta}} </td>
+
+                                                <td>{{item.descripcion_estado}}</td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-success puntero" style="padding: 5px;" *ngIf="(item.estado == 10 ) " (click)="open_modalAprobarRechazar(item)">  Aprobar o Rechazar </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  ver </span>
+                                                </td>
+                                                <td class="text-center" *ngIf="idEstadoGlobal == 10">
+                                                    <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="eliminar(item)">  Eliminar </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+
+            </div>
+            <!-- <div class="modal-footer">
+
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- ------------------------------MEDICOS ---------------------- -->
+<!-- ------------------------------         ---------------------- -->
+
+<div class="modal fade " id="modal_solicitudDetalle" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-lg  anchoModal modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card " style="color: #117a8b; font-family: 'Montserrat', sans-serif !important;font-weight: 600;">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" style="color: cyan !important" title="Retornar" (click)="cerrarModal()">  </i> -->
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important;font-weight: 600"> DETALLE DEL MEDICO </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="margin-top: -20px;">
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #117a8b !important;  margin-bottom: 3px !important;">
+                            <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
+                            </li>
+                        </ul>
+
+                        <div>
+                            <div class="tab-content" id="pills-tabContent">
+
+                                <!-- MANTENIMIENTO MEDICOS -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
+                                    <div class="card border-success">
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form [formGroup]="formParams" style=" margin-top: -15px;">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label> ID </label>
+                                                                    <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Identificador</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_Identificador_Medico">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="prof.id_Identificador_Medico" *ngFor="let prof of profesiones">{{prof.descripcion_identificador_medico}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for=""> CMP</label>
+                                                                    <br>
+                                                                    <input type="text" class="form-control " maxlength="20" formControlName="cmp_medico">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row ">
+                                                                <div class="col-md-4">
+                                                                    <label> Nombres </label>
+                                                                    <input type="text" class="form-control " maxlength="200" formControlName="nombres_medico">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label> AP. Paterno </label>
+                                                                    <input type="text" class="form-control " maxlength="200" formControlName="apellido_paterno_medico">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label> AP. Materno </label>
+                                                                    <input type="text" class="form-control " maxlength="200" formControlName="apellido_materno_medico">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Categoria</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_Categoria">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Especialidad</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_Especialidad1">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Especialidad 2</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_Especialidad2">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row ">
+                                                                <div class="col-md-4">
+                                                                    <label> Fecha Nacimiento</label>
+                                                                    <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_nacimiento_medico" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label> Sexo</label>
+                                                                    <select class="form-control comboBox" formControlName="sexo_medico">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option value="M"> Masculino </option>
+                                                                        <option value="F"> Femenino </option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label> Telefono </label>
+                                                                    <input type="number" class="form-control " maxlength="100" formControlName="telefono_medico">
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label> Email </label>
+                                                                    <input type="text" class="form-control " maxlength="250" formControlName="email_medico">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="d-flex justify-content-center" *ngIf="idEstadoGlobal == 11">
+                                                <div class="p-2 bd-highlight">
+                                                    <button class="btn btn-sm btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Guadar Medico</i></button>
+                                                    <!-- <button class="btn btn-sm btn-warning ml-2" (click)="nuevo()" title="Agregar nuevo">  <i class="fa fa-plus-circle"> Agregar nuevo Medico ?</i> </button> -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- DIRECCIONES DE LOS MEDICOS -->
+
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1]" role="tabpanel" class="tab-pane active">
+                                    <div class="card border-success">
+                                        <!-- <div class="card-body" *ngIf="id_MedicoGlobal > 0"> -->
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form [formGroup]="formParamsDirection" style=" margin-top: -15px;">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Departamento</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="codigo_departamento" (change)="changeDepartamento($event)">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="item.CODDPTO" *ngFor="let item of departamentos">{{item.NOMBRE}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Provincia</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="codigo_provincia" (change)="changeProvincia($event)">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="prov.CODPROV" *ngFor="let prov of provincias">{{prov.NOMBRE}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for=""> Distrito</label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="codigo_distrito">
+                                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                        <option [value]="dist.CODDIS" *ngFor="let dist of distritos">{{dist.NOMBRE}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label> Direccion </label>
+                                                                    <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label> Referencia </label>
+                                                                    <textarea class="form-control" formControlName="referencia_medico_direccion" rows="2"></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row mb-2" *ngIf="idEstadoGlobal == 11">
+                                                                <div class="col-md-12">
+                                                                    <div class="text-center mt-2 ">
+                                                                        <button class="btn btn-sm btn-success " (click)="guardarDetalle_direccion()">  <i class="fas fa-save"> Grabar</i> </button>
+                                                                        <!-- <button class="btn btn-sm btn-warning ml-2 " (click)="blank_Direccion()">  <i class="fa fa-plus-circle"> Nuevo</i> </button> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <table class="table table-hover table-sm">
+                                                                <thead class="theadTable">
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col">Departamento</th>
+                                                                        <th scope="col">Provincia</th>
+                                                                        <th scope="col">Distrito</th>
+                                                                        <th scope="col">Direccion</th>
+                                                                        <th colspan="2" class="text-center" *ngIf="idEstadoGlobal == 11">Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of  direccionDetalle; index as i">
+                                                                        <th scope="row"> {{i + 1}} </th>
+                                                                        <td>{{item.nombreDepartamento}}</td>
+                                                                        <td>{{item.nombreProvincia}}</td>
+                                                                        <td>{{item.nombreDistrito}}</td>
+                                                                        <td>{{item.direccion_medico_direccion}}</td>
+
+                                                                        <td class="text-center" *ngIf="idEstadoGlobal == 11">
+                                                                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarDireccion(item)">  Editar </span>
+                                                                        </td>
+                                                                        <td class="text-center" *ngIf="idEstadoGlobal == 10">
+                                                                            <span class="badge badge-danger puntero" style="padding: 5px;" (click)="eliminarDireccion(item)">  Quitar </span>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Regresar</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- ------------------------------ APROBACION O RECHAZO ---------------------- -->
+<!-- ------------------------------         ---------------------- -->
+
+<div class="modal fade" id="modal_aprobacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="    border-color: red;">
+            <div class="modal-header">
+                <div class="clearfix">
+                    <h1 class="modal-title float-left text-success"> APROBAR </h1> -
+                    <h1 class="modal-title float-right text-danger"> RECHAZAR</h1>
+                </div>
+
+                <button type="button" class="close" (click)="cerrarModalAprobar()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formParamsSolDet" style=" margin-top: -15px;">
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE RESPUESTA</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <div class="row ">
+                                            <div class="col-12">
+                                                <label> {{titulo}} por : </label>
+                                                <input type="text" class="form-control disabledForm " maxlength="250" formControlName="aprobadorRechazador">
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-6">
+                                                <label> Fecha Respuesta </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaRespuesta" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Mensaje Respuesta </label>
+                                                <textarea class="form-control" style="background: rgb(253, 253, 120);; color: black; font-weight: 600;font-size: 13px;" maxlength="255" formControlName="descripcionRespuesta" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <div class="d-flex justify-content-center" *ngIf=" (idEstadoGlobal == 11 )? true:false ">
+                    <!-- <div class="d-flex justify-content-center"> -->
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" title="Aprobar" (click)="aprobarRechazarMedico('A')"> <i class="far fa-check-circle"> Aprobar </i></button>
+                        <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarMedico('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModalAprobar()">Cerrar</button>
+            </div> -->
+        </div>
+    </div>
+</div>

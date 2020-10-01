@@ -52,6 +52,13 @@ import { ActividadComponent } from './pages/Mantenimientos/actividad/actividad.c
 import { FeriadoComponent } from './pages/Mantenimientos/feriado/feriado.component';
 import { MedicoComponent } from './pages/Mantenimientos/medico/medico.component';
 import { CicloComponent } from './pages/Mantenimientos/ciclo/ciclo.component';
+import { AprobarActividadComponent } from './pages/Procesos/aprobar-actividad/aprobar-actividad.component';
+import { SolicitudMedicoComponent } from './pages/Procesos/solicitud-medico/solicitud-medico.component';
+import { AprobarSolicitudMedicoComponent } from './pages/Procesos/aprobar-solicitud-medico/aprobar-solicitud-medico.component';
+import { AsignacionProductoComponent } from './pages/Procesos/asignacion-producto/asignacion-producto.component';
+import { TargetComponent } from './pages/Procesos/target/target.component';
+import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target.component';
+
  
 @NgModule({
   declarations: [
@@ -75,7 +82,13 @@ import { CicloComponent } from './pages/Mantenimientos/ciclo/ciclo.component';
     ActividadComponent,
     FeriadoComponent,
     MedicoComponent,
-    CicloComponent
+    CicloComponent,
+    AprobarActividadComponent,
+    SolicitudMedicoComponent,
+    AprobarSolicitudMedicoComponent,
+    AsignacionProductoComponent,
+    TargetComponent,
+    AltasTargetComponent
   ],
   imports: [
     BrowserModule,

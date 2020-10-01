@@ -16,8 +16,6 @@ declare var $:any;
   templateUrl: './accesos.component.html',
   styleUrls: ['./accesos.component.css']
 })
- 
-
 
 export class AccesosComponent implements OnInit {
  
@@ -36,7 +34,7 @@ export class AccesosComponent implements OnInit {
   accesosMenu: TreeviewItem[]; 
   config = TreeviewConfig.create({
      hasAllCheckBox: false,
-     hasFilter: true,
+     hasFilter: false,
      hasCollapseExpand: false,
      decoupleChildFromParent: false 
   }); 
@@ -54,10 +52,10 @@ export class AccesosComponent implements OnInit {
   acumuladorAccesos = 600;
   acumuladorPerfiles = 1000;
 
-  tabControlDetalle: string[] = ['USUARIOS','PERFILES' ]; 
+  tabControlDetalle: string[] = ['USUARIOS','ROLES' ]; 
   selectedTabControlDetalle :any;
   modalElegido ='';
-
+  perfilMarcado :any[] = []; 
   
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService,
               private usuarioService : UsuariosService , private funcionesglobalesService : FuncionesglobalesService) {            
@@ -68,7 +66,7 @@ export class AccesosComponent implements OnInit {
     this.selectedTabControlDetalle = this.tabControlDetalle[0];
    this.inicializarFormulario();
    //----carga basica ----
-   const menu = { text: 'SISTEMA 3R DOMINION', value: -1, children: []}
+   const menu = { text: 'SISTEMA ITF PERU ', value: -1, children: []}
    this.accesosMenu = this.getAccesos(menu);  
   //  //---- menu real
      this.mostrarAccesosMenu();
@@ -159,11 +157,13 @@ export class AccesosComponent implements OnInit {
         .subscribe((res:RespuestaServer)=>{               
           Swal.close()
           if (res.ok==true) {                 
-            const accesosMenu = res.data;       
+            const accesosMenu = res.data;             
+                   
             var childsformateado =  accesosMenu['children'].map((menu) => {              
               var childrens:any= [];
               for (const iterator of menu.children) {
-                const child= { checked: iterator.Checked, text: iterator.text,  value: iterator.value }        
+                
+                const child= { checked: iterator.Checked, text: iterator.text,  value: iterator.value }   
                 childrens.push(child)
               }
               const childsformateado = { text: menu.text, value: menu.value, children: childrens }
@@ -275,7 +275,6 @@ export class AccesosComponent implements OnInit {
     } 
   }
 
-
   abrirModal_permisos(objData, tab:string){
 
     if (this.idCheckMenu.length ==0) {
@@ -301,7 +300,6 @@ export class AccesosComponent implements OnInit {
 
       this.mostrarEventosMarcadosPerfil();
     }
-
 
   }
 
@@ -340,7 +338,6 @@ export class AccesosComponent implements OnInit {
           }
     })
   } 
-
 
   grabarEventosUsuario(){
     if (this.idCheckMenu.length ==0) {
@@ -395,8 +392,61 @@ export class AccesosComponent implements OnInit {
     return listRegistros;
   }
  
+  verAccesosAsignadosPerfil(item:any){
+    
+    this.spinner.show();
+    this.usuarioService.get_accesosPerfil(item.id_perfil)
+    .subscribe((res:RespuestaServer)=>{               
+      this.spinner.hide();
+      if (res.ok==true) {     
 
+        this.perfilMarcado = res.data;
 
+        Swal.fire({
+          icon: 'info',allowOutsideClick: false,allowEscapeKey: false,text: 'Configurando los accesos por el perfil, espere por favor..'
+        })
+        Swal.showLoading();
+        this.usuarioService.get_accesosMenu().subscribe((res:RespuestaServer)=>{               
+        Swal.close()
+          if (res.ok==true) {   
 
+            const accesosMenu = res.data;     
+            
+            let verificarAcceso =(idOpcion:number)=>{              
+              const res = this.perfilMarcado.find((opcion) => opcion.id_opcion == idOpcion );
+              return (res) ? true: false;
+            }            
+                   
+            var childsformateado =  accesosMenu['children'].map((menu) => {              
+              var childrens:any= [];
+              for (const iterator of menu.children) {          
+                const child= { checked: verificarAcceso(iterator.value) , text: iterator.text,  value: iterator.value }          
+                childrens.push(child);
+              }
+              const childsformateado = { text: menu.text, value: menu.value, children: childrens }
+
+              return childsformateado
+            });
+
+            const accesos: any= { text: accesosMenu['text'], value: accesosMenu['value'], children : childsformateado } ;
+            
+            ///------- pintandolo en el treeView ----
+            this.accesosMenu = this.getAccesos(accesos);       
+            
+          }else{
+
+            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+            alert(JSON.stringify(res.data));
+          }
+        })
+      }else{
+
+        Swal.close()
+        this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+        alert(JSON.stringify(res.data));
+
+      }
+    })
+  }
 
 }

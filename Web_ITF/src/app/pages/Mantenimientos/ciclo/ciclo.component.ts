@@ -27,6 +27,7 @@ export class CicloComponent implements OnInit {
 
   idUserGlobal :number = 0;
   flag_modoEdicion :boolean =false;
+  idEstadoGlobal :number = 0;
 
   ciclos :any[]=[]; 
   estados :any[]=[]; 
@@ -45,7 +46,7 @@ export class CicloComponent implements OnInit {
  inicializarFormularioFiltro(){ 
     this.formParamsFiltro= new FormGroup({
       ciclo : new FormControl(''),
-      idEstado : new FormControl('3')
+      idEstado : new FormControl('0')
      }) 
  }
 
@@ -72,8 +73,7 @@ export class CicloComponent implements OnInit {
  mostrarInformacion(){ 
       this.spinner.show();
       this.cicloService.get_mostrar_ciclo(this.formParamsFiltro.value.idEstado)
-          .subscribe((res:RespuestaServer)=>{               
- 
+          .subscribe((res:RespuestaServer)=>{             
               this.spinner.hide();
               if (res.ok==true) {        
                   this.ciclos = res.data; 
@@ -100,47 +100,38 @@ export class CicloComponent implements OnInit {
  } 
 
  async saveUpdate(){ 
-
-
   if ( this.flag_modoEdicion==true) { //// nuevo
      if (this.formParams.value.id_Ciclo == '' || this.formParams.value.id_Ciclo == 0) {
-       this.alertasService.Swal_alert('error','No se cargó el id rol, por favor actulize su página');
+       this.alertasService.Swal_alert('error','No se cargó el id , por favor actulize su página');
        return 
      }   
   }
-
-  if (this.formParams.value.codigo_perfil == '' || this.formParams.value.codigo_perfil == 0) {
-    this.alertasService.Swal_alert('error','Por favor ingrese el codigo del rol');
-    return 
-  }
-
   if (this.formParams.value.nombre_ciclo == '' || this.formParams.value.nombre_ciclo == 0) {
     this.alertasService.Swal_alert('error','Por favor ingrese la descripcion del rol');
     return 
   } 
+  if (this.formParams.value.desde_ciclo == '' || this.formParams.value.desde_ciclo == null) {
+    this.alertasService.Swal_alert('error','Por favor ingrese la fecha inicial');
+    return 
+  } 
+  if (this.formParams.value.hasta_ciclo == '' || this.formParams.value.hasta_ciclo == null) {
+    this.alertasService.Swal_alert('error','Por favor ingrese la fecha final');
+    return 
+  } 
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
-
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
 
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
      Swal.showLoading();
 
-     const  codRol  = await this.cicloService.get_verificar_codigoRol(this.formParams.value.codigo_perfil);
-     if (codRol) {
-      Swal.close();
-      this.alertasService.Swal_alert('error','El codigo ya se encuentra registrada, verifique..');
-      return;
-     }    
-
-     const  descRol  = await this.cicloService.get_verificar_descripcionRol(this.formParams.value.nombre_ciclo);
-     if (descRol) {
-      Swal.close();
-      this.alertasService.Swal_alert('error','El Rol ya se encuentra registrada, verifique..');
-      return;
-     }  
- 
+    //  const  codRol  = await this.cicloService.get_verificar_codigoRol(this.formParams.value.codigo_perfil);
+    //  if (codRol) {
+    //   Swal.close();
+    //   this.alertasService.Swal_alert('error','El codigo ya se encuentra registrada, verifique..');
+    //   return;
+    //  }    
 
      this.cicloService.set_save_ciclo(this.formParams.value).subscribe((res:RespuestaServer)=>{
        Swal.close();    
@@ -149,7 +140,9 @@ export class CicloComponent implements OnInit {
          this.formParams.patchValue({ "id_Ciclo" : Number(res.data[0].id_Ciclo) });
          console.log(res.data[0])
          this.ciclos.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
+
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
          alert(JSON.stringify(res.data));
@@ -158,22 +151,36 @@ export class CicloComponent implements OnInit {
      
    }else{ /// editar
 
+    if (this.idEstadoGlobal != this.formParams.value.estado ) {
+      if (this.formParams.value.estado == 4 ){
+        const  estadoProc  = await this.cicloService.get_verificar_estadoProceso(this.formParams.value.estado);
+        if (estadoProc) {
+         Swal.close();
+         this.alertasService.Swal_alert('error','Existe actualmente un ciclo en Proceso, verifique..');
+         return;
+        }          
+     }
+    }
+
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Actualizando, espere por favor'  })
      Swal.showLoading();
      this.cicloService.set_edit_ciclo(this.formParams.value , this.formParams.value.id_Ciclo).subscribe((res:RespuestaServer)=>{
        Swal.close(); 
        if (res.ok ==true) {  
-         
+
+        const { descripcion_estado } =  this.estados.find((estado)=> estado.id_Estado ==  this.formParams.value.estado );        
 
          for (const obj of this.ciclos) {
            if (obj.id_Ciclo == this.formParams.value.id_Ciclo ) {
               obj.nombre_ciclo= this.formParams.value.nombre_ciclo ; 
+              obj.desde_ciclo= this.formParams.value.desde_ciclo ; 
+              obj.hasta_ciclo= this.formParams.value.hasta_ciclo ; 
               obj.estado= this.formParams.value.estado ;
-              obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
+              obj.descripcion_estado = descripcion_estado ;
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -185,10 +192,13 @@ export class CicloComponent implements OnInit {
  } 
 
  editar({ id_Ciclo, nombre_ciclo, desde_ciclo, hasta_ciclo, estado }){
+
    this.flag_modoEdicion=true;
-   this.formParams.patchValue({ "id_Ciclo" : id_Ciclo ,"nombre_ciclo" : nombre_ciclo, "estado" : estado, "usuario_creacion" : this.idUserGlobal });
+   this.idEstadoGlobal=estado;
+
+   this.formParams.patchValue({ "id_Ciclo" : id_Ciclo ,"nombre_ciclo" : nombre_ciclo, "desde_ciclo" : new Date(desde_ciclo), "hasta_ciclo" : new Date(hasta_ciclo) , "estado" : estado, "usuario_creacion" : this.idUserGlobal });
+
    setTimeout(()=>{ // 
-    $('#txtcodigo').addClass('disabledForm');
     $('#modal_mantenimiento').modal('show');  
   },0);  
  } 

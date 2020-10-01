@@ -278,10 +278,20 @@ export class UsuariosComponent implements OnInit {
    );
 
    this.imgProducto = (!fotourl)? './assets/img/sinImagen.jpg' : fotourl;
+ 
+   if (es_supervisor == '1' || es_supervisor ==true ) {
+    setTimeout(()=>{ // 
+      $('#cbo_supervisor').addClass('disabledForm');      
+    },0); 
+   }else{
+    setTimeout(()=>{ // 
+      $('#cbo_supervisor').removeClass('disabledForm');      
+    },0); 
+   }
 
    setTimeout(()=>{ // 
     $('#modal_mantenimiento').modal('show');  
-  },0); 
+  },0);  
  
  } 
 
@@ -398,5 +408,26 @@ export class UsuariosComponent implements OnInit {
     },0);  
    }
  }
+
+ onlyNumberKey(event) {
+  return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+}
+
+onlyDecimalNumberKey(event) {
+  let charCode = (event.which) ? event.which : event.keyCode;
+  if (charCode != 46 && charCode > 31
+      && (charCode < 48 || charCode > 57))
+      return false;
+  return true;
+}
+
+keyPress(event: any) {
+  const pattern = /[0-9\+\-\ ]/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (event.keyCode != 8 && !pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
+
 
 }

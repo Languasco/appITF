@@ -75,6 +75,9 @@ export class FuncionesglobalesService {
     return flag_marco;
   }
 
+
+  
+
   generarJsonDescargarlo(exportObj:string, exportName:string){
     ///https://es.stackoverflow.com/questions/197432/crear-un-bot%C3%B3n-para-descargar-informaci%C3%B3n?rq=1
 

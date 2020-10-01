@@ -137,6 +137,7 @@ export class EspecialidadComponent implements OnInit {
          this.formParams.patchValue({ "id_Especialidad" : Number(res.data[0].id_Especialidad) });
          console.log(res.data[0])
          this.especialidades.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -160,7 +161,7 @@ export class EspecialidadComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

@@ -25,7 +25,7 @@
                     <label for=""> Categoria</label>
                     <br>
                     <select class="form-control comboBox" formControlName="categoria">
-                        <option value="0"> [ --SELECCIONE-- ]</option>
+                        <option value="0"> [ --TODOS-- ]</option>
                         <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
                     </select>
 
@@ -43,7 +43,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for=""> ID Profesional</label>
+                    <label for=""> IDENTIFICADOR</label>
                     <br>
                     <select class="form-control comboBox" formControlName="profesional">
                         <option value="0"> [ -- TODOS-- ]</option>
@@ -70,15 +70,15 @@
                                 <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
                             </div>
                             <div class="p-2">
-                                <button class="btn btn-warning btn-block  " style="font-size: 13px;" (click)="nuevo()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                <button class="btn btn-warning btn-block  " style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nuevo</i> </button>
                             </div>
                             <div class="p-2">
-                                <button class="btn btn-info btn-block  " style="font-size: 13px;">  <i class="fas fa-file-upload"> Carga Masiva</i> </button>
+                                <button class="btn btn-info btn-block  " style="font-size: 13px;" (click)="open_modalImportacion()">   <i class="fas fa-file-upload"> Carga Masiva</i> </button>
                             </div>
-                            <div class="dropdown-divider"></div>
+                            <!-- <div class="dropdown-divider"></div>
                             <div class="p-2">
                                 <button class="btn btn-success btn-block  " style="font-size: 13px;">  <i class="fa fa-download"> Exportar</i> </button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
@@ -100,11 +100,11 @@
 
                     <tr style="height: 40px !important;">
                         <th scope="col">#</th>
-                        <th scope="col">ID Profesion</th>
+                        <th scope="col">IDENTIFICADOR</th>
                         <th scope="col">CMP</th>
 
-                        <th scope="col">Medico</th>
-                        <th scope="col">Fecha Nacimiento</th>
+                        <th scope="col">NOMBRES Y APELLIDOS </th>
+                        <th scope="col">FEC. Nacimiento</th>
 
                         <th scope="col">Email</th>
                         <th scope="col">Categoria</th>
@@ -150,7 +150,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> REGISTRO DEL MEDICO </h5>
@@ -183,7 +183,7 @@
                                                         <div class="panel-body">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label> ID </label>
+                                                                    <label> Código Médico </label>
                                                                     <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -207,11 +207,11 @@
                                                                     <input type="text" class="form-control " maxlength="200" formControlName="nombres_medico">
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label> AP. Paterno </label>
+                                                                    <label> Apellido Paterno </label>
                                                                     <input type="text" class="form-control " maxlength="200" formControlName="apellido_paterno_medico">
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label> AP. Materno </label>
+                                                                    <label> Apellido Materno </label>
                                                                     <input type="text" class="form-control " maxlength="200" formControlName="apellido_materno_medico">
                                                                 </div>
                                                             </div>
@@ -226,7 +226,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label for=""> Especialidad</label>
+                                                                    <label for=""> Especialidad 1 </label>
                                                                     <br>
                                                                     <select class="form-control comboBox" formControlName="id_Especialidad1">
                                                                         <option value="0"> [ --SELECCIONE-- ]</option>
@@ -258,7 +258,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <label> Telefono </label>
+                                                                    <label> Teléfono </label>
                                                                     <input type="number" class="form-control " maxlength="100" formControlName="telefono_medico">
                                                                 </div>
                                                             </div>
@@ -337,7 +337,7 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <label> Direccion </label>
+                                                                    <label> Dirección </label>
                                                                     <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
                                                                 </div>
                                                             </div>
@@ -367,6 +367,7 @@
                                                                         <th scope="col">Provincia</th>
                                                                         <th scope="col">Distrito</th>
                                                                         <th scope="col">Direccion</th>
+                                                                        <th scope="col">Referencia</th>
                                                                         <th colspan="2" class="text-center">Acciones</th>
                                                                     </tr>
                                                                 </thead>
@@ -377,7 +378,7 @@
                                                                         <td>{{item.nombreProvincia}}</td>
                                                                         <td>{{item.nombreDistrito}}</td>
                                                                         <td>{{item.direccion_medico_direccion}}</td>
-
+                                                                        <td>{{item.referencia_medico_direccion}}</td>
                                                                         <td class="text-center">
                                                                             <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarDireccion(item)">  Editar </span>
                                                                         </td>
@@ -406,14 +407,147 @@
                     </div>
                 </div>
 
-
-
-
-
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i> -->
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> ALTA MASIVA MEDICOS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div *ngIf="flagImportar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form [formGroup]="formParamsFile">
+                                <div class="botonFile">
+                                    <input type="file" class="form-control-file btn" style="height: 40px  !important ; " formControlName="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onFileChange($event)" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="center-text ">
+                                <button id="btnVer" class="btn btn-sm btn-success disabledForm" (click)="subirArchivo()">  <i class="fas fa-eye"> Ver</i> </button>
+                                <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                <button class="btn btn-sm btn-primary ml-2" (click)="downloadFormat()">  <i class="fas fa-file-download"> Formato</i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div *ngFor="let fil of filesExcel; let i=index">
+                                <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                    <h5>Sistemas</h5>
+                                    <hr>
+                                    <p><small>{{fil.message}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" tableFixHead ">
+                    <table class="table table-hover table-sm">
+                        <thead class="theadTable">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">IDENTIFICADOR </th>
+                                <th scope="col">CMP</th>
+                                <th scope="col">APELLIDO PATERNO</th>
+                                <th scope="col">APELLIDO MATERNO</th>
+
+                                <th scope="col">NOMBRES</th>
+                                <th scope="col">CORREO</th>
+                                <th scope="col">TELEFONO</th>
+                                <th scope="col">FECHA NACIMIENTO</th>
+
+                                <th scope="col">SEXO</th>
+                                <th scope="col">ESPECIALIDAD</th>
+                                <th scope="col">DEPARTAMENTO</th>
+                                <th scope="col">PROVINCIA</th>
+
+                                <th scope="col">DISTRITO</th>
+                                <th scope="col">DIRECCION</th>
+                                <th scope="col">REFERENCIA </th>
+                                <th scope="col">MENSAJE </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of importacion; index as j" style="color: black;" [ngStyle]="{'color':getColorEstado(item.estado_importacion)}">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td>{{item.identificador}}</td>
+                                <td>{{item.cmp}}</td>
+                                <td>{{item.apellidoPaterno}}</td>
+
+                                <td>{{item.apellidoMaterno}}</td>
+                                <td>{{item.nombres}}</td>
+                                <td>{{item.correo}}</td>
+                                <td>{{item.telefono}}</td>
+
+                                <td>{{item.fechaNacimiento}}</td>
+                                <td>{{item.sexo}}</td>
+                                <td>{{item.especialidad}}</td>
+                                <td>{{item.departamento}}</td>
+
+                                <td>{{item.provincia}}</td>
+                                <td>{{item.distrito}}</td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.direccion}}
+                                    </div>
+                                </td>
+                                <td>{{item.referencia}}</td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.mensaje}}
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <!--  -->
+                <div class="text-center" *ngIf="importacion.length >0">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacionMedicos()" title="Grabar los medicos importadas">
+                        <i class="fas fa-save"></i> Grabar
+                    </button>
+                </div>
+                <br>
+
+
             </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal_importacion()">Close</button>
+            </div> -->
         </div>
     </div>
 </div>

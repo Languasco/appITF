@@ -4,30 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="98339bb65ba940748c5f289b125edf81" Name="Diagram1">
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Accesos_Evento" Width="1.5" PointX="3" PointY="2" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Categorias" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Control_Stock" Width="1.5" PointX="5.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Definicion_Opciones" Width="1.5" PointX="0.75" PointY="7.625" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Especialidades" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Evento" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Monedas" Width="1.5" PointX="7.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Perfil" Width="1.5" PointX="4.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Perfil_Accesos" Width="1.5" PointX="6.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Productos" Width="1.5" PointX="8.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Resultados_Visitas" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Tipos_Productos" Width="1.5" PointX="9.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Usuarios" Width="1.5" PointX="0.75" PointY="2.375" />
+      <Diagram DiagramId="98339bb65ba940748c5f289b125edf81" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Accesos_Evento" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Actividades" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Categorias" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Ciclos" Width="1.5" PointX="4.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Control_Stock" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Definicion_Opciones" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Duracion_Actividades" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Especialidades" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Estados" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Evento" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Feriados" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Identificador_Medico" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos_Direccion" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Monedas" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Perfil" Width="1.5" PointX="12.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Perfil_Accesos" Width="1.5" PointX="6.75" PointY="12.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Productos" Width="1.5" PointX="12.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Resultados_Visitas" Width="1.5" PointX="12.75" PointY="12.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Sol_Medico_Cab" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Sol_Medico_Det" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Stock" Width="1.5" PointX="14.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Tipos_Productos" Width="1.5" PointX="14.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Ubigeo" Width="1.5" PointX="14.75" PointY="12.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Usuarios" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="ITF_PERUModel.FK_tbl_Aceesid_Op_3C69FB99" />
         <AssociationConnector Association="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Feriados" Width="1.5" PointX="11.375" PointY="8.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Actividades" Width="1.5" PointX="12.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Duracion_Actividades" Width="1.5" PointX="0.75" PointY="12.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Identificador_Medico" Width="1.5" PointX="2.75" PointY="12.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos_Direccion" Width="1.5" PointX="4.75" PointY="12.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos" Width="1.5" PointX="7.375" PointY="12.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Ciclos" Width="1.5" PointX="12.375" PointY="4.75" />
-        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Estados" Width="1.5" PointX="9.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

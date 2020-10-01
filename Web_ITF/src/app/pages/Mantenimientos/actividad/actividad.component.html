@@ -1,6 +1,6 @@
 <div class="card border-left-warning  shadow   ">
     <div class="card-header">
-        <h5 class="headerTitle"> MANTENIMIENTO ACTIVIDADES </h5>
+        <h5 class="headerTitle"> GENERACION DE ACTIVIDADES </h5>
     </div>
     <div class="card-body">
 
@@ -79,7 +79,7 @@
                         <td>{{item.observacion}} </td>
                         <td>{{item.descripcionEstado}}</td>
                         <td class="text-center">
-                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                            <span class="badge badge-primary puntero" style="padding: 5px;" *ngIf=" (item.estado == 8 || item.estado == 9)? false: true  " (click)="editar(item)">  Editar </span>
                         </td>
                         <!-- <td class="text-center">
                             <span class="badge badge-danger puntero" *ngIf="item.estado != 8" style="padding: 5px;" (click)="anular(item)">  Anular </span>
@@ -99,7 +99,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> REGISTRO DE ACTIVIDAD </h5>
@@ -121,7 +121,7 @@
                                         <label> Ciclo </label>
                                         <select class="form-control comboBox " formControlName="id_Ciclo">
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
-                                            <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                                            <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclosM">{{ciclo.nombre_ciclo}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
 
                                 <div class="row ">
                                     <div class="col-12">
-                                        <label> Duracion </label>
+                                        <label> Duración </label>
                                         <select class="form-control comboBox " formControlName="id_Duracion">
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
                                             <option [value]="durac.id_Duracion_Actividad" *ngFor="let durac of duracionActividades">{{durac.descripcion_duracion_actividad}}</option>
@@ -153,9 +153,9 @@
                                     <div class="col-md-12">
                                         <label> Estado</label>
                                         <br>
-                                        <select class="form-control comboBox " formControlName="estado">
+                                        <select class="form-control comboBox disabledForm" formControlName="estado">
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
-                                            <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                                            <option [value]="estado.id_Estado" *ngFor="let estado of estadosMant">{{estado.descripcion_estado}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -173,9 +173,9 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

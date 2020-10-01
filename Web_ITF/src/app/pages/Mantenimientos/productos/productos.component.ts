@@ -122,7 +122,13 @@ export class ProductosComponent implements OnInit {
   if (this.formParams.value.id_Tipo_Produto == '' || this.formParams.value.id_Tipo_Produto == 0) {
     this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de Producto');
     return 
-  }   
+  } 
+  
+  if (this.formParams.value.id_Control_Stock == '' || this.formParams.value.id_Control_Stock == 0) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de Control de Stock');
+    return 
+  } 
+
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 
@@ -145,6 +151,7 @@ export class ProductosComponent implements OnInit {
          this.formParams.patchValue({ "id_Producto" : Number(res.data[0].id_Producto) });
          console.log(res.data[0])
          this.productos.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -174,7 +181,7 @@ export class ProductosComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

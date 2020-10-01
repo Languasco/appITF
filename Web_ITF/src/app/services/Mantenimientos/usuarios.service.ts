@@ -264,6 +264,13 @@ export class UsuariosService {
       return this.http.get( this.URL + 'tblUsuarios' , {params: parametros});
     }
 
+    get_accesosPerfil(idPerfil:string){
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '20');
+      parametros = parametros.append('filtro',  idPerfil );
+      return this.http.get( this.URL + 'tblUsuarios' , {params: parametros});
+    }
+
 
 
 

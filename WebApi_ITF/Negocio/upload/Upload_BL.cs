@@ -18,7 +18,7 @@ namespace Negocio.upload
     {
         OleDbConnection cn;
 
-        public string setAlmacenandoFile_Excel(string fileLocation, string nombreArchivo, string fechaImportacion, string idUsuario)
+        public string setAlmacenandoFile_ExcelMedico(string fileLocation, string nombreArchivo, string idUsuario)
         {
             string resultado = "";
             DataTable dt = new DataTable();
@@ -33,7 +33,7 @@ namespace Negocio.upload
                     con.Open();
 
                     //eliminando registros del usuario
-                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_TEMPORAL_ORDENES_DELETE", con))
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_MEDICO_TEMPORAL_MEDICOS_DELETE", con))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -47,12 +47,12 @@ namespace Negocio.upload
 
                         bulkCopy.BatchSize = 500;
                         bulkCopy.NotifyAfter = 1000;
-                        bulkCopy.DestinationTableName = "TEMPORAL_ORDENES";
+                        bulkCopy.DestinationTableName = "TEMPORAL_MEDICOS";
                         bulkCopy.WriteToServer(dt);
 
                         //Actualizando campos 
 
-                        string Sql = "UPDATE TEMPORAL_ORDENES SET nombreArchivo='" + nombreArchivo + "',   fecha_importacion ='" + fechaImportacion + "' , usuario_importacion='" + idUsuario + "', fechaBD=getdate()   WHERE usuario_importacion IS NULL    ";
+                        string Sql = "UPDATE TEMPORAL_MEDICOS SET nombreArchivo='" + nombreArchivo + "', usuario_importacion='" + idUsuario + "', fechaBD=getdate()   WHERE usuario_importacion IS NULL    ";
 
                         using (SqlCommand cmd = new SqlCommand(Sql, con))
                         {
@@ -97,7 +97,7 @@ namespace Negocio.upload
             DataTable dt = new DataTable();
             try
             {
-                string sql = "SELECT *FROM [Importar$]";
+                string sql = "SELECT *FROM [Medicos$]";
 
                 OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
                 da.SelectCommand.CommandType = CommandType.Text;
@@ -111,8 +111,48 @@ namespace Negocio.upload
             }
             return dt;
         }
-               
-        public DataTable get_datosCargados(string id_usuario, string fechaImportacion)
+
+        public DataTable ListaExcelStock(string fileLocation)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string sql = "SELECT * FROM [Stock$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+            }
+            catch (Exception)
+            {
+                cn.Close();
+                throw;
+            }
+            return dt;
+        }
+
+        public DataTable ListaImportado_Excel(string fileLocation, string nombreLibro)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string sql = "SELECT * FROM " + nombreLibro;
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+            }
+            catch (Exception)
+            {
+                cn.Close();
+                throw;
+            }
+            return dt;
+        }
+
+        public DataTable get_datosCargadosMedicos(string id_usuario)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -120,12 +160,11 @@ namespace Negocio.upload
                 using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_IMPORTAR_EXCEL_LISTAR", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_MEDICO_TEMPORAL_MEDICOS_LISTAR", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = id_usuario;
-                        cmd.Parameters.Add("@fecha_importa", SqlDbType.VarChar).Value = fechaImportacion;
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -321,8 +360,168 @@ namespace Negocio.upload
             }
             return dt_detalle;
         }
+        
+        public string setAlmacenandoFile_ExcelStock(string fileLocation, string nombreArchivo, int ciclo, int idUsuario)
+        {
+            string resultado = "";
+            DataTable dt = new DataTable();
 
- 
+            try
+            {
+                //dt = ListaExcelStock(fileLocation);
+                dt = ListaImportado_Excel(fileLocation, "[Stock$]");
+
+                using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_ASIGNACION_PRODUCTO_TEMPORAL_STOCK_DELETE", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_STOCK";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMPORAL_STOCK SET   ciclo ='" + ciclo + "', nombreArchivo='" + nombreArchivo + "', usuario_importacion='" + idUsuario + "', fechaBD=getdate()   WHERE usuario_importacion IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resultado = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+        public DataTable get_datosCargadosStock(int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_ASIGNACION_PRODUCTO_TEMPORAL_STOCK_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public string setAlmacenandoFile_ExcelTarget(string fileLocation, string nombreArchivo, string opcionTarget, int idUsuario)
+        {
+            string resultado = "";
+            DataTable dt = new DataTable();
+
+            try
+            {
+                dt = ListaImportado_Excel(fileLocation, "[Target$]");
+
+                using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_TARGET_TEMPORAL_TARGET_DELETE", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_TARGET";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMPORAL_TARGET SET opcionTarget='" + opcionTarget + "' , nombreArchivo='" + nombreArchivo + "', usuario_importacion='" + idUsuario + "', fechaBD=getdate()   WHERE usuario_importacion IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resultado = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+        public DataTable get_datosCargadosTarget(int id_usuario, string opcionTarget)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_TARGET_TEMPORAL_TARGET_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.Parameters.Add("@opcion_target", SqlDbType.VarChar).Value = opcionTarget;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
 
     }
 }

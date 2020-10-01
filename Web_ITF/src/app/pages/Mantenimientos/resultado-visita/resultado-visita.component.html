@@ -40,8 +40,9 @@
 
                     <tr style="height: 40px !important;">
                         <th scope="col">#</th>
-                        <th scope="col">Codigo</th>
+                        <!-- <th scope="col">Codigo</th> -->
                         <th scope="col">Descripcion</th>
+                        <th class="text-center">IND. DEFECTO</th>
                         <th scope="col">Estado</th>
                         <th class="text-center">Editar</th>
                         <th class="text-center">Anular</th>
@@ -50,8 +51,9 @@
                 <tbody>
                     <tr *ngFor="let item of visitas |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 0 && {'color': 'red'}">
                         <th scope="row"> {{j + 1}} </th>
-                        <td>{{item.id_Resultado_Visita}}</td>
+                        <!-- <td>{{item.id_Resultado_Visita}}</td> -->
                         <td>{{item.descripcion_resultado_visita}} </td>
+                        <td class="text-center"> {{item.por_defecto_resultado_visita ==1 ? 'SI' :'NO' }} </td>
                         <td>{{item.descripcion_estado}}</td>
                         <td class="text-center">
                             <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
@@ -74,7 +76,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> REGISTRO DE RESULTADO VISITA </h5>
@@ -91,15 +93,15 @@
                         <form [formGroup]="formParams" style=" margin-top: -15px;">
 
                             <div class="panel-body">
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-4">
                                         <label> ID </label>
                                         <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Resultado_Visita">
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label> Descripcion </label>
+                                        <label> Descripción Resultado de Visita </label>
                                         <input type="text" class="form-control " maxlength="150" formControlName="descripcion_resultado_visita">
                                     </div>
                                 </div>
@@ -110,8 +112,7 @@
                                             <input type="checkbox" [id]="9999" formControlName="por_defecto_resultado_visita" class="custom-control-input">
                                             <label class="custom-control-label" [for]="9999"> Resultado por defecto de la visita </label>
                                         </div>
-                                        <!-- 
-                                        <input type="checkbox" id="cbox2" value="second_checkbox" class="custom-checkbox"> <label for="cbox2">Este es mi segundo checkbox</label> -->
+
                                     </div>
                                 </div>
 
@@ -138,11 +139,10 @@
                         <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
                     </div>
                 </div>
-
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

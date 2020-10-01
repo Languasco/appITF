@@ -149,7 +149,7 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                 {
                     res.ok = true;
                     res.data = (from a in db.tbl_Usuarios
-                                where a.estado == 1 
+                                where a.estado == 1 && a.es_supervisor ==1
                                 select new
                                 {
                                    a.id_Usuario,
@@ -356,6 +356,22 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 20) //----- ACCESOSPERFILES
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idPerfil = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = (from a in db.tbl_Perfil_Accesos
+                                where a.id_perfil == idPerfil
+                                select new
+                                {
+                                  a.id_opcion
+                                }).ToList();
+                    res.totalpage = 0;
+                    resul = res;
+                }
+
 
                 else
                 {
@@ -386,6 +402,9 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                 tbl_Usuarios.fecha_creacion = DateTime.Now;
                 db.tbl_Usuarios.Add(tbl_Usuarios);
                 db.SaveChanges();
+
+                Usuarios_BL obj_negocio = new Usuarios_BL();
+                obj_negocio.Set_insertarActualizarUsuario(tbl_Usuarios.id_Usuario);
 
                 //---retornando el nuevo usuario
                 res.ok = true;
@@ -458,6 +477,10 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
             try
             {
                 db.SaveChanges();
+
+                Usuarios_BL obj_negocio = new Usuarios_BL();
+                obj_negocio.Set_insertarActualizarUsuario(tbl_Usuarios.id_Usuario);
+
                 res.ok = true;
                 res.data = "OK";
                 res.totalpage = 0;

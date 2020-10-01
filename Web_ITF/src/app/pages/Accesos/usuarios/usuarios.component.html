@@ -47,8 +47,8 @@
                 <thead class="theadTable">
 
                     <tr style="height: 40px !important;">
-                        <th scope="col">#</th>
-                        <th scope="col">Dni</th>
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">Código Usuario</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">Nombres</th>
                         <th scope="col">Login</th>
@@ -59,8 +59,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of usuarios |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 0 && {'color': 'red'}">
-                        <th scope="row"> {{j + 1}} </th>
-                        <td>{{item.nrodoc_usuario}}</td>
+                        <!-- <th scope="row"> {{j + 1}} </th> -->
+                        <td>{{item.id_Usuario}}</td>
                         <td>{{item.apellido_paterno_usuario}} {{item.apellido_materno_usuario}} </td>
                         <td>{{item.nombres_usuario}}</td>
                         <td>{{item.login_usuario}}</td>
@@ -87,7 +87,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> REGISTRO DE USUARIOS </h5>
@@ -109,7 +109,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label> ID Usuario</label>
+                                                <label> Código Usuario</label>
                                                 <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Usuario">
                                             </div>
                                             <div class="col-3">
@@ -139,7 +139,7 @@
                                         <div class="row ">
                                             <div class="col-4">
                                                 <label> Nro Documento</label>
-                                                <input type="number" id="txtBuscarDoc" class="form-control form-control-sm  " maxlength="20" formControlName="nrodoc_usuario">
+                                                <input type="number" (keypress)="keyPress($event)" id="txtBuscarDoc" class="form-control form-control-sm  " maxlength="20" formControlName="nrodoc_usuario">
                                             </div>
                                             <div class="col-4">
                                                 <label> Fecha Nacimiento</label>
@@ -162,7 +162,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label> Nro Celular </label>
-                                                <input type="number" class="form-control " maxlength="150" formControlName="celular_usuario">
+                                                <input type="number" (keypress)="keyPress($event)" class="form-control " maxlength="150" formControlName="celular_usuario">
                                             </div>
                                         </div>
 
@@ -258,9 +258,9 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

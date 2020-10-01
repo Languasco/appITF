@@ -140,6 +140,7 @@ export class MonedaComponent implements OnInit {
          this.formParams.patchValue({ "id_Moneda" : Number(res.data[0].id_Moneda) });
          console.log(res.data[0])
          this.monedas.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -153,8 +154,7 @@ export class MonedaComponent implements OnInit {
      Swal.showLoading();
      this.monedaService.set_edit_moneda(this.formParams.value , this.formParams.value.id_Moneda).subscribe((res:RespuestaServer)=>{
        Swal.close(); 
-       if (res.ok ==true) {  
-         
+       if (res.ok ==true) {           
 
          for (const obj of this.monedas) {
            if (obj.id_Moneda == this.formParams.value.id_Moneda ) {
@@ -165,7 +165,7 @@ export class MonedaComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

@@ -1,0 +1,229 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> APROBAR RECHAZAR ACTIVIDADES </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+
+                    <label class="control-label"> Rango Fecha </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <br>
+                    <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 12px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Ciclo</th>
+                        <th scope="col">Solicitante</th>
+                        <th scope="col">Duracion</th>
+                        <th scope="col">Fecha Solicitud</th>
+                        <th scope="col">Descripcion Solicitud</th>
+
+                        <th scope="col">Fecha Respuesta</th>
+                        <th scope="col">Comentario Respuesta</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of actividades |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.id_estado == 8 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.ciclo}}</td>
+                        <td>{{item.solicitante}} </td>
+                        <td>{{item.duracion}} </td>
+                        <td>{{item.fechaSolicitud}} </td>
+                        <td>{{item.descripcionSolicitud}} </td>
+
+                        <td>{{item.fechaRespuesta}} </td>
+                        <td>{{item.descripcionRespuesta}} </td>
+                        <td style="font-size: 13px;">{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <!-- <span class="badge badge-primary puntero" style="padding: 5px;font-size: 10px;" (click)="editar(item)">  {{(item.id_estado == 6 || item.id_estado == 7) ? 'Aprobar-Rechazar' : 'Visualizar'}} </span> -->
+                            <span class="badge badge-primary puntero btn-block" *ngIf="(item.id_estado == 6 || item.id_estado == 7) " style="padding: 5px;font-size: 9px;" (click)="editar(item)">  Aprobar-Rechazar </span>
+                            <span class="badge badge-dark puntero btn-block" *ngIf="(item.id_estado == 8 || item.id_estado ==9 ) " style="padding: 5px;font-size: 9px;" (click)="editar(item)">  Visualizar </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> SOLICITUD DE APROBACION DE ACTIVIDADES </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="p-2 bd-highlight"> </div>
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight">
+                        <div class="card border-info " *ngIf="idEstadoGlobal==6 || idEstadoGlobal==7 ">
+                            <div class="card-body text-info" style="    margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-danger " *ngIf="idEstadoGlobal ==8">
+                            <div class="card-body text-danger" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-window-close"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-success " *ngIf="idEstadoGlobal ==9">
+                            <div class="card-body text-success" style=" margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="far fa-check-circle"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                    <fieldset class="shadow-sm  ">
+                        <legend>DATOS ACTIVIDAD</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-8">
+                                        <div class="row ">
+                                            <div class="col-6">
+                                                <label> Ciclo Solicitud</label>
+                                                <input type="text" class="form-control disabledForm " maxlength="250" formControlName="ciclo">
+                                            </div>
+                                            <div class="col-6">
+                                                <label> Duracion Solicitud</label>
+                                                <input type="text" class="form-control disabledForm" maxlength="250" formControlName="duracion">
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-8">
+                                                <label> Solicitante </label>
+                                                <input type="text" class="form-control disabledForm" maxlength="250" formControlName="solicitante">
+                                            </div>
+                                            <div class="col-4">
+                                                <label> Fecha Solicitud </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaSolicitud" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Mensaje solicitud </label>
+                                                <textarea class="form-control disabledForm" maxlength="255" style=" font-weight: 500;font-size: 12px;" formControlName="descripcionSolicitud" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE SOLICITUD</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <div class="row ">
+                                            <div class="col-8">
+                                                <label> {{titulo}} por : </label>
+                                                <input type="text" class="form-control disabledForm " maxlength="250" formControlName="aprobadorRechazador">
+                                            </div>
+                                            <div class="col-4">
+                                                <label> Fecha Respuesta </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaRespuesta" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Mensaje Respuesta </label>
+                                                <textarea class="form-control" style="background: rgb(253, 253, 120);; color: black; font-weight: 600;font-size: 13px;" maxlength="255" formControlName="descripcionRespuesta" rows="2"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+
+                </form>
+
+                <div class="d-flex justify-content-center" *ngIf=" (idEstadoGlobal == 6 || idEstadoGlobal == 7)? true:false ">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="aprobarRechazar('A')" title="Aprobar"> <i class="far fa-check-circle"> Aprobar </i></button>
+                        <button class="btn btn-danger ml-2" (click)="aprobarRechazar('R')" title="Rechazar"> <i class="fas fa-window-close"> Rechazar </i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

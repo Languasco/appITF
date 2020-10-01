@@ -88,11 +88,11 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                 {
                     res.ok = true;
                     res.data = (from a in db.tbl_Ciclos
-                                where a.estado == 1
                                 select new
                                 {
                                     a.id_Ciclo,
                                     a.nombre_ciclo,
+                                    a.estado
                                 }).ToList();
                     res.totalpage = 0;
 
@@ -121,13 +121,42 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                 {
                                     a.id_Estado,
                                     a.descripcion_estado,
-                                    a.grupo_estado
+                                    a.grupo_estado,
+
                                 }).ToList();
                     res.totalpage = 0;
 
                     resul = res;
                 }
+                //-----------------APROBAR O RECHAZAR---------------
+                else if (opcion == 7)
+                {
+                    string[] parametros = filtro.Split('|');
 
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+                    resul = obj_negocios.get_actividadesAprobarRechazar(idUsuario, fechaIni, fechaFin, idEstado);
+                }
+                else if (opcion == 8)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int id_actividad = Convert.ToInt32(parametros[0].ToString());
+                    string descripcion = parametros[1].ToString();
+                    string proceso = parametros[2].ToString();
+                    int id_usuario = Convert.ToInt32(parametros[3].ToString());
+
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.set_aprobarRechazar(id_actividad, descripcion, proceso, id_usuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
                 else
                 {
                     res.ok = false;
@@ -150,11 +179,15 @@ namespace WebApi_ITF.Controllers.Mantenimiento
         public object Posttbl_Actividades(tbl_Actividades tbl_Actividades)
         {
             Resultado res = new Resultado();
+            Mantenimientos_BL objnegocio = new Mantenimientos_BL();
             try
             {
+                tbl_Actividades.tipo_interfaz_actividad = "W";
                 tbl_Actividades.fecha_creacion = DateTime.Now;
                 db.tbl_Actividades.Add(tbl_Actividades);
                 db.SaveChanges();
+                //-----ENVIANDO UN CORREO DE NOTIFCACION ---
+                objnegocio.set_envioCorreo_actividad(tbl_Actividades.id_actividad ,Convert.ToInt32(tbl_Actividades.usuario_creacion));
 
                 res.ok = true;
                 res.data = tbl_Actividades.id_actividad;

@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit {
                
                   this.imgProducto = (!user.fotourl)? './assets/img/sinImagen.jpg' : user.fotourl;
 
-                  if (this.formParams.value.es_supervisor === true || this.formParams.value.es_supervisor === 1) {
+                  if (this.formParams.value.es_supervisor == true || this.formParams.value.es_supervisor == 1) {
     
                     this.formParams.patchValue({ "id_supervisor" : 0}); 
                     setTimeout(()=>{ // 
@@ -296,6 +296,14 @@ export class ProfileComponent implements OnInit {
    setTimeout(()=>{ // 
        $('#cbo_supervisor').removeClass('disabledForm');
    },0);  
+  }
+}
+
+keyPress(event: any) {
+  const pattern = /[0-9\+\-\ ]/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (event.keyCode != 8 && !pattern.test(inputChar)) {
+    event.preventDefault();
   }
 }
 

@@ -25,7 +25,7 @@
 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item " [routerLink]="menu2.url_page" *ngFor="let menu2 of menu.listMenu">
-                          {{menu2.nombre_page | uppercase }}
+                        <i [class]="menu2.url_image"></i> {{menu2.nombre_page | uppercase }}
                     </a>
                 </div>
             </li>

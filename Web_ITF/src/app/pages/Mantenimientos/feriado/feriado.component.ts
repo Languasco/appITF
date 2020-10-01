@@ -109,6 +109,15 @@ export class FeriadoComponent implements OnInit {
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
      Swal.showLoading();
 
+     const fecha= this.funcionGlobalServices.formatoFecha(this.formParams.value.fecha_feriado);
+
+    //  const  fechaFeriado  = await this.feriadoService.get_verificar_fechaFeriado(fecha);
+    //  if (fechaFeriado) {
+    //   Swal.close();
+    //   this.alertasService.Swal_alert('error','la fecha ya se encuentra registrada, verifique..');
+    //   return;
+    //  }  
+
      const  descFeriado  = await this.feriadoService.get_verificar_feriado(this.formParams.value.descripcion_feriado);
      if (descFeriado) {
       Swal.close();
@@ -122,6 +131,7 @@ export class FeriadoComponent implements OnInit {
          this.flag_modoEdicion = true;
          this.formParams.patchValue({ "id_Feriado" : Number(res.data[0]) });
          this.mostrarInformacion();
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -145,7 +155,7 @@ export class FeriadoComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

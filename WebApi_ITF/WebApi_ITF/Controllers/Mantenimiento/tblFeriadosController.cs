@@ -85,6 +85,21 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                         resul = false;
                     }
                 }
+                else if (opcion == 4)
+                {
+                    //string[] parametros = filtro.Split('|');
+                    //string fechaFeriado = parametros[0].ToString();
+                                                                       
+
+                    //if (db.tbl_Feriados.Count(e => e.fecha_feriado.ToString("dd/MM/yyyy") == fechaFeriado) > 0)
+                    //{
+                    //    resul = true;
+                    //}
+                    //else
+                    //{
+                    //    resul = false;
+                    //}
+                }
                 else
                 {
                     res.ok = false;

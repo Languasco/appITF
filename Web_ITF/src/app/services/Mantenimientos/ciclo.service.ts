@@ -26,18 +26,12 @@ export class CicloService {
     return this.http.get( this.URL + 'tblCiclos' , {params: parametros});
   }
 
-  get_verificar_codigoRol(codRol:string){
-    let parametros = new HttpParams();
-    parametros = parametros.append('opcion', '3');
-    parametros = parametros.append('filtro', codRol);
+ 
 
-    return this.http.get( this.URL + 'tblCiclos' , {params: parametros}).toPromise();
-  }
-
-  get_verificar_descripcionRol(descRol:string){
+  get_verificar_estadoProceso(idEstado:string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '4');
-    parametros = parametros.append('filtro', descRol);
+    parametros = parametros.append('filtro', idEstado);
 
     return this.http.get( this.URL + 'tblCiclos' , {params: parametros}).toPromise();
   }

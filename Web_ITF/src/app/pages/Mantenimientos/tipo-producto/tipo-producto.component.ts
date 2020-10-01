@@ -135,6 +135,7 @@ export class TipoProductoComponent implements OnInit {
          this.formParams.patchValue({ "id_Tipo_Producto" : Number(res.data[0].id_Tipo_Producto) });
          console.log(res.data[0])
          this.tipoProductos.push(res.data[0]);
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se agrego correctamente..');
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -158,7 +159,7 @@ export class TipoProductoComponent implements OnInit {
               break;
            }
          }
-
+         this.cerrarModal();
          this.alertasService.Swal_Success('Se actualizó correctamente..');  
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));

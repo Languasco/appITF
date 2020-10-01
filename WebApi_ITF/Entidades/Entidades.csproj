@@ -54,7 +54,10 @@
     <Compile Include="Mantenimientos\Actividades_E.cs" />
     <Compile Include="Mantenimientos\Medicos_E.cs" />
     <Compile Include="Mantenimientos\Productos_E.cs" />
+    <Compile Include="Procesos\AsignacionProducto_E.cs" />
     <Compile Include="Procesos\OrdenTrabajo_E.cs" />
+    <Compile Include="Procesos\SolicitudCab_E.cs" />
+    <Compile Include="Procesos\Target_E.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

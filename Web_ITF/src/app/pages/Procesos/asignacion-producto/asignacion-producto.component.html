@@ -1,0 +1,313 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> ASIGNACION DE PRODUCTO </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select id="cboUsuarioFiltro" class="form-control comboBox selectFilter" style="width: 80%;" formControlName="idUsuario"> 
+                    <!-- <select class="form-control comboBox" formControlName="idUsuario"> -->
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Ciclo</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idCiclo">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Producto</label>
+                    <br>
+                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Código o Producto" maxlength="20" formControlName="producto">
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
+                        <br>
+                        <div class="btn-group btn-block ">
+                            <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                            <div class="dropdown-menu text-center ">
+                                <div class="p-2">
+                                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-warning btn-block  " style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nueva</i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-info btn-block  " style="font-size: 13px;" (click)="open_modalImportacion()">   <i class="fas fa-file-upload"> Carga Masiva</i> </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">CICLO</th>
+                        <th scope="col">COD USUARIO</th>
+                        <th scope="col">USUARIO </th>
+
+                        <th scope="col">COD PRODUCTO</th>
+                        <th scope="col">PRODUCTO</th>
+                        <th scope="col">CANT</th>
+                        <th scope="col">LOTE</th>
+                        <th scope="col">FECHA ASIGNACION</th>
+                        <th class="text-center">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of asignacionProductosCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.descripcionCiclo}}</td>
+                        <td>{{item.codigoUsuario}} </td>
+                        <td>{{item.descripcionUsuario}} </td>
+
+                        <td>{{item.codigoProducto}} </td>
+                        <td>{{item.descripcionProducto}} </td>
+                        <td>{{item.cantidad_stock}} </td>
+                        <td>{{item.lote_stock}} </td>
+                        <td>{{item.fecha_stock | date:"dd/MM/yyyy" }}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="width: 400px;">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> ASIGNACION DE PRODUCTO </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                            <div class="panel-body">
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Ciclo </label>
+                                        <select class="form-control comboBox " formControlName="id_Ciclo">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclosM">{{ciclo.nombre_ciclo}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Producto </label>
+                                        <!-- <select class="form-control comboBox" formControlName="id_Producto"> -->
+                                        <select id="cboProducto" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="id_Producto"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="prod.id_Producto" *ngFor="let prod of productos">{{prod.codigo_producto}} : {{prod.descripcion_producto}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Usuario </label>
+                                        <!-- <select class="form-control comboBox" formControlName="id_Usuario"> -->
+                                        <select id="cboUsuario" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="id_Usuario"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label> Cantidad </label>
+                                        <input type="number" (keypress)="keyPress($event)" class="form-control form-control-sm  " maxlength="20" formControlName="cantidad_stock">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-12">
+                                        <label for=""> Lote</label>
+                                        <input type="text" class="form-control form-control-sm" maxlength="20" formControlName="lote_stock">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> CARGA MASIVA DE PRODUCTOS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div *ngIf="flagImportar">
+
+                    <form [formGroup]="formParamsFile">
+                        <div class="row" style="margin-bottom: 5px">
+                            <div class="col-md-4">
+                                <label for=""> Ciclo</label>
+                                <select class="form-control comboBox " formControlName="id_Ciclo">
+                                    <option value="0"> [ -- SELECCIONE-- ]</option>
+                                    <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclosM">{{ciclo.nombre_ciclo}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for=""> Fecha Asignacion</label>
+                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_asignacion" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form [formGroup]="formParamsFile">
+                                <div class="botonFile">
+                                    <input type="file" class="form-control-file btn" style="height: 40px  !important ; " formControlName="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onFileChange($event)" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="center-text ">
+                                <button id="btnVer" class="btn btn-sm btn-success disabledForm" (click)="subirArchivo()">  <i class="fas fa-eye"> Ver</i> </button>
+                                <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                <button class="btn btn-sm btn-primary ml-2" (click)="downloadFormat()">  <i class="fas fa-file-download"> Formato</i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div *ngFor="let fil of filesExcel; let i=index">
+                                <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                    <h5>Sistemas</h5>
+                                    <hr>
+                                    <p><small>{{fil.message}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" tableFixHead ">
+                    <table class="table table-hover table-sm">
+                        <thead class="theadTable">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th class="text-center">COD. REP</th>
+                                <th scope="col">COD. MAT</th>
+                                <th class="text-center">CANT</th>
+                                <th class="text-center">LOTE</th>
+                                <th scope="col">MENSAJE </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of importacion; index as j" style="color: black;" [ngStyle]="{'color':getColorEstado(item.estado_importacion)}">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td class="text-center">{{item.cod_rep}}</td>
+                                <td>{{item.cod_prod}}</td>
+                                <td class="text-right">{{item.cant}}</td>
+                                <td class="text-center">{{item.lote}}</td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.mensaje}}
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <!--  -->
+                <div class="text-center" *ngIf="importacion.length >0">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacionAsignacionProducto()" title="Grabar la asignación importadas">
+                        <i class="fas fa-save"></i> Grabar
+                    </button>
+                </div>
+                <br>
+            </div>
+
+        </div>
+    </div>
+</div>

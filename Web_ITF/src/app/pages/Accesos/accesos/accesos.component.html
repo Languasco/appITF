@@ -1,18 +1,26 @@
 <div class="card border-left-warning  shadow   mt-3">
     <div class="card-header">
-        <h5 class="headerTitle"> CONFIGURAR PERMISOS DE USUARIOS Y PERFILES </h5>
+        <h5 class="headerTitle"> CONFIGURAR PERMISOS DE USUARIOS Y ROLES </h5>
     </div>
     <div class="card-body">
 
         <div class="row">
-            <div class="col-md-4">
+
+            <!-- <div class="col-md-4">
                 <h5 class="headerTitle"> MODULOS DEL SISTEMA</h5>
                 <ngx-treeview [config]="config" [items]="accesosMenu" (selectedChange)="onSelectedChange($event)" (filterChange)="onFilterChange($event)">
                 </ngx-treeview>
+            </div> -->
+
+            <div class="col-md-4">
+                <h5 class="headerTitle"> Módulos Sistema </h5>
+                <ngx-treeview [config]="config" [items]="accesosMenu" (selectedChange)="onSelectedChange($event)" (filterChange)="onFilterChange($event)">
+                </ngx-treeview>
             </div>
+
             <div class="col-md-8">
 
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #002f77;">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #117a8b;">
                     <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
                         <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
                     </li>
@@ -22,11 +30,8 @@
                 <div class="">
                     <div class="tab-content" id="pills-tabContent">
                         <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
-
-                            <div class="card border-primary">
+                            <div class="card border-success">
                                 <div class="card-body">
-
-
                                     <h6 class="headerTitle"> USUARIOS DEL SISTEMA </h6>
                                     <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarUsuario">
                                     <hr>
@@ -39,7 +44,7 @@
                                                     <th scope="col">Codigo</th>
                                                     <th scope="col">Datos Personales</th>
                                                     <th scope="col">NroDoc</th>
-                                                    <th scope="col">Asignar</th>
+                                                    <th class="text-center">Asignar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -65,43 +70,40 @@
 
                                 </div>
                             </div>
-
                         </div>
 
                         <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1]" role="tabpanel" class="tab-pane active">
-
-                            <div class="card border-primary">
+                            <div class="card border-success">
                                 <div class="card-body">
-
-
-
-                                    <h6 class="headerTitle"> PERFILES DEL SISTEMA </h6>
-                                    <input type="text" class="form-control form-control-sm " placeholder="Perfil" maxlength="50" [(ngModel)]="filtrarPerfiles">
+                                    <h6 class="headerTitle"> ROLES DEL SISTEMA </h6>
+                                    <input type="text" class="form-control form-control-sm " placeholder="roles" maxlength="50" [(ngModel)]="filtrarPerfiles">
                                     <hr>
                                     <div class="search-results tableFixHead">
                                         <table class="table   table-hover table-sm">
                                             <thead class="theadTable">
                                                 <tr style="height: 40px !important;">
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Check</th>
-                                                    <th scope="col">Codigo</th>
+                                                    <!-- <th scope="col">Check</th> -->
+                                                    <!-- <th scope="col">Codigo</th> -->
                                                     <th scope="col">Descripcion</th>
-                                                    <th scope="col">Asignar</th>
+                                                    <th class="text-center">Ver Accesos</th>
+                                                    <th class="text-center">Asignar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 <tr *ngFor="let item of perfiles | filter : filtrarPerfiles  ; index as j">
                                                     <td scope="row"> {{j + 1}} </td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <div class="custom-control custom-checkbox custom-control-inline disabledForm ">
                                                             <input type="checkbox" [id]="acumuladorPerfiles + j " [(ngModel)]="item.checkeando" class="custom-control-input">
                                                             <label class="custom-control-label" [for]="acumuladorPerfiles+j"> </label>
                                                         </div>
-                                                    </td>
-                                                    <td>{{item.id_perfil}}</td>
+                                                    </td> -->
+                                                    <!-- <td>{{item.id_perfil}}</td> -->
                                                     <td>{{item.descripcion_perfil}} </td>
-
+                                                    <td class="text-center">
+                                                        <i class="fas fa-align-center fa-2x puntero" style="color: green;" (click)="verAccesosAsignadosPerfil(item) " title="Ver accesos asignados"></i>
+                                                    </td>
                                                     <td class="text-center">
                                                         <i class="fas fa-sign-in-alt fa-2x puntero linkOpcion" (click)=" abrirModal_permisos(item,'perfiles') " title="Asignar permisos"></i>
                                                     </td>
@@ -111,7 +113,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

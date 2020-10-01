@@ -28,6 +28,15 @@ export class FeriadoService {
     return this.http.get( this.URL + 'tblFeriados' , {params: parametros});
   }
 
+  
+  get_verificar_fechaFeriado(fecha:any){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '4');
+    parametros = parametros.append('filtro', fecha);
+
+    return this.http.get( this.URL + 'tblFeriados' , {params: parametros}).toPromise();
+  }
+
   get_verificar_feriado(codRol:string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '3');

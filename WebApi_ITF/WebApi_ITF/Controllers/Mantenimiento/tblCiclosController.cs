@@ -50,7 +50,7 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                         a.hasta_ciclo,
                                         a.estado,                     
                                         b.descripcion_estado,
-                                        a.usuario_creacion
+                                        a.usuario_creacion,
                                     }).ToList();
                     }
                     else
@@ -116,7 +116,17 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                 }
                 else if (opcion == 4)
                 {
- 
+                    string[] parametros = filtro.Split('|');
+                    int idEstado = Convert.ToInt32(parametros[0].ToString());
+
+                    if (db.tbl_Ciclos.Count(e => e.estado == idEstado) > 0)
+                    {
+                        resul = true;
+                    }
+                    else
+                    {
+                        resul = false;
+                    }
                 }
                 else if (opcion == 5)
                 {
