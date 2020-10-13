@@ -57,14 +57,14 @@ fieldset {
 legend {
     font-size: 14px;
     font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "tahoma regular";
     margin-bottom: 0px;
     width: 60%;
     /* border: 0.5px solid #ddd; */
     border-radius: 4px;
     padding: 5px 5px 5px 10px;
     background-color: #ffffff;
-    color: #002f77;
+    color: #ff8457;
 }
 
 .fa-times-circle {

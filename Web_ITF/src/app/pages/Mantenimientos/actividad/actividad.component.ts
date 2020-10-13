@@ -81,6 +81,9 @@ export class ActividadComponent implements OnInit {
     this.duracionActividades = _duracionActividades; 
     this.estados = _estados.filter((estado) => estado.grupo_estado =='tbl_Actividades');  
     this.estadosMant =  this.estados.filter((estado) => (estado.id_Estado =='6' || estado.id_Estado =='7') ); 
+
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
+
     this.spinner.hide(); 
   })
 }

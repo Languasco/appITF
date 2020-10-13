@@ -10,7 +10,6 @@
                     <label for=""> Usuarios</label>
                     <br>
                     <select class="form-control comboBox" formControlName="idUsuario">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
                     </select>
                 </div>
@@ -37,16 +36,16 @@
                 <div class="col-md-3">
                     <label for=""> Medico</label>
                     <br>
-                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Nombes o Apellidos" maxlength="20" formControlName="medico">
+                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Nombres o Apellidos" maxlength="20" formControlName="medico">
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <label for=""> Estado</label>
                     <br>
                     <select class="form-control comboBox " formControlName="estado">
                         <option value="0"> [ -- TODOS-- ]</option>
                         <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="col-md-3 text-center">
                     <div class="col-md-2 text-center">
@@ -95,7 +94,7 @@
                         <th scope="col">MEDICO</th>
                         <th scope="col">CATEGORIA</th>
                         <th scope="col">ESPECIALIDAD</th>
-                        <th scope="col">ESTADO</th>
+                        <th scope="col">NRO CONTACTOS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +106,7 @@
                         <td>{{item.medico}}</td>
                         <td>{{item.categoria}}</td>
                         <td>{{item.especialidad}}</td>
-                        <td>{{item.descripcionEstado}}</td>
+                        <td class="text-center">{{item.descripcionEstado}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -166,11 +165,11 @@
                         </div>
                     </div>
 
-                    <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
+                    <!-- <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
                         <div class="col-md-2">
                             <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -225,7 +224,7 @@
                 <hr>
                 <!--  -->
                 <div class="text-center" *ngIf="importacion.length >0">
-                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacion_target()" title="Grabar el target importadas">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-primary disabledForm" (click)="guardar_importacion_target()" title="Grabar el target importadas">
                         <i class="fas fa-save"></i> Grabar
                     </button>
                 </div>

@@ -88,13 +88,15 @@ export class AprobarActividadComponent implements OnInit {
     this.duracionActividades = _duracionActividades; 
     this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Actividades'); 
 
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
+
     this.spinner.hide(); 
   })
 }
 
  mostrarInformacion(){
 
-    if (this.formParamsFiltro.value.idUsuario == '' || this.formParamsFiltro.value.idUsuario == 0) {
+    if (this.formParamsFiltro.value.idUsuario == '-1' || this.formParamsFiltro.value.idUsuario == -1) {
     this.alertasService.Swal_alert('error','Por favor seleccione el usuario');
     return 
    }
@@ -106,17 +108,20 @@ export class AprobarActividadComponent implements OnInit {
     this.alertasService.Swal_alert('error','Por favor seleccione la fecha final');
     return 
   } 
+
+  const fechaIni = this.funcionesglobalesService.formatoFecha(this.formParamsFiltro.value.fecha_ini);
+  const fechaFin = this.funcionesglobalesService.formatoFecha(this.formParamsFiltro.value.fecha_fin);
  
-    this.spinner.show();
-    this.actividadService.get_mostrar_actividadAprobar( this.formParamsFiltro.value.idUsuario, this.formParamsFiltro.value.fecha_ini,this.formParamsFiltro.value.fecha_fin,  this.formParamsFiltro.value.idEstado)
-        .subscribe((res:RespuestaServer)=>{  
-            this.spinner.hide();
-            if (res.ok==true) {        
-                this.actividades = res.data; 
-            }else{
-              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
-              alert(JSON.stringify(res.data));
-            }
+  this.spinner.show();
+  this.actividadService.get_mostrar_actividadAprobar( this.formParamsFiltro.value.idUsuario, fechaIni , fechaFin,  this.formParamsFiltro.value.idEstado)
+      .subscribe((res:RespuestaServer)=>{  
+          this.spinner.hide();
+          if (res.ok==true) {        
+              this.actividades = res.data; 
+          }else{
+            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+            alert(JSON.stringify(res.data));
+          }
     })
  }   
   

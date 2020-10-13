@@ -122,7 +122,10 @@
                         <td>{{item.cmp_medico}} </td>
 
                         <td>{{item.nombres_medico}} {{item.apellido_paterno_medico}} {{item.apellido_materno_medico}} </td>
-                        <td>{{item.fecha_nacimiento_medico}} </td>
+                        <td>
+                            <!-- {{item.fechaNacimientoMedico | date:"dd/MM/yyyy"}} -->
+                            {{ item.fechaNacimientoMedico == '1900-01-01T00:00:00'? '': item.fechaNacimientoMedico | date:"dd/MM/yyyy" }}
+                        </td>
 
                         <td>{{item.email_medico}} </td>
                         <td>{{item.codigo_categoria}} </td>
@@ -259,7 +262,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label> Teléfono </label>
-                                                                    <input type="number" class="form-control " maxlength="100" formControlName="telefono_medico">
+                                                                    <input type="number" class="form-control " (keypress)="keyPress($event)" maxlength="100" formControlName="telefono_medico">
                                                                 </div>
                                                             </div>
 
@@ -341,6 +344,14 @@
                                                                     <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
                                                                 </div>
                                                             </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label> Nombre de institución </label>
+                                                                    <input type="text" class="form-control " maxlength="250" formControlName="nombre_institucion_direccion">
+                                                                </div>
+                                                            </div>
+
 
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -464,12 +475,12 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- 
                     <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
                         <div class="col-md-2">
                             <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -537,7 +548,7 @@
                 <hr>
                 <!--  -->
                 <div class="text-center" *ngIf="importacion.length >0">
-                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacionMedicos()" title="Grabar los medicos importadas">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-primary disabledForm" (click)="guardar_importacionMedicos()" title="Grabar los medicos importadas">
                         <i class="fas fa-save"></i> Grabar
                     </button>
                 </div>

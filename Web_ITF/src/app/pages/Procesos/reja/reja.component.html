@@ -1,0 +1,349 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> REJA PROMOCIONAL </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-4">
+                    <label for=""> Especialidad</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="especialidad">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="estado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 ">
+                    <br>
+                    <button class="btn btn-primary  " style="font-size: 13px;" (click)="mostrarInformacion_reja()">  <i class="fas fa-search"> Mostrar </i> </button>
+                    <button class="btn btn-warning ml-2 " style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                </div>
+            </div>
+
+
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">ESPECIALIDAD</th>
+                        <th scope="col">DESCRIPCION </th>
+                        <th scope="col">ESTADO</th>
+                        <th class="text-center">EDITAR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of rejaPromocionalCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.especialidad}}</td>
+                        <td>{{item.descripcion}}</td>
+                        <td class="text-center">{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero btn-block" *ngIf="(item.idEstado == 19 ) " style="padding: 5px;font-size: 9px;" (click)="editar_reja(item)">  Editar </span>
+                            <span class="badge badge-dark puntero btn-block" *ngIf="( item.idEstado == 20 || item.idEstado == 21 ) " style="padding: 5px;font-size: 9px;" (click)="editar_reja(item)">  Visualizar </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> GENERACION DE UN NUEVA REJA PROMOCIONAL </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="p-2 bd-highlight"> </div>
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight">
+                        <div class="card border-warning " *ngIf="idEstadoCabGlobal==19 ">
+                            <div class="card-body text-warning" style="    margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-success " *ngIf="idEstadoCabGlobal ==20">
+                            <div class="card-body text-success" style=" margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="far fa-check-circle"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-danger " *ngIf="idEstadoCabGlobal ==21">
+                            <div class="card-body text-danger" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-window-close"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <form [formGroup]="formParams" style=" margin-top: -15px;">
+                    <fieldset class="shadow-sm  ">
+                        <legend>REJA PROMOCIONAL</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <div class="row ">
+                                            <div class="col-md-8">
+                                                <label> Descripción </label>
+                                                <input type="text" id="txtDescripcion" class="form-control  " maxlength="250" formControlName="descripcion">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Fecha </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row" style="margin-top: 10px;margin-bottom: -6px;">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-sm btn-success" *ngIf="idEstadoCabGlobal == 19 " (click)="saveUpdate_rejaPromocional()" title="Guardar la reja promocional"> <i class="fas fa-save fa-1x"> Grabar </i></button>
+                        </div>
+                    </div>
+
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE DE REJA PROMOCIONAL</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-md-5">
+
+                                        <form [formGroup]="formParamsDet" style=" margin-top: -10px !important; margin-bottom: 10px;">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <label for=""> Especialidad</label>
+                                                    <br>
+                                                    <select class="form-control comboBox" formControlName="idEspecialidad">
+                                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                                            <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="col-3 text-left">
+                                                    <div style="margin-top: 20px;">
+                                                        <button class="btn btn-sm btn-warning " title="Agregar Especialidad" (click)="agregarEspecialidad()">    <i class="fa fa-plus-circle fa-1x"> </i>  Agregar  </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+
+                                        <div class="search-results tableFixHead">
+                                            <table class="table  table-hover table-sm">
+                                                <thead class="theadTable2">
+                                                    <tr style="height: 40px !important;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Especialidad</th>
+                                                        <th class="text-center" *ngIf="idEstadoCabGlobal == 19 ">Eliminar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of especialidadDet; index as j">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.nombreEspecialidad}} </td>
+                                                        <td class="text-center" *ngIf="idEstadoCabGlobal == 19 ">
+                                                            <span class="badge badge-danger puntero" style="padding: 5px;" (click)="eliminarEspecialidad(item)">  Eliminar </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <br>
+                                        <div style=" margin-top: -14px !important; margin-bottom: 14px;" *ngIf="idEstadoCabGlobal == 19 ">
+                                            <button class="btn btn-sm btn-warning ml-2" (click)="open_modalProducto()" title="Agregar Producto">  <i class="fa fa-plus-circle fa-1x"> </i>  Agregar Producto </button>
+                                        </div>
+
+                                        <div class="search-results tableFixHead">
+                                            <table class="table  table-hover table-sm">
+                                                <thead class="theadTable2">
+
+                                                    <tr style="height: 40px !important;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Producto</th>
+                                                        <th class="text-center">Material</th>
+                                                        <th class="text-center" *ngIf="idEstadoCabGlobal == 19 ">Eliminar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of productoDet; index as j">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.descripcion_producto}} </td>
+                                                        <td class="text-center">{{item.descripcion_material}} </td>
+                                                        <td class="text-center" *ngIf="idEstadoCabGlobal == 19 ">
+                                                            <span class="badge badge-danger puntero" style="padding: 5px;" (click)="eliminarProducto(item)">  Eliminar </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <!-- <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="modal_producto" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="box-shadow: 0px 0px 5px 1px black;">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> BUSCAR PRODUCTOS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_producto()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <form [formGroup]="formParamsDet">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for=""> Tipo Producto</label>
+                            <br>
+                            <select class="form-control comboBox" formControlName="idTipoProducto">
+                                <option value="0"> [ -- TODOS-- ]</option>
+                                <option [value]="tipo.id_Tipo_Producto" *ngFor="let tipo of tipoProductos">{{tipo.descripcion_tipo_producto}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> Producto</label>
+                            <br>
+                            <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Código o Producto" maxlength="20" formControlName="Producto">
+                        </div>
+                        <div class="col-md-4">
+                            <br>
+                            <button class="btn btn-dark btn-block  " style="font-size: 13px;" (click)="buscarProductos()">  <i class="fas fa-search"> Buscar </i> </button>
+                        </div>
+                    </div>
+                </form>
+                <br>
+
+                <div class="d-flex justify-content-between " style=" margin-top: -15px !important;" *ngIf="listProductoBuscar.length > 0">
+                    <div class="">
+                        <button class="btn btn-success " style="font-size: 13px;" (click)="anadirProductos()">  <i class="fas fa-check-double"> Añadir </i> </button>
+                    </div>
+                    <div class="" style="width:50%">
+                        <div class="p-2 bd-highlight">
+                            <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarProducto">
+                        </div>
+                    </div>
+                    <div class="">
+
+                    </div>
+                </div>
+
+
+                <div class="search-results tableFixHead tableFixHead2">
+
+                    <table class="table  table-hover table-sm">
+                        <thead class="theadTable2">
+                            <tr style="height: 40px !important;">
+                                <th scope="col">#</th>
+                                <th class="text-center">CHECK</th>
+                                <th scope="col">PRODUCTO</th>
+                                <th class="text-center">MATERIAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listProductoBuscar |  filter: filtrarProducto  ; index as j">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td class="text-center">
+                                    <div class="custom-control custom-checkbox custom-control-inline  ">
+                                        <input type="checkbox" [id]="item.id_Producto" [(ngModel)]="item.checkeado" class="custom-control-input">
+                                        <label class="custom-control-label" [for]="item.id_Producto"> </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.descripcion_producto}}
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" class="form-control form-control-sm  " style=" background-color: beige; font-size: 13px;color: black; font-weight: 800; " maxlength="100" [(ngModel)]="item.descripcion_material">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -98,6 +98,7 @@ export class TargetComponent implements OnInit {
     this.categorias = _categorias;
     this.especialidades = _especialidades;
     this.estados = _estados.filter((estado) => estado.grupo_estado =='tbl_Target_Cab');  
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
     this.spinner.hide(); 
   })
 }
@@ -105,10 +106,10 @@ export class TargetComponent implements OnInit {
 
  mostrarInformacion(){  
 
-  if (this.formParamsFiltro.value.idUsuario == '' || this.formParamsFiltro.value.idUsuario == 0) {
-    this.alertasService.Swal_alert('error','Por favor seleccione el usuario');
-    return 
-  }
+  // if (this.formParamsFiltro.value.idUsuario == '' || this.formParamsFiltro.value.idUsuario == 0) {
+  //   this.alertasService.Swal_alert('error','Por favor seleccione el usuario');
+  //   return 
+  // }
  
  
   this.spinner.show();
@@ -226,7 +227,7 @@ export class TargetComponent implements OnInit {
     switch (estado) {
       case 1:
         return 'black';
-      case 2:
+        default:
         return 'red';
     } 
   }
@@ -278,6 +279,8 @@ export class TargetComponent implements OnInit {
                setTimeout(() => {
                 $('#btnGrabar').addClass('disabledForm');
                }, 100);
+
+               this.cerrarModal_importacion();
   
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));

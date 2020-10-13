@@ -112,6 +112,7 @@ export class MedicoComponent implements OnInit {
     codigo_distrito: new FormControl('0'),
     direccion_medico_direccion: new FormControl(''),
     referencia_medico_direccion: new FormControl(''),
+    nombre_institucion_direccion: new FormControl(''),
     estado: new FormControl('1'),
     usuario_creacion: new FormControl('0'),
    }) 
@@ -153,6 +154,7 @@ export class MedicoComponent implements OnInit {
     this.flag_modoEdicion = false;
     this.inicializarFormulario();  
     this.direccionDetalle =[];
+    this.selectedTabControlDetalle = this.tabControlDetalle[0];
     setTimeout(()=>{ // 
       $('#txtcodigo').removeClass('disabledForm');
       $('#modal_mantenimiento').modal('show');  
@@ -203,9 +205,7 @@ export class MedicoComponent implements OnInit {
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
-
-    
-  
+      
     const codMed  = await this.solicitudMedicoService.get_verificar_nuevoMedico(this.formParams.value.id_Identificador_Medico + '_' + this.formParams.value.cmp_medico );
     if (codMed) {
      Swal.close();
@@ -264,7 +264,8 @@ export class MedicoComponent implements OnInit {
 
               obj.id_Especialidad2= this.formParams.value.id_Especialidad2 ; 
               obj.email_medico= this.formParams.value.email_medico ; 
-              obj.fecha_nacimiento_medico= this.formParams.value.fecha_nacimiento_medico ; 
+              // obj.fecha_nacimiento_medico= new Date( this.formParams.value.fecha_nacimiento_medico) ; 
+              obj.fechaNacimientoMedico=  this.formParams.value.fecha_nacimiento_medico ;             
               obj.sexo_medico= this.formParams.value.sexo_medico ; 
               obj.telefono_medico= this.formParams.value.telefono_medico ; 
               
@@ -291,12 +292,14 @@ export class MedicoComponent implements OnInit {
   this.id_MedicoGlobal = id_Medico;
 
   this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : String(id_Identificador_Medico) ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
-   "email_medico" : email_medico, "fecha_nacimiento_medico" : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
+   "email_medico" : email_medico, "fecha_nacimiento_medico" :  (fechaNacimientoMedico == '1900-01-01T00:00:00' ) ? null : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
    "estado" : estado, "usuario_creacion" : this.idUserGlobal 
   });
    
   //----obteniendo las direcciones ----
   this.getDireccionesDet();
+
+  this.selectedTabControlDetalle = this.tabControlDetalle[0];
 
    setTimeout(()=>{ // 
     // $('#txtcodigo').addClass('disabledForm');
@@ -419,6 +422,11 @@ guardarDetalle_direccion(){
     this.alertasService.Swal_alert('error', 'Por favor ingrese la direccion.');
     return 
   }
+
+  if (this.formParamsDirection.value.nombre_institucion_direccion == '' || this.formParamsDirection.value.nombre_institucion_direccion == 0 || this.formParamsDirection.value.nombre_institucion_direccion == null)  {
+    this.alertasService.Swal_alert('error', 'Por favor ingrese el nombre de la institución.');
+    return 
+  }
  
 
   Swal.fire({
@@ -459,6 +467,7 @@ guardarDetalle_direccion(){
                 objdetalle.codigo_distrito = this.formParamsDirection.value.codigo_distrito;
                 objdetalle.direccion_medico_direccion = this.formParamsDirection.value.direccion_medico_direccion;
                 objdetalle.referencia_medico_direccion = this.formParamsDirection.value.referencia_medico_direccion;
+                objdetalle.nombre_institucion_direccion = this.formParamsDirection.value.nombre_institucion_direccion;
                 break;
              }
            }
@@ -483,7 +492,7 @@ verificarDireccionCargada(direccionmedicodireccion: string){
   return flagRepetida;
 }
 
-modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, estado,  }){    
+modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
 
   
   if (codigo_departamento =='0') {
@@ -494,7 +503,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
       this.formParamsDirection.patchValue({
         "id_Medicos_Direccion"  : id_Medicos_Direccion ,
         "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 ,
+        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion 
       }); 
     }, 0); 
 
@@ -511,7 +520,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
             this.formParamsDirection.patchValue({
               "id_Medicos_Direccion"  : id_Medicos_Direccion ,
               "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
+              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
               "estado"  : 1 ,
             }); 
           }, 0);  
@@ -531,7 +540,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
               this.formParamsDirection.patchValue({
                 "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                 "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-                "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
+                "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
                 "estado"  : 1 ,
               }); 
             }, 0);          
@@ -692,7 +701,7 @@ getColorEstado(estado:number){
   switch (estado) {
     case 1:
       return 'black';
-    case 2:
+      default:
       return 'red';
   } 
 }
@@ -742,6 +751,8 @@ guardar_importacionMedicos(){
           if (res.ok==true) { 
              this.alertasService.Swal_Success('Se grabó correctamente la información..');
 
+             this.cerrarModal_importacion();
+
              setTimeout(() => {
               $('#btnGrabar').addClass('disabledForm');
              }, 100);
@@ -761,7 +772,9 @@ guardar_importacionMedicos(){
   })       
 }
 
-
+keyPress(event: any) {
+  this.funcionGlobalServices.verificar_soloNumeros(event)  ;
+}
 
 
 }

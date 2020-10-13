@@ -241,6 +241,7 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                 a.id_Especialidad2,
                                 a.email_medico,
                                 a.fecha_nacimiento_medico,
+                                fechaNacimientoMedico = a.fecha_nacimiento_medico,
                                 a.sexo_medico,
                                 a.telefono_medico,        
                                 a.estado,

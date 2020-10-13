@@ -76,11 +76,12 @@ namespace WebApi_ITF.Controllers.Procesos
                 {
                     string[] parametros = filtro.Split('|');
                     int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaAsignacion = parametros[1].ToString();
 
                     Mantenimientos_BL obj_negocio = new Mantenimientos_BL();
 
                     res.ok = true;
-                    res.data = obj_negocio.set_grabar_ImportacionStock(idUsuario);
+                    res.data = obj_negocio.set_grabar_ImportacionStock(idUsuario, fechaAsignacion);
                     res.totalpage = 0;
                     resul = res;
                 }

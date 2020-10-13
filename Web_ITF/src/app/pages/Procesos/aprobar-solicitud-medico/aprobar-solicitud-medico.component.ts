@@ -154,6 +154,9 @@ inicializarFormularioSolicitud_Det(){
     this.usuarios = _usuarios;
     this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Sol_Medico_Cab'); 
     this.categorias = _categorias;
+
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
+
     this.spinner.hide(); 
   })
 
@@ -167,8 +170,22 @@ inicializarFormularioSolicitud_Det(){
 }
 
  mostrarInformacion_solicitudCabecera(){ 
+      
+      if (this.formParamsFiltro.value.fecha_ini == '' || this.formParamsFiltro.value.fecha_ini == null ) {
+        this.alertasService.Swal_alert('error','Por favor seleccione la fecha inicial');
+        return 
+      } 
+      if (this.formParamsFiltro.value.fecha_fin == '' || this.formParamsFiltro.value.fecha_fin == null ) {
+        this.alertasService.Swal_alert('error','Por favor seleccione la fecha final');
+        return 
+      } 
+    
+      const fechaIni = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_ini);
+      const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);
+    
+      
       this.spinner.show();
-      this.solicitudMedicoService.get_aprobarMostrar_medicos(this.formParamsFiltro.value)
+      this.solicitudMedicoService.get_aprobarMostrar_medicos(this.formParamsFiltro.value, fechaIni, fechaFin)
           .subscribe((res:RespuestaServer)=>{  
               this.spinner.hide();
               if (res.ok==true) {        
@@ -199,7 +216,7 @@ inicializarFormularioSolicitud_Det(){
 
  async saveUpdate(){ 
     
- if ( this.flag_modoEdicion==true) { //// nuevo
+ if ( this.flag_modoEdicion==true) { 
      if (this.formParams.value.id_Medico == '' || this.formParams.value.id_Medico == 0) {
        this.alertasService.Swal_alert('error','No se cargó el id, por favor actulize su página');
        return 
@@ -789,9 +806,19 @@ eliminarDireccion(item:any){
       this.alertasService.Swal_alert('error','Por favor ingrese un mensaje de respuesta');
       return 
     }
-  
+
     let mens = (opcion =='A') ? 'Esta seguro de Aprobar ?' : 'Esta seguro de Rechazar ?';
-  
+
+    if (opcion =='A') {
+      mens = 'Esta seguro de Aprobar ?';
+    }
+    if (opcion =='R') {
+      mens = 'Esta seguro de Rechazar ?';
+    }
+    if (opcion =='O') {
+      mens = 'Esta seguro de Observar ?';
+    }
+   
     this.alertasService.Swal_Question('Sistemas', mens)
     .then((result)=>{
       if(result.value){
@@ -800,9 +827,12 @@ eliminarDireccion(item:any){
         this.solicitudMedicoService.set_aprobarRechazar_medicos(this.formParamsSolDet.value.id_Sol_Medico_det, this.formParamsSolDet.value.descripcionRespuesta, opcion, this.idUserGlobal ).subscribe((res:RespuestaServer)=>{
           Swal.close(); 
           if (res.ok ==true) {  
-            this.detalleSolicitudMedicos();
+            //this.detalleSolicitudMedicos();
+
+            this.mostrarInformacion_solicitudCabecera();
             this.alertasService.Swal_Success('Proceso realizado correctamente..');  
             this.cerrarModalAprobar();
+            this.cerrarModal_solicitud();
           }else{
             this.alertasService.Swal_alert('error', JSON.stringify(res.data));
             alert(JSON.stringify(res.data));

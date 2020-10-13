@@ -210,6 +210,7 @@
           <Property Name="fecha_creacion" Type="datetime" />
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="nombre_institucion_direccion" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="tbl_Monedas">
           <Key>
@@ -375,28 +376,6 @@
           <Property Name="id_supervisor" Type="int" />
           <Property Name="es_supervisor" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="TEMPORAL_MEDICOS">
-          <Property Name="identificador" Type="varchar" MaxLength="50" />
-          <Property Name="cmp" Type="varchar" MaxLength="50" />
-          <Property Name="apellidoPaterno" Type="varchar" MaxLength="250" />
-          <Property Name="apellidoMaterno" Type="varchar" MaxLength="250" />
-          <Property Name="nombres" Type="varchar" MaxLength="250" />
-          <Property Name="correo" Type="varchar" MaxLength="100" />
-          <Property Name="telefono" Type="varchar" MaxLength="50" />
-          <Property Name="fechaNacimiento" Type="datetime" />
-          <Property Name="sexo" Type="varchar" MaxLength="2" />
-          <Property Name="especialidad" Type="varchar" MaxLength="100" />
-          <Property Name="departamento" Type="varchar" MaxLength="100" />
-          <Property Name="provincia" Type="varchar" MaxLength="100" />
-          <Property Name="distrito" Type="varchar" MaxLength="100" />
-          <Property Name="direccion" Type="varchar" MaxLength="250" />
-          <Property Name="referencia" Type="varchar" MaxLength="250" />
-          <Property Name="nombreArchivo" Type="varchar" MaxLength="100" />
-          <Property Name="usuario_importacion" Type="varchar" MaxLength="20" />
-          <Property Name="fechaBD" Type="datetime" />
-        </EntityType>-->
         <Association Name="FK_tbl_Aceesid_Op_3C69FB99">
           <End Role="tbl_Definicion_Opciones" Type="Self.tbl_Definicion_Opciones" Multiplicity="0..1" />
           <End Role="tbl_Accesos_Evento" Type="Self.tbl_Accesos_Evento" Multiplicity="*" />
@@ -474,7 +453,6 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
           <EntitySet Name="tbl_Feriados" EntityType="ITF_PERUModel.tbl_Feriados" />
           <EntitySet Name="tbl_Identificador_Medico" EntityType="ITF_PERUModel.tbl_Identificador_Medico" />
           <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
-          <EntitySet Name="tbl_Medicos_Direccion" EntityType="ITF_PERUModel.tbl_Medicos_Direccion" />
           <EntitySet Name="tbl_Monedas" EntityType="ITF_PERUModel.tbl_Monedas" />
           <EntitySet Name="tbl_Perfil" EntityType="ITF_PERUModel.tbl_Perfil" />
           <EntitySet Name="tbl_Perfil_Accesos" EntityType="ITF_PERUModel.tbl_Perfil_Accesos" />
@@ -494,6 +472,7 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
             <End Role="tbl_Usuarios" EntitySet="tbl_Usuarios" />
             <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
           </AssociationSet>
+          <EntitySet Name="tbl_Medicos_Direccion" EntityType="ITF_PERUModel.tbl_Medicos_Direccion" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -681,23 +660,6 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
           <Property Name="fecha_nacimiento_medico" Type="DateTime" Precision="3" />
           <Property Name="sexo_medico" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="telefono_medico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tbl_Medicos_Direccion">
-          <Key>
-            <PropertyRef Name="id_Medicos_Direccion" />
-          </Key>
-          <Property Name="id_Medicos_Direccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Medico" Type="Int32" />
-          <Property Name="codigo_departamento" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="codigo_provincia" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="codigo_distrito" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="direccion_medico_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="referencia_medico_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="Int32" />
           <Property Name="usuario_creacion" Type="Int32" />
           <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
@@ -893,6 +855,24 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbl_Medicos_Direccion">
+          <Key>
+            <PropertyRef Name="id_Medicos_Direccion" />
+          </Key>
+          <Property Name="id_Medicos_Direccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Medico" Type="Int32" />
+          <Property Name="codigo_departamento" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_provincia" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_distrito" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="direccion_medico_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="referencia_medico_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="nombre_institucion_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1101,24 +1081,6 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Medicos_Direccion">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos_Direccion">
-              <MappingFragment StoreEntitySet="tbl_Medicos_Direccion">
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="referencia_medico_direccion" ColumnName="referencia_medico_direccion" />
-                <ScalarProperty Name="direccion_medico_direccion" ColumnName="direccion_medico_direccion" />
-                <ScalarProperty Name="codigo_distrito" ColumnName="codigo_distrito" />
-                <ScalarProperty Name="codigo_provincia" ColumnName="codigo_provincia" />
-                <ScalarProperty Name="codigo_departamento" ColumnName="codigo_departamento" />
-                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
-                <ScalarProperty Name="id_Medicos_Direccion" ColumnName="id_Medicos_Direccion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Monedas">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Monedas">
               <MappingFragment StoreEntitySet="tbl_Monedas">
@@ -1291,6 +1253,25 @@ advertencia 6013: La tabla o vista 'ITF_PERU.dbo.TEMPORAL_MEDICOS' no tiene defi
                 <ScalarProperty Name="email_usuario" ColumnName="email_usuario" />
                 <ScalarProperty Name="nrodoc_usuario" ColumnName="nrodoc_usuario" />
                 <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Medicos_Direccion">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos_Direccion">
+              <MappingFragment StoreEntitySet="tbl_Medicos_Direccion">
+                <ScalarProperty Name="nombre_institucion_direccion" ColumnName="nombre_institucion_direccion" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="referencia_medico_direccion" ColumnName="referencia_medico_direccion" />
+                <ScalarProperty Name="direccion_medico_direccion" ColumnName="direccion_medico_direccion" />
+                <ScalarProperty Name="codigo_distrito" ColumnName="codigo_distrito" />
+                <ScalarProperty Name="codigo_provincia" ColumnName="codigo_provincia" />
+                <ScalarProperty Name="codigo_departamento" ColumnName="codigo_departamento" />
+                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
+                <ScalarProperty Name="id_Medicos_Direccion" ColumnName="id_Medicos_Direccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

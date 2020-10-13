@@ -50,6 +50,8 @@ namespace Negocio.Procesos
                                 Entidad.cantidad_stock = dr["cantidad_stock"].ToString();
                                 Entidad.lote_stock = dr["lote_stock"].ToString();
                                 Entidad.fecha_stock = Convert.ToDateTime(dr["fecha_stock"].ToString());
+                                Entidad.estadoCiclo = dr["estadoCiclo"].ToString();
+                                
 
                                 obj_List.Add(Entidad);
                             }

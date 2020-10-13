@@ -58,6 +58,9 @@ import { AprobarSolicitudMedicoComponent } from './pages/Procesos/aprobar-solici
 import { AsignacionProductoComponent } from './pages/Procesos/asignacion-producto/asignacion-producto.component';
 import { TargetComponent } from './pages/Procesos/target/target.component';
 import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target.component';
+import { AprobarAltasBajasTargetComponent } from './pages/Procesos/aprobar-altas-bajas-target/aprobar-altas-bajas-target.component';
+import { RejaComponent } from './pages/Procesos/reja/reja.component';
+ 
 
  
 @NgModule({
@@ -88,7 +91,9 @@ import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target
     AprobarSolicitudMedicoComponent,
     AsignacionProductoComponent,
     TargetComponent,
-    AltasTargetComponent
+    AltasTargetComponent,
+    AprobarAltasBajasTargetComponent,
+    RejaComponent
   ],
   imports: [
     BrowserModule,

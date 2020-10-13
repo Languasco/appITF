@@ -52,10 +52,10 @@ export class UploadService {
     return this.http.post(this.URL + 'Uploads/post_archivoExcel_stock?filtros=' + filtro, formData);
   }
 
-  save_archivoExcel_stock(idusuario : any){
+  save_archivoExcel_stock(idusuario : any, fechaAsignacion :string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '4');
-    parametros = parametros.append('filtro', idusuario) ;
+    parametros = parametros.append('filtro', idusuario   +  '|' + fechaAsignacion ) ;
     return this.http.get( this.URL + 'tblStock' , {params: parametros});
   }
   

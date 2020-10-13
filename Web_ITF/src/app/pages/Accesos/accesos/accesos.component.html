@@ -20,7 +20,7 @@
 
             <div class="col-md-8">
 
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #117a8b;">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #117a8b !important;  margin-bottom: 3px !important;">
                     <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
                         <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
                     </li>

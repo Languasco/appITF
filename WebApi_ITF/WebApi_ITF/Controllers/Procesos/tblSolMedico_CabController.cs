@@ -101,6 +101,23 @@ namespace WebApi_ITF.Controllers.Procesos
                         resul = false;
                     }
                 }
+                else if (opcion == 6)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idSolCab = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    SolicitudesCab_BL obj_negocios = new SolicitudesCab_BL();
+
+                    obj_negocios.set_envioCorreo_solicitudMedico(idSolCab, idUsuario);
+
+                    res.ok = true;
+                    res.data = "OK";
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
                 else
                 {
                     res.ok = false;

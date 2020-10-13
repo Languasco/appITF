@@ -10,7 +10,6 @@
                     <label for=""> Usuarios</label>
                     <br>
                     <select class="form-control comboBox" formControlName="idUsuario">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
                     </select>
                 </div>
@@ -98,7 +97,7 @@
                 <div class="p-3 card ">
                     <div class="d-flex justify-content-between flotante">
                         <div class=" bd-highlight">
-                            <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
                         </div>
                         <div class=" bd-highlight">
                             <h5 class="headerTitleModal"> SOLICITUD DE APROBACION DE ACTIVIDADES </h5>
@@ -221,9 +220,9 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -38,6 +38,7 @@ export class AsignacionProductoComponent implements OnInit {
   ciclos :any[]=[]; 
   ciclosM :any[]=[]; 
   productos:any[]=[]; 
+  bloquearEditar =false;
  
  
     // -------importaciones 
@@ -63,10 +64,7 @@ export class AsignacionProductoComponent implements OnInit {
      });
      $('.selectFilter').select2();
      $('#cboUsuario_filtro').val(0).trigger('change.select2');
-  },0); 
- 
-
- 
+  },0);  
 
  }
 
@@ -84,7 +82,7 @@ export class AsignacionProductoComponent implements OnInit {
       id_Ciclo: new FormControl('0'),
       id_Producto: new FormControl('0'), 
       id_Usuario: new FormControl('0'),
-      cantidad_stock: new FormControl('0'), 
+      cantidad_stock: new FormControl('1'), 
       lote_stock: new FormControl(''),
       usuario_creacion :new FormControl('0')
     }) 
@@ -92,14 +90,14 @@ export class AsignacionProductoComponent implements OnInit {
 
  getCargarCombos(){ 
   this.spinner.show();
-  combineLatest([  this.asignacionProductosService.get_usuariosGeneral(this.idUserGlobal), this.actividadService.get_ciclos(), this.asignacionProductosService.get_productosGeneral() ])
+  combineLatest([ this.actividadService.get_usuarios(this.idUserGlobal) , this.actividadService.get_ciclos(), this.asignacionProductosService.get_productosGeneral() ])
   .subscribe( ([ _usuarios, _ciclos, _productos ])=>{
     this.usuarios = _usuarios;
     this.ciclos = _ciclos;
-    this.ciclosM = _ciclos.filter((c) => c.estado == '4' ); 
+    this.ciclosM = _ciclos.filter((c) => (c.estado != '5'  ) ); 
     this.productos = _productos;
  
-
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
     this.formParamsFiltro.patchValue({ "idCiclo" :  this.ciclosM[0].id_Ciclo });
     this.spinner.hide(); 
   })
@@ -111,20 +109,18 @@ export class AsignacionProductoComponent implements OnInit {
   //------enlazando al formulario el combo search----
   this.formParamsFiltro.patchValue({ "idUsuario" :  $('#cboUsuarioFiltro').val() });
 
-  if (this.formParamsFiltro.value.idUsuario == '' || this.formParamsFiltro.value.idUsuario == 0) {
-    this.alertasService.Swal_alert('error','Por favor seleccione el usuario');
-    return 
-  }
-  if (this.formParamsFiltro.value.idCiclo == '' || this.formParamsFiltro.value.idCiclo == 0) {
-    this.alertasService.Swal_alert('error','Por favor seleccione el ciclo');
-    return 
-  }
+ 
+  // if (this.formParamsFiltro.value.idCiclo == '' || this.formParamsFiltro.value.idCiclo == 0) {
+  //   this.alertasService.Swal_alert('error','Por favor seleccione el ciclo');
+  //   return 
+  // }
  
     this.spinner.show();
     this.asignacionProductosService.get_mostrar_asignacionProducto( this.formParamsFiltro.value.idUsuario, this.formParamsFiltro.value.idCiclo,  this.formParamsFiltro.value.producto)
         .subscribe((res:RespuestaServer)=>{  
             this.spinner.hide();
             if (res.ok==true) {        
+ 
                 this.asignacionProductosCab = res.data; 
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -146,6 +142,11 @@ export class AsignacionProductoComponent implements OnInit {
       $('#modal_mantenimiento').modal('show');  
       $('#cboProducto').val(0).trigger('change.select2');
       $('#cboUsuario').val(0).trigger('change.select2');
+
+      $(".selectSearch").prop("disabled", false);
+      $('#cboCiclo').removeClass('disabledForm');     
+      $('#txtLote').removeClass('disabledForm');   
+
     },0); 
     this.formParams.patchValue({ "id_Ciclo" :  this.ciclosM[0].id_Ciclo });
  } 
@@ -263,12 +264,18 @@ export class AsignacionProductoComponent implements OnInit {
  editar({id_Stock, id_Ciclo, id_Producto, id_Usuario, cantidad_stock, lote_stock, fecha_stock  }){
 
    this.flag_modoEdicion=true;   
-   this.formParams.patchValue({ "id_Stock" : id_Stock,  "id_Ciclo" : id_Ciclo ,"id_Producto" : id_Producto  , "id_Usuario" : id_Usuario,"cantidad_stock" : cantidad_stock, "lote_stock" : lote_stock, "fecha_stock" : fecha_stock });
+   this.formParams.patchValue({ "id_Stock" : id_Stock,  "id_Ciclo" : id_Ciclo ,"id_Producto" : id_Producto  , "id_Usuario" : id_Usuario,"cantidad_stock" : Number(cantidad_stock), "lote_stock" : lote_stock, "fecha_stock" : fecha_stock });
 
    setTimeout(()=>{ // 
-    $('#modal_mantenimiento').modal('show');  
+
     $('#cboProducto').val(id_Producto).trigger('change.select2');
     $('#cboUsuario').val(id_Usuario).trigger('change.select2');
+ 
+    $(".selectSearch").prop("disabled", true);
+    $('#cboCiclo').addClass('disabledForm');     
+    $('#txtLote').addClass('disabledForm');   
+    $('#modal_mantenimiento').modal('show');  
+ 
   },0);  
 
  } 
@@ -379,7 +386,7 @@ export class AsignacionProductoComponent implements OnInit {
     switch (estado) {
       case 1:
         return 'black';
-      case 2:
+      default:
         return 'red';
     } 
   }
@@ -408,21 +415,28 @@ export class AsignacionProductoComponent implements OnInit {
   }
 
   guardar_importacionAsignacionProducto(){
+
     if (!this.formParamsFile.value.file) {
       this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel.');
       return;
     }
     if (this.getVerificaEstado()) {
-    this.alertasService.Swal_alert('error', 'Aun no puede grabar, debe de corregir su archivo.');
-    return 
+      this.alertasService.Swal_alert('error', 'Aun no puede grabar, debe de corregir su archivo.');
+      return 
     }
+    if (this.formParamsFile.value.fecha_asignacion == '' ||  this.formParamsFile.value.fecha_asignacion == null ) {
+      this.alertasService.Swal_alert('error', 'Por favor seleccione la fecha de asignacion');
+      return 
+    }
+
+    const fechaAsignacion = this.funcionesglobalesService.formatoFecha(this.formParamsFile.value.fecha_asignacion);
   
     this.alertasService.Swal_Question('Sistemas', 'Esta seguro de grabar ?')
     .then((result)=>{
       if(result.value){
   
         this.spinner.show();
-        this.uploadService.save_archivoExcel_stock(this.idUserGlobal )
+        this.uploadService.save_archivoExcel_stock(this.idUserGlobal, fechaAsignacion )
         .subscribe((res:RespuestaServer) =>{  
             this.spinner.hide();   
             if (res.ok==true) { 
@@ -431,6 +445,8 @@ export class AsignacionProductoComponent implements OnInit {
                setTimeout(() => {
                 $('#btnGrabar').addClass('disabledForm');
                }, 100);
+
+               this.cerrarModal_importacion();
   
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));

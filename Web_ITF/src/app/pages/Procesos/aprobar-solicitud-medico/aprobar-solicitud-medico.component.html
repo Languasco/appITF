@@ -11,7 +11,6 @@
                     <label for=""> Usuarios</label>
                     <br>
                     <select class="form-control comboBox" formControlName="idUsuario">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
                     </select>
                 </div>
@@ -34,7 +33,9 @@
                     </select>
                 </div>
                 <div class="col-md-3 text-center">
-                    <div class="col-md-2 text-center">
+                    <br>
+                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion_solicitudCabecera()">  <i class="fas fa-search"> Mostrar </i> </button>
+                    <!-- <div class="col-md-2 text-center">
                         <br>
                         <div class="btn-group btn-block ">
                             <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
@@ -42,17 +43,13 @@
                                 <div class="p-2">
                                     <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion_solicitudCabecera()">  <i class="fas fa-search"> Mostrar </i> </button>
                                 </div>
-                                <div class="p-2">
+                                 <div class="p-2">
                                     <button class="btn btn-warning btn-block  " style="font-size: 13px;" (click)="nuevoSolicitud()">   <i class="fa fa-plus-circle"> Nueva</i> </button>
-                                </div>
-                                <!-- <div class="dropdown-divider"></div>
-                                <div class="p-2">
-                                    <button class="btn btn-success btn-block  " style="font-size: 13px;">  <i class="fa fa-download"> Exportar</i> </button>
-                                </div> -->
+                                </div> 
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -74,7 +71,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Solicitante</th>
                         <th scope="col">Fecha Solicitud</th>
-                        <th scope="col">Descripcion Solicitud</th>
+                        <!-- <th scope="col">Descripcion Solicitud</th> -->
                         <th scope="col">Fecha Respuesta</th>
                         <th scope="col">Comentario Respuesta</th>
                         <th scope="col">Estado</th>
@@ -86,14 +83,15 @@
                         <th scope="row"> {{j + 1}} </th>
                         <td>{{item.solicitante}} </td>
                         <td>{{item.fechaSolicitudFormateado}} </td>
-                        <td>{{item.descripcionSolicitud}} </td>
+                        <!-- <td>{{item.descripcionSolicitud}} </td> -->
 
                         <td>{{item.fechaRespuesta}} </td>
                         <td>{{item.comentarioRespuesta}} </td>
                         <td style="font-size: 13px;">{{item.descripcionEstado}}</td>
                         <td class="text-center">
-                            <span class="badge badge-primary puntero btn-block" *ngIf="(item.id_estado == 11 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Aprobar - Rechazar </span>
+                            <span class="badge badge-info puntero btn-block" *ngIf="(item.id_estado == 11 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Aprobar - Rechazar </span>
                             <span class="badge badge-dark puntero btn-block" *ngIf="(item.id_estado == 12 || item.id_estado == 13 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Visualizar </span>
+                            <span class="badge badge-warning puntero btn-block" *ngIf="(item.id_estado == 14 ) " style="padding: 5px;font-size: 9px;" (click)="editar_solicitudCab(item)">  Visualizar </span>
                         </td>
                     </tr>
                 </tbody>
@@ -127,7 +125,7 @@
                     <div class="p-2 bd-highlight"> </div>
                     <div class="p-2 bd-highlight"></div>
                     <div class="p-2 bd-highlight">
-                        <div class="card border-warning " *ngIf="idEstadoGlobal==10 ">
+                        <div class="card border-warning " *ngIf="idEstadoGlobal==14 ">
                             <div class="card-body text-warning" style="    margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
                                 <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
                             </div>
@@ -159,7 +157,7 @@
                 <form [formGroup]="formParamsSolCab" style=" margin-top: -15px;">
 
                     <fieldset class="shadow-sm  ">
-                        <legend>CABECERA SOLICITUD</legend>
+                        <legend>DATOS SOLICITUD</legend>
                         <div class="panel panel-default ">
                             <div class="panel-body">
                                 <div class="row" style=" margin-top: -10px;">
@@ -202,7 +200,7 @@
 
                                 <div class="search-results tableFixHead">
                                     <table class="table  table-hover table-sm">
-                                        <thead class="theadTable">
+                                        <thead class="theadTable2">
 
                                             <tr style="height: 40px !important;">
                                                 <th scope="col">#</th>
@@ -212,7 +210,7 @@
                                                 <th scope="col">Especialidad</th>
 
 
-                                                <th scope="col">Aprobador Rechazador</th>
+                                                <th scope="col">Aprobador</th>
                                                 <th scope="col">Fecha Respuesta</th>
                                                 <th scope="col">Mensaje Respuesta</th>
 
@@ -236,7 +234,7 @@
 
                                                 <td>{{item.descripcion_estado}}</td>
                                                 <td class="text-center">
-                                                    <span class="badge badge-success puntero" style="padding: 5px;" *ngIf="(item.estado == 10 ) " (click)="open_modalAprobarRechazar(item)">  Aprobar o Rechazar </span>
+                                                    <span class="badge badge-success puntero" style="padding: 5px;" *ngIf="(item.estado == 10 || item.estado == 14 ) " (click)="open_modalAprobarRechazar(item)">  Aprobar o Rechazar </span>
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  ver </span>
@@ -305,7 +303,7 @@
                                                         <div class="panel-body">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label> ID </label>
+                                                                    <label> Código </label>
                                                                     <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -399,12 +397,11 @@
 
                                             </div>
 
-                                            <div class="d-flex justify-content-center" *ngIf="idEstadoGlobal == 11">
+                                            <!-- <div class="d-flex justify-content-center" *ngIf="idEstadoGlobal == 11">
                                                 <div class="p-2 bd-highlight">
-                                                    <button class="btn btn-sm btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Guadar Medico</i></button>
-                                                    <!-- <button class="btn btn-sm btn-warning ml-2" (click)="nuevo()" title="Agregar nuevo">  <i class="fa fa-plus-circle"> Agregar nuevo Medico ?</i> </button> -->
+                                                    <button class="btn btn-sm btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Guadar Medico</i></button>                                    
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                     </div>
@@ -465,15 +462,14 @@
                                                             <div class="row mb-2" *ngIf="idEstadoGlobal == 11">
                                                                 <div class="col-md-12">
                                                                     <div class="text-center mt-2 ">
-                                                                        <button class="btn btn-sm btn-success " (click)="guardarDetalle_direccion()">  <i class="fas fa-save"> Grabar</i> </button>
-                                                                        <!-- <button class="btn btn-sm btn-warning ml-2 " (click)="blank_Direccion()">  <i class="fa fa-plus-circle"> Nuevo</i> </button> -->
+                                                                        <!-- <button class="btn btn-sm btn-success " (click)="guardarDetalle_direccion()">  <i class="fas fa-save"> Grabar</i> </button>                                                                       -->
                                                                     </div>
                                                                 </div>
                                                             </div>
 
 
                                                             <table class="table table-hover table-sm">
-                                                                <thead class="theadTable">
+                                                                <thead class="theadTable2">
                                                                     <tr>
                                                                         <th scope="col">#</th>
                                                                         <th scope="col">Departamento</th>
@@ -580,12 +576,16 @@
                     </fieldset>
                 </form>
 
-                <div class="d-flex justify-content-center" *ngIf=" (idEstadoGlobal == 11 )? true:false ">
+                <div class="d-flex justify-content-center" *ngIf=" (idEstadoGlobal == 11 || idEstadoGlobal == 14 )? true:false ">
                     <!-- <div class="d-flex justify-content-center"> -->
                     <div class="p-2 bd-highlight">
                         <button class="btn btn-success" title="Aprobar" (click)="aprobarRechazarMedico('A')"> <i class="far fa-check-circle"> Aprobar </i></button>
+                        <button class="btn btn-warning ml-2" title="Aprobar" (click)="aprobarRechazarMedico('O')"> <i class="fas fa-tasks"> Observada </i></button>
                         <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarMedico('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
                     </div>
+
+
+
                 </div>
 
             </div>

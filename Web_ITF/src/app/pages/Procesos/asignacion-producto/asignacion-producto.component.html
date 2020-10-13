@@ -10,8 +10,6 @@
                     <label for=""> Usuarios</label>
                     <br>
                     <select id="cboUsuarioFiltro" class="form-control comboBox selectFilter" style="width: 80%;" formControlName="idUsuario"> 
-                    <!-- <select class="form-control comboBox" formControlName="idUsuario"> -->
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
                     </select>
                 </div>
@@ -19,7 +17,7 @@
                     <label for=""> Ciclo</label>
                     <br>
                     <select class="form-control comboBox" formControlName="idCiclo">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option value="0"> [ -- TODOS-- ]</option>
                         <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
                     </select>
                 </div>
@@ -74,7 +72,7 @@
 
                         <th scope="col">COD PRODUCTO</th>
                         <th scope="col">PRODUCTO</th>
-                        <th scope="col">CANT</th>
+                        <th scope="col">CANTIDAD</th>
                         <th scope="col">LOTE</th>
                         <th scope="col">FECHA ASIGNACION</th>
                         <th class="text-center">Editar</th>
@@ -89,11 +87,11 @@
 
                         <td>{{item.codigoProducto}} </td>
                         <td>{{item.descripcionProducto}} </td>
-                        <td>{{item.cantidad_stock}} </td>
+                        <td class="text-right">{{item.cantidad_stock | number}} </td>
                         <td>{{item.lote_stock}} </td>
                         <td>{{item.fecha_stock | date:"dd/MM/yyyy" }}</td>
                         <td class="text-center">
-                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                            <span class="badge badge-primary puntero" *ngIf="item.estadoCiclo==4" style="padding: 5px;" (click)="editar(item)">  Editar </span>
                         </td>
                     </tr>
                 </tbody>
@@ -131,7 +129,7 @@
                                 <div class="row ">
                                     <div class="col-12">
                                         <label> Ciclo </label>
-                                        <select class="form-control comboBox " formControlName="id_Ciclo">
+                                        <select id="cboCiclo" class="form-control comboBox " formControlName="id_Ciclo">
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
                                             <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclosM">{{ciclo.nombre_ciclo}}</option>
                                         </select>
@@ -141,7 +139,6 @@
                                 <div class="row ">
                                     <div class="col-12">
                                         <label> Producto </label>
-                                        <!-- <select class="form-control comboBox" formControlName="id_Producto"> -->
                                         <select id="cboProducto" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="id_Producto"> 
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
                                             <option [value]="prod.id_Producto" *ngFor="let prod of productos">{{prod.codigo_producto}} : {{prod.descripcion_producto}}   </option>
@@ -152,7 +149,6 @@
                                 <div class="row ">
                                     <div class="col-12">
                                         <label> Usuario </label>
-                                        <!-- <select class="form-control comboBox" formControlName="id_Usuario"> -->
                                         <select id="cboUsuario" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="id_Usuario"> 
                                             <option value="0"> [ -- SELECCIONE-- ]</option>
                                             <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
@@ -170,7 +166,7 @@
                                 <div class="row ">
                                     <div class="col-12">
                                         <label for=""> Lote</label>
-                                        <input type="text" class="form-control form-control-sm" maxlength="20" formControlName="lote_stock">
+                                        <input id="txtLote" type="text" class="form-control form-control-sm" maxlength="20" formControlName="lote_stock">
                                     </div>
                                 </div>
 
@@ -227,7 +223,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for=""> Fecha Asignacion</label>
-                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_asignacion" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                <input class="form-control " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_asignacion" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
                             </div>
                         </div>
                     </form>
@@ -260,12 +256,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row" style="bottom: 5px;" *ngIf="importacion.length>0">
-                        <div class="col-md-2">
-                            <input type="text" class="form-control text-center" disabled style="background-color: red; color: white; height: 22px;;" value="Registro con Error" />
-                        </div>
-                    </div>
                 </div>
 
 
@@ -274,8 +264,8 @@
                         <thead class="theadTable">
                             <tr>
                                 <th scope="col">#</th>
-                                <th class="text-center">COD. REP</th>
-                                <th scope="col">COD. MAT</th>
+                                <th class="text-center">USUARIO</th>
+                                <th scope="col">PRODUCTO</th>
                                 <th class="text-center">CANT</th>
                                 <th class="text-center">LOTE</th>
                                 <th scope="col">MENSAJE </th>
@@ -301,7 +291,7 @@
                 <hr>
                 <!--  -->
                 <div class="text-center" *ngIf="importacion.length >0">
-                    <button id="btnGrabar" class="btn  btn-sm  btn-danger disabledForm" (click)="guardar_importacionAsignacionProducto()" title="Grabar la asignación importadas">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-primary disabledForm" (click)="guardar_importacionAsignacionProducto()" title="Grabar la asignación importadas">
                         <i class="fas fa-save"></i> Grabar
                     </button>
                 </div>

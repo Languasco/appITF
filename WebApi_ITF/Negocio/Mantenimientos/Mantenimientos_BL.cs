@@ -708,7 +708,7 @@ namespace Negocio.Mantenimientos
             }
         }
 
-        public string set_grabar_ImportacionStock(int id_usuario)
+        public string set_grabar_ImportacionStock(int id_usuario, string fechaAsignacion)
         {
             string resultado = "";
             try
@@ -720,7 +720,8 @@ namespace Negocio.Mantenimientos
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = id_usuario;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.Parameters.Add("@fecha_Asignacion", SqlDbType.VarChar).Value = fechaAsignacion;
 
                         cmd.ExecuteNonQuery();
                         resultado = "OK";

@@ -20,6 +20,10 @@
     top: 0;
 }
 
+.tableFixHead2 thead th {
+    z-index: 1000;
+}
+
 
 /** tab control*/
 
@@ -63,7 +67,7 @@ legend {
     border-radius: 4px;
     padding: 5px 5px 5px 10px;
     background-color: #ffffff;
-    color: #002f77;
+    color: #00b6ad !important;
 }
 
 .fa-times-circle {

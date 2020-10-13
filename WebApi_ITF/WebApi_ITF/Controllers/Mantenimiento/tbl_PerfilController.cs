@@ -50,6 +50,7 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                         a.estado,
                                         descripcion_estado = a.estado == 0 ? "INACTIVO" : "ACTIVO",
                                         a.usuario_creacion
+
                                     }).ToList();
                     }
                     else {

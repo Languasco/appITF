@@ -26,5 +26,6 @@ namespace Datos
         public Nullable<System.DateTime> fecha_creacion { get; set; }
         public Nullable<int> usuario_edicion { get; set; }
         public Nullable<System.DateTime> fecha_edicion { get; set; }
+        public string nombre_institucion_direccion { get; set; }
     }
 }

@@ -72,9 +72,19 @@
  }
  
  .table .theadTable th {
-     background-color: #117a8b;
+     /* background-color: #117a8b;
      color: white;
-     border-color: cyan;
+     border-color: cyan; */
+     background-color: #00b6ad !important;
+     color: white;
+     font-family: 'Montserrat', sans-serif !important;
+     font-weight: 600;
+ }
+ 
+ .table .theadTable2 th {
+     background-color: #f8f9fa;
+     color: #6c757d;
+     border-color: #117a8b;
  }
  /* 
 .table .theadTableModal th {

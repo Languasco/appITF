@@ -35,7 +35,7 @@ export class SolicitudMedicoComponent implements OnInit {
   id_MedicoGlobal :number = 0;
 
   idSol_CabGlobal  :number = 0;
-  idEstadoSolicitudGlobal  :number = 10;
+  idEstadoSolicitudGlobal  :number = 11;
 
   idEstadoMedicoGlobal  :number = 0;
 
@@ -133,6 +133,7 @@ export class SolicitudMedicoComponent implements OnInit {
     codigo_distrito: new FormControl('0'),
     direccion_medico_direccion: new FormControl(''),
     referencia_medico_direccion: new FormControl(''),
+    nombre_institucion_direccion: new FormControl(''),
     estado: new FormControl('1'),
     usuario_creacion: new FormControl('0'),
    }) 
@@ -146,6 +147,9 @@ export class SolicitudMedicoComponent implements OnInit {
     this.usuarios = _usuarios;
     this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Sol_Medico_Cab'); 
     this.categorias = _categorias;
+
+    this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
+
     this.spinner.hide(); 
   })
 
@@ -158,9 +162,23 @@ export class SolicitudMedicoComponent implements OnInit {
   })
 }
 
- mostrarInformacion_solicitudCabecera(){ 
+
+mostrarInformacion_solicitudCabecera(){ 
+      if (this.formParamsFiltro.value.fecha_ini == '' || this.formParamsFiltro.value.fecha_ini == null ) {
+        this.alertasService.Swal_alert('error','Por favor seleccione la fecha inicial');
+        return 
+      } 
+      if (this.formParamsFiltro.value.fecha_fin == '' || this.formParamsFiltro.value.fecha_fin == null ) {
+        this.alertasService.Swal_alert('error','Por favor seleccione la fecha final');
+        return 
+      } 
+    
+      const fechaIni = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_ini);
+      const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);
+
       this.spinner.show();
-      this.solicitudMedicoService.get_mostrar_medicos(this.formParamsFiltro.value)
+
+      this.solicitudMedicoService.get_mostrar_medicos(this.formParamsFiltro.value, fechaIni,fechaFin )
           .subscribe((res:RespuestaServer)=>{  
               this.spinner.hide();
               if (res.ok==true) {        
@@ -243,8 +261,6 @@ export class SolicitudMedicoComponent implements OnInit {
      this.alertasService.Swal_alert('error','El médico se encuentra registrado, verifique..');
      return;
     }  
-
-
      this.spinner.show();
      this.medicoService.set_save_medico(this.formParams.value).subscribe((res:RespuestaServer)=>{
      this.spinner.hide();
@@ -270,6 +286,27 @@ export class SolicitudMedicoComponent implements OnInit {
             
             this.selectedTabControlDetalle = this.tabControlDetalle[1];
             this.detalleSolicitudMedicos();
+
+            this.flag_modoEdicionSolicitud = true;
+
+            // this.cerrarModal();
+            // setTimeout(()=>{ // 
+            //   $('#modal_solicitud').modal('hide');  
+            //   this.mostrarInformacion_solicitudCabecera();
+            // },0); 
+
+ 
+            ///---- notificando enviando correo -----
+            this.solicitudMedicoService.set_envioCorreoSolicitudMedico(this.idSol_CabGlobal, this.idUserGlobal)
+            .subscribe((res:RespuestaServer)=>{
+              if (res.ok ==true) {   
+              }else{
+                this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+                alert(JSON.stringify(res.data));
+              }
+            }) 
+          ///---- fin notificando enviando correo -----
+ 
 
             // this.alertasService.Swal_Success('Se agrego el medico a la solicitud..');
           }else{
@@ -380,7 +417,6 @@ export class SolicitudMedicoComponent implements OnInit {
    this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
  
    if ( this.flag_modoEdicion==false) { //// nuevo  
-
   
       const codMed  = await this.solicitudMedicoService.get_verificar_nuevoMedico(this.formParams.value.id_Identificador_Medico + '_' + this.formParams.value.cmp_medico );
       if (codMed) {
@@ -398,7 +434,7 @@ export class SolicitudMedicoComponent implements OnInit {
         if (res.ok ==true) {     
           this.flag_modoEdicion = true;
           this.formParams.patchValue({ "id_Medico" : Number(res.data[0].id_Medico) });
-          this.id_MedicoGlobal = res.data[0].id_Medico;
+
  
           ///----- insertando el tabla de solicitudes detalle ------
           const solDet = {
@@ -411,15 +447,36 @@ export class SolicitudMedicoComponent implements OnInit {
  
           this.solicitudMedicoService.set_save_solicitudMedicoDet(solDet).subscribe((res:RespuestaServer)=>{
            Swal.close();    
-           if (res.ok ==true) {  
-             
-            //  this.selectedTabControlDetalle = this.tabControlDetalle[1];
-             this.detalleSolicitudMedicos(); 
-            //  this.alertasService.Swal_Success('Se agrego el medico a la solicitud..');
+           if (res.ok ==true) {              
+ 
+             //----this.detalleSolicitudMedicos(); 
+             this.id_MedicoGlobal = res.data[0].id_Medico;
+             this.cerrarModal();
+
+             setTimeout(()=>{ // 
+               $('#modal_solicitud').modal('hide');  
+               this.mostrarInformacion_solicitudCabecera();
+             },0); 
+ 
+
+            ///---- notificando enviando correo -----
+
+            this.solicitudMedicoService.set_envioCorreoSolicitudMedico(this.idSol_CabGlobal, this.idUserGlobal)
+            .subscribe((res:RespuestaServer)=>{
+              if (res.ok ==true) {  
+                // this.nuevo();        
+              }else{
+                this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+                alert(JSON.stringify(res.data));
+              }
+            }) 
+          ///---- fin notificando enviando correo -----
+
             this.alertasService.Swal_Success('Proceso realizado correctamente..'); 
-            this.nuevo();
+
 
            }else{
+            this.id_MedicoGlobal = res.data[0].id_Medico;
              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
              alert(JSON.stringify(res.data));
            }
@@ -475,11 +532,24 @@ export class SolicitudMedicoComponent implements OnInit {
           
           // this.alertasService.Swal_Success('Se actualizó correctamente..');  
           this.alertasService.Swal_Success('Proceso realizado correctamente..');  
-          // this.nuevo();
+ 
 
           if (this.flagGrabo ==true) {
-            this.nuevo();
+            //this.nuevo();
+            this.cerrarModal();
           }else{
+            ///---- notificando enviando correo -----
+            this.solicitudMedicoService.set_envioCorreoSolicitudMedico(this.idSol_CabGlobal, this.idUserGlobal)
+            .subscribe((res:RespuestaServer)=>{
+              if (res.ok ==true) {  
+
+              }else{
+                this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+                alert(JSON.stringify(res.data));
+              }
+            }) 
+          ///---- fin notificando enviando correo -----
+
             this.cerrarModal();
           }
 
@@ -492,7 +562,6 @@ export class SolicitudMedicoComponent implements OnInit {
  
 } 
  
-
  editar({ id_Medico, id_Identificador_Medico, cmp_medico, nombres_medico, apellido_paterno_medico, apellido_materno_medico, id_Categoria, id_Especialidad1, 
   id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado }){
 
@@ -543,7 +612,6 @@ export class SolicitudMedicoComponent implements OnInit {
    }) 
 
  }
-
 
 //-----  DIRECCIONES MEDICOS -------
 
@@ -622,6 +690,10 @@ guardarDetalle_direccion(){
     this.alertasService.Swal_alert('error', 'Por favor ingrese la direccion.');
     return 
   }
+  if (this.formParamsDirection.value.nombre_institucion_direccion == '' || this.formParamsDirection.value.nombre_institucion_direccion == 0 || this.formParamsDirection.value.nombre_institucion_direccion == null)  {
+    this.alertasService.Swal_alert('error', 'Por favor ingrese el nombre de la institución.');
+    return 
+  }
  
 
   Swal.fire({
@@ -663,6 +735,7 @@ guardarDetalle_direccion(){
                 objdetalle.codigo_distrito = this.formParamsDirection.value.codigo_distrito;
                 objdetalle.direccion_medico_direccion = this.formParamsDirection.value.direccion_medico_direccion;
                 objdetalle.referencia_medico_direccion = this.formParamsDirection.value.referencia_medico_direccion;
+                objdetalle.nombre_institucion_direccion = this.formParamsDirection.value.nombre_institucion_direccion;
                 break;
              }
            }
@@ -687,7 +760,7 @@ verificarDireccionCargada(direccionmedicodireccion: string){
   return flagRepetida;
 }
 
-modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, estado,  }){    
+modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
 
   
   if (codigo_departamento =='0') {
@@ -698,7 +771,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
       this.formParamsDirection.patchValue({
         "id_Medicos_Direccion"  : id_Medicos_Direccion ,
         "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 ,
+        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion  ,"nombre_institucion_direccion"  : nombre_institucion_direccion  , "estado"  : 1 ,
       }); 
     }, 0); 
 
@@ -715,7 +788,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
             this.formParamsDirection.patchValue({
               "id_Medicos_Direccion"  : id_Medicos_Direccion ,
               "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
+              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion ,
               "estado"  : 1 ,
             }); 
           }, 0);  
@@ -735,7 +808,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
               this.formParamsDirection.patchValue({
                 "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                 "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-                "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
+                "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion ,
                 "estado"  : 1 ,
               }); 
             }, 0);          
@@ -803,7 +876,7 @@ eliminarDireccion(item:any){
 
 
   cerrarModal_solicitud(){
-    if (this.idEstadoSolicitudGlobal == 10) {
+    if (this.idEstadoSolicitudGlobal == 11) {
 
       const descartarSolicitud = ()=>{
        this.spinner.show();
@@ -823,14 +896,22 @@ eliminarDireccion(item:any){
       }
       if ( this.solicitudDetalle.length > 0) {
 
-        this.alertasService.Swal_Question('Sistemas', 'Esta seguro de cerrar, todos los cambios se perderan .. ?')
-        .then((result)=>{
-          if(result.value){   
-            descartarSolicitud();            
-          }
-        }) 
+ 
+
+        // this.alertasService.Swal_Question('Sistemas', 'Esta seguro de cerrar, todos los cambios se perderan .. ?')
+        // .then((result)=>{
+        //   if(result.value){   
+        //     descartarSolicitud();            
+        //   }
+        // }) 
+
+        setTimeout(()=>{ // 
+          $('#modal_solicitud').modal('hide');  
+          this.mostrarInformacion_solicitudCabecera();
+        },0); 
 
       }else{
+ 
         descartarSolicitud();
       }      
     }else{
@@ -846,19 +927,20 @@ eliminarDireccion(item:any){
     this.inicializarFormularioSolicitud();      
     this.solicitudDetalle =[];
 
-    this.titulo = 'CREADA';
+    this.titulo = 'Enviada';
     this.idSol_CabGlobal = 0;
     this.id_MedicoGlobal = 0;
-    this.idEstadoSolicitudGlobal = 10;
     this.idEstadoMedicoGlobal = 10;
-    this.descripcionEstadoGlobal = "CREADA";
+    
+    this.idEstadoSolicitudGlobal = 11;
+    this.descripcionEstadoGlobal = 'ENVIADA';
 
     this.formParamsSolCab.patchValue({ "solicitante" : this.UsuarioLoggeadoGlobal, 'fechaSolicitud' : new Date() });
 
     const solCab = {
       mensaje_sol_medico_cab : this.formParamsSolCab.value.descripcionSolicitud,
       usuario_creacion : this.idUserGlobal,
-      estado_sol_medico_cab : '10'
+      estado_sol_medico_cab : '11'
     }
 
     this.spinner.show();
@@ -866,7 +948,7 @@ eliminarDireccion(item:any){
     this.spinner.hide(); 
       if (res.ok ==true) {     
 
-        this.flag_modoEdicionSolicitud = true;
+        //--this.flag_modoEdicionSolicitud = true;
         this.formParamsSolCab.patchValue({ "id_Sol_Medico_cab" : Number(res.data) });
         this.idSol_CabGlobal = Number(res.data);
 
@@ -965,6 +1047,7 @@ eliminarDireccion(item:any){
     this.solicitudMedicoService.get_solicitudMedicoDet(this.idSol_CabGlobal)
         .subscribe((res:RespuestaServer)=>{  
             if (res.ok==true) {        
+              console.log(res.data);
                 this.solicitudDetalle = res.data; 
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -991,6 +1074,9 @@ eliminarDireccion(item:any){
     if (id_estado == 13) {
      this.titulo = 'Aprobada';
     }
+    if (id_estado == 14) {
+      this.titulo = 'Observada';
+     }
     this.formParamsSolCab.patchValue({ "id_Sol_Medico_cab" : id_Sol_Medico_cab, "solicitante" : solicitante, "fechaSolicitud" : new Date(fechaSolicitud), "descripcionSolicitud" : descripcionSolicitud });  
      
     //----obteniendo los medicos detalle Solicitud ----

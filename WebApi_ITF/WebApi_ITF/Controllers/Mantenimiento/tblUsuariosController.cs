@@ -113,8 +113,6 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                     string[] parametros = filtro.Split('|');
                     int idUsuario = Convert.ToInt32(parametros[0].ToString());
 
- 
-
                     res.ok = true;
                     res.data = (from a in db.tbl_Usuarios
                                 join b in db.tbl_Perfil on a.id_Perfil equals b.id_perfil
@@ -153,7 +151,7 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                                 select new
                                 {
                                    a.id_Usuario,
-                                   supervisor = a.apellido_paterno_usuario + " " + a.apellido_materno_usuario 
+                                   supervisor = a.apellido_paterno_usuario + " " + a.apellido_materno_usuario + " " + a.nombres_usuario
                                 }).ToList();
                     res.totalpage = 0;
                     resul = res;

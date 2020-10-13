@@ -38,7 +38,6 @@ namespace Datos
         public virtual DbSet<tbl_Feriados> tbl_Feriados { get; set; }
         public virtual DbSet<tbl_Identificador_Medico> tbl_Identificador_Medico { get; set; }
         public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
-        public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
         public virtual DbSet<tbl_Monedas> tbl_Monedas { get; set; }
         public virtual DbSet<tbl_Perfil> tbl_Perfil { get; set; }
         public virtual DbSet<tbl_Perfil_Accesos> tbl_Perfil_Accesos { get; set; }
@@ -50,5 +49,6 @@ namespace Datos
         public virtual DbSet<tbl_Tipos_Productos> tbl_Tipos_Productos { get; set; }
         public virtual DbSet<tbl_Ubigeo> tbl_Ubigeo { get; set; }
         public virtual DbSet<tbl_Usuarios> tbl_Usuarios { get; set; }
+        public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
     }
 }

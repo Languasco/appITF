@@ -19,6 +19,8 @@ namespace Entidades.Procesos
         public string descripcionProducto { get; set; }
         public string cantidad_stock { get; set; }
         public string lote_stock { get; set; }
+        public string estadoCiclo { get; set; }
+        
         public DateTime fecha_stock { get; set; }
     }
 }

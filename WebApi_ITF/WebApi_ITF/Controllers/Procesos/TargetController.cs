@@ -13,7 +13,7 @@ namespace WebApi_ITF.Controllers.Procesos
     [EnableCors("*", "*", "*")]
     public class TargetController : ApiController
     {
-        public object Gettbl_Stock(int opcion, string filtro)
+        public object GetTarget(int opcion, string filtro)
         {
             Resultado res = new Resultado();
             object resul = null;
@@ -58,13 +58,124 @@ namespace WebApi_ITF.Controllers.Procesos
                     Target_BL obj_negocios = new Target_BL();
                     resul = obj_negocios.get_mostrarAltasBajasTarget_cab(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget);
                 }
+                else if (opcion == 4)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    string medico = parametros[0].ToString();
+                    int idCategoria = Convert.ToInt32(parametros[1].ToString());
+                    int idEspecialidad = Convert.ToInt32(parametros[2].ToString());
+                    string opcionTarget = parametros[3].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[4].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrarAltasBajasTarget_medico(medico, idCategoria, idEspecialidad, opcionTarget, idUsuario);
+                }
+                else if (opcion == 5)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string detalleTarget = parametros[1].ToString();
+                    string opcionTarget = parametros[2].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[3].ToString());
+
+                    Target_BL obj_negocios = new Target_BL(); 
+
+                    res.ok = true;
+                    res.data = obj_negocios.Set_insert_update_AltasBajasTarget(idTargetCab, detalleTarget, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 6)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string opcionTarget = parametros[1].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[2].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.get_AltasBajas_detalleTarget(idTargetCab, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                /// APROBAR ALTAS BAJAS TARGET 
+                /// 
+                else if (opcion == 7)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+                    string opcionTarget = parametros[4].ToString();
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrar_Aprobar_AltasBajasTarget_cab(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget);
+                }
+                else if (opcion == 8)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string opcionTarget = parametros[1].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[2].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.get_AprobacionAltasBajas_detalleTarget(idTargetCab, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 9)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idTargetDet = Convert.ToInt32(parametros[0].ToString());
+                    int nroContactos = Convert.ToInt32(parametros[1].ToString());
+                    string opcionTarget = parametros[2].ToString();
+                    string opcionEstado = parametros[3].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[4].ToString());
+
+                    Target_BL obj_negocio = new Target_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_aprobarRechazar_altasBajas_target(idTargetDet, nroContactos, opcionTarget, opcionEstado, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 10)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idMedico = Convert.ToInt32(parametros[0].ToString());
+ 
+                    Target_BL obj_negocios = new Target_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.get_informacionMedico_target(idMedico);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 11)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string opcionTarget = parametros[1].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[2].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.Set_finalizar_aprobacion_AltasBajasTarget(idTargetCab, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
                 else
                 {
                     res.ok = false;
                     res.data = "Opcion seleccionada invalida";
                     res.totalpage = 0;
-
-
                     resul = res;
                 }
             }

@@ -24,10 +24,10 @@ export class SolicitudMedicoService {
 
   constructor(private http:HttpClient) { }  
 
-  get_mostrar_medicos({ idUsuario,fecha_ini ,fecha_fin,idEstado }){
+  get_mostrar_medicos({ idUsuario,fecha_ini ,fecha_fin,idEstado }, fechaIni :string,   fechaFin:string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '1');
-    parametros = parametros.append('filtro', String(idUsuario) + '|' + fecha_ini  + '|' + fecha_fin + '|' + idEstado  );
+    parametros = parametros.append('filtro', String(idUsuario) + '|' + fechaIni  + '|' + fechaFin + '|' + idEstado  );
 
     return this.http.get( this.URL + 'tblSolMedico_Cab' , {params: parametros});
   }
@@ -81,13 +81,22 @@ export class SolicitudMedicoService {
   }
 
 
+  set_envioCorreoSolicitudMedico(idSol_CabGlobal:number, idUser:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '6');
+    parametros = parametros.append('filtro', String(idSol_CabGlobal) + '|' + idUser );
+
+    return this.http.get( this.URL + 'tblSolMedico_Cab' , {params: parametros});
+  }
+
+
 // -------------- APROBACION DE SOLCITUDES MEDICOS
 
 
-  get_aprobarMostrar_medicos({ idUsuario,fecha_ini ,fecha_fin,idEstado }){
+  get_aprobarMostrar_medicos({ idUsuario,fecha_ini ,fecha_fin,idEstado } ,  fechaIni:string, fechaFin:string  ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '3');
-    parametros = parametros.append('filtro', String(idUsuario) + '|' + fecha_ini  + '|' + fecha_fin + '|' + idEstado  );
+    parametros = parametros.append('filtro', String(idUsuario) + '|' + fechaIni  + '|' + fechaFin + '|' + idEstado  );
   
     return this.http.get( this.URL + 'tblSolMedico_Cab' , {params: parametros});
   }

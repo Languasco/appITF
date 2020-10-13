@@ -23,6 +23,8 @@ import { AprobarSolicitudMedicoComponent } from './pages/Procesos/aprobar-solici
 import { AsignacionProductoComponent } from './pages/Procesos/asignacion-producto/asignacion-producto.component';
 import { TargetComponent } from './pages/Procesos/target/target.component';
 import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target.component';
+import { AprobarAltasBajasTargetComponent } from './pages/Procesos/aprobar-altas-bajas-target/aprobar-altas-bajas-target.component';
+import { RejaComponent } from './pages/Procesos/reja/reja.component';
  
   
 const APP_ROUTERS: Routes = [
@@ -53,7 +55,9 @@ const APP_ROUTERS: Routes = [
     { path: 'proc-aprobar-solicitud-medico', component: AprobarSolicitudMedicoComponent , canActivate: [ AuthGuard]}, 
     { path: 'proceso-asignacion-producto', component: AsignacionProductoComponent , canActivate: [ AuthGuard]}, 
     { path: 'proceso-target', component: TargetComponent , canActivate: [ AuthGuard]}, 
-    { path: 'proceso-altas-target/:opcionTarget', component: AltasTargetComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-AB-target/:opcionTarget', component: AltasTargetComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-aprobar-AB-target/:opcionTarget', component: AprobarAltasBajasTargetComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-reja-promocional', component: RejaComponent , canActivate: [ AuthGuard ]}, 
 
     { path: '', pathMatch:'full', redirectTo:'inicio' },
     { path: '**', pathMatch:'full', redirectTo:'inicio' },

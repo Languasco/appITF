@@ -61,6 +61,7 @@
     <Compile Include="Mantenimientos\Mantenimientos_BL.cs" />
     <Compile Include="Mantenimientos\Usuarios_BL.cs" />
     <Compile Include="Procesos\AsignacionProducto_BL.cs" />
+    <Compile Include="Procesos\RejaPromocional_BL.cs" />
     <Compile Include="Procesos\SolicitudesCab_BL.cs" />
     <Compile Include="Procesos\Target_BL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

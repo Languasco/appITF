@@ -46,9 +46,7 @@ export class ProfileComponent implements OnInit {
    this.getCargarCombos();
    this.inicializarFormulario();
 
-   setTimeout(() => {
-    this.mostrar_perfilUsuario(); 
-   }, 0);
+
  }
 
  inicializarFormulario(){ 
@@ -76,7 +74,7 @@ export class ProfileComponent implements OnInit {
         id_supervisor: new FormControl('0'),  
         es_supervisor: new FormControl(false)
       }) 
-   }
+    }
 
  getCargarCombos(){ 
     this.spinner.show();
@@ -84,6 +82,11 @@ export class ProfileComponent implements OnInit {
       this.perfiles = _perfiles;
       this.supervisores = _supervisores;
       this.spinner.hide(); 
+
+      setTimeout(() => {
+        this.mostrar_perfilUsuario(); 
+       }, 500);
+
     })
 
  }
@@ -91,11 +94,12 @@ export class ProfileComponent implements OnInit {
  mostrar_perfilUsuario(){
       this.spinner.show();
       this.usuariosProfile = [];
-      this.usuariosService.get_mostrarUsuario(this.idUserGlobal)
-          .subscribe((res:RespuestaServer)=>{            
-              this.spinner.hide();
 
-              if (res.ok==true) {                     
+      this.usuariosService.get_mostrarUsuario(this.idUserGlobal)
+          .subscribe((res:RespuestaServer)=>{          
+
+              if (res.ok==true) {         
+
                 this.usuariosProfile = res.data;                
                 for (const user of this.usuariosProfile ) { 
 
@@ -118,7 +122,11 @@ export class ProfileComponent implements OnInit {
                    }
 
                   break;
-                }          
+                }   
+                
+                setTimeout(()=>{ //
+                  this.spinner.hide();
+              },500);  
  
               }else{
                 this.spinner.hide();

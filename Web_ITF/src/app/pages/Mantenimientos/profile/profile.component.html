@@ -3,121 +3,7 @@
         <h5 class="headerTitle"> PERFIL </h5>
     </div>
     <div class="card-body">
-        <div class="row" *ngIf="usuariosProfile.length >0">
-            <!-- <div class="col-md-6 col-lg-8">
-                <form [formGroup]="formParams" style=" margin-top: -15px;">
-
-                    <fieldset class="shadow">
-                        <legend>Datos Generales</legend>
-                        <div class="panel panel-default ">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label> ID Usuario</label>
-                                        <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Usuario">
-                                    </div>
-                                </div>
-
-                                <div class="row ">
-                                    <div class="col-4">
-                                        <label> Nro Documento</label>
-                                        <input type="number" id="txtBuscarDoc" class="form-control form-control-sm  disabledForm " maxlength="20" formControlName="nrodoc_usuario">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 ">
-                                        <label> Apellido </label>
-                                        <input type="text" class="form-control " maxlength="150" formControlName="apellidos_usuario">
-                                    </div>
-                                    <div class="col-md-6 ">
-                                        <label> Nombres </label>
-                                        <input type="text" class="form-control " maxlength="150" formControlName="nombres_usuario">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12" style="margin-bottom: 15px;">
-                                        <label> Email </label>
-                                        <input type="text" class="form-control " maxlength="150" formControlName="email_usuario">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </fieldset>
-                    <br>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <fieldset class="shadow">
-                                <legend>Ingreso Sistema</legend>
-                                <div class="panel panel-default ">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label> Login </label>
-                                                <input type="text" class="form-control " maxlength="100" formControlName="login_usuario">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label> Constraseña </label>
-                                                <input type="password" class="form-control " maxlength="50" formControlName="contrasenia_usuario">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label for=""> Rol</label>
-                                                <select class="form-control comboBox" id="cbo_cargo" formControlName="id_Perfil">
-                                                    <option value="0"> [ --SELECCIONE-- ]</option>
-                                                    <option [value]="cargo.id_perfil" *ngFor="let cargo of perfiles">{{cargo.descripcion_perfil}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label> Estado</label>
-                                                <select class="form-control comboBox" formControlName="estado">
-                                                    <option value="-1"> [ --SELECCIONE-- ]</option>
-                                                    <option value="1"> Activo </option>
-                                                    <option value="0"> Anulado </option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                    </div>
-                    <br>
-                </form>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <fieldset class="shadow" style=" margin-top: -15px;">
-                    <legend>Foto</legend>
-                    <div class="panel panel-default ">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-sm-12">
-                                        <div (click)="openFile();" style="text-align: center; cursor:pointer" title=" Click para agregar o reemplazar la imagen">
-                                            <img [src]="imgProducto" title=" Click para agregar o reemplazar la imagen" class="mx-auto d-block" style="width: 100%;height: 230px;">
-                                        </div>
-                                        <label class="import-file" style="display:none;">                                                  
-                                            <input type="file" id="inputFileOpen" class="form-control-file btn" name="file" accept="image/x-png,image/gif,image/jpeg" (change)="onFileChange($event)" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </div> -->
-
+        <div class="row">
             <div class="col-md-6 col-lg-8">
                 <form [formGroup]="formParams" style=" margin-top: -15px;">
 
@@ -132,7 +18,7 @@
                                     </div>
                                     <div class="col-3">
                                         <br>
-                                        <div class="custom-control custom-checkbox custom-control-inline ">
+                                        <div class="custom-control custom-checkbox custom-control-inline disabledForm ">
                                             <input type="checkbox" [id]="9999" formControlName="es_supervisor" (change)="onChange_supervisor($event)" class="custom-control-input">
                                             <label class="custom-control-label" [for]="9999">ES SUPERVISOR </label>
                                         </div>
@@ -185,9 +71,9 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-6" style="margin-bottom: 15px;">
+                                    <div class="col-6 " style="margin-bottom: 15px;">
                                         <label> Supervisor</label>
-                                        <select class="form-control comboBox" id="cbo_supervisor" formControlName="id_supervisor">
+                                        <select class="form-control comboBox disabledForm" disabled id="cbo_supervisor" formControlName="id_supervisor">
                                             <option value="0"> [ --SELECCIONE-- ]</option>
                                             <option [value]="sup.id_Usuario" *ngFor="let sup of supervisores">{{sup.supervisor}}</option>
                                         </select>
@@ -219,7 +105,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label for=""> Rol</label>
-                                                <select class="form-control comboBox" id="cbo_cargo" formControlName="id_Perfil">
+                                                <select class="form-control comboBox disabledForm" id="cbo_cargo" formControlName="id_Perfil">
                                                     <option value="0"> [ --SELECCIONE-- ]</option>
                                                     <option [value]="cargo.id_perfil" *ngFor="let cargo of perfiles">{{cargo.descripcion_perfil}}</option>
                                                 </select>

@@ -72,6 +72,8 @@ namespace WebApi_ITF.Controllers.Mantenimiento
             objReemplazar.codigo_distrito = tbl_Medicos_Direccion.codigo_distrito;
             objReemplazar.direccion_medico_direccion = tbl_Medicos_Direccion.direccion_medico_direccion;
             objReemplazar.referencia_medico_direccion = tbl_Medicos_Direccion.referencia_medico_direccion;
+            objReemplazar.nombre_institucion_direccion = tbl_Medicos_Direccion.nombre_institucion_direccion;
+
             objReemplazar.estado = tbl_Medicos_Direccion.estado;
             objReemplazar.usuario_edicion = tbl_Medicos_Direccion.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;

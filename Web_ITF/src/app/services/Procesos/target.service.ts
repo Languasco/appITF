@@ -53,16 +53,89 @@ export class TargetService {
 
   ///----ALTAS BAJAS TARGET ----
 
-  get_mostrar_AltasBajasTarget({idUsuario, fecha_ini, fecha_fin, estado },opcionTarget:string){
+  get_mostrar_AltasBajasTarget({idUsuario, fecha_ini, fecha_fin, estado },opcionTarget:string, fechaIni:string, fechaFin:string){
     let parametros = new HttpParams();
-    parametros = parametros.append('opcion', '1');
-    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fecha_ini) + '|' + String(fecha_fin) + '|' + String(estado) + '|' + String(opcionTarget) );
+    parametros = parametros.append('opcion', '3');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_buscarMedicos({medico, categoria, especialidad },opcionTarget:string, idUsuario: number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '4');
+    parametros = parametros.append('filtro', String(medico)  + '|' + String(categoria) + '|' + String(especialidad) + '|' + String(opcionTarget) + '|' + String(idUsuario) );
 
     return this.http.get( this.URL + 'Target' , {params: parametros});
   }
 
  
+  set_insert_update_altasBajas_Target( idTargetCab:number,  objTarget:string, opcionTarget:string, idUsuario:number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '5');
+    parametros = parametros.append('filtro', String(idTargetCab)  + '|' + String(objTarget)  + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_altasBajas_detalleTarget(idTargetCab:number, opcionTarget:string, idUsuario:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '6');
+    parametros = parametros.append('filtro', String(idTargetCab) + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+
+    ///----APROBAR ALTAS BAJAS TARGET ----
+
+    get_mostrar_AprobacionAltasBajasTarget({idUsuario, fecha_ini, fecha_fin, estado },opcionTarget:string, fechaIni:string, fechaFin:string){
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '7');
+      parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget) );
+  
+      return this.http.get( this.URL + 'Target' , {params: parametros});
+    }
+
+
+    
+  get_AprobacionaltasBajas_detalleTarget(idTargetCab:number, opcionTarget:string, idUsuario:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '8');
+    parametros = parametros.append('filtro', String(idTargetCab) + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+      
+  set_AprobarRechazar_altasBajas_Target(idTargetDet:number, nroContactos :number, opcionTarget:string, opcion:string, idUsuario:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '9');
+    parametros = parametros.append('filtro', String(idTargetDet) + '|' + String(nroContactos)  + '|' + String(opcionTarget)+ '|' + String(opcion) + '|' + String(idUsuario)  );
+
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_informacionMedico_Target(idMedico:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '10');
+    parametros = parametros.append('filtro', String(idMedico));
+
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+   
+  set_finalizar_aprobacionAltasBajas_Target( idTargetCab:number, opcionTarget:string, idUsuario:number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '11');
+    parametros = parametros.append('filtro', String(idTargetCab) + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+      
 
 
 
+
+ 
 }

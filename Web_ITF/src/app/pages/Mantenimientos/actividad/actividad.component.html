@@ -10,7 +10,6 @@
                     <label for=""> Usuarios</label>
                     <br>
                     <select class="form-control comboBox" formControlName="idUsuario">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
                     </select>
                 </div>
