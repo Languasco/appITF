@@ -109,25 +109,25 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:04</publishTime>
     </File>
     <File Include="bin/Datos.dll">
-      <publishTime>10/10/2020 22:58:48</publishTime>
+      <publishTime>10/17/2020 10:45:58</publishTime>
     </File>
     <File Include="bin/Datos.dll.config">
       <publishTime>09/04/2020 19:33:22</publishTime>
     </File>
     <File Include="bin/Datos.pdb">
-      <publishTime>10/10/2020 22:58:48</publishTime>
+      <publishTime>10/17/2020 10:45:58</publishTime>
     </File>
     <File Include="bin/EngineIoClientDotNet.dll">
       <publishTime>01/04/2016 05:14:48</publishTime>
     </File>
     <File Include="bin/Entidades.dll">
-      <publishTime>10/12/2020 21:45:30</publishTime>
+      <publishTime>10/17/2020 10:45:58</publishTime>
     </File>
     <File Include="bin/Entidades.dll.config">
       <publishTime>08/03/2020 10:05:48</publishTime>
     </File>
     <File Include="bin/Entidades.pdb">
-      <publishTime>10/12/2020 21:45:30</publishTime>
+      <publishTime>10/17/2020 10:45:58</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -190,10 +190,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:05</publishTime>
     </File>
     <File Include="bin/Negocio.dll">
-      <publishTime>10/12/2020 22:02:00</publishTime>
+      <publishTime>10/17/2020 15:21:54</publishTime>
     </File>
     <File Include="bin/Negocio.pdb">
-      <publishTime>10/12/2020 22:02:00</publishTime>
+      <publishTime>10/17/2020 15:21:54</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -397,10 +397,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/WebApi_ITF.dll">
-      <publishTime>10/12/2020 22:02:01</publishTime>
+      <publishTime>10/17/2020 15:21:54</publishTime>
     </File>
     <File Include="bin/WebApi_ITF.pdb">
-      <publishTime>10/12/2020 22:02:01</publishTime>
+      <publishTime>10/17/2020 15:21:54</publishTime>
     </File>
     <File Include="bin/WebApi_Trinidad.dll">
       <publishTime>05/26/2020 19:44:32</publishTime>

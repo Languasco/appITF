@@ -121,6 +121,12 @@
     <Compile Include="tbl_Productos.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Programacion_Cab.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Programacion_Det.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Resultados_Visitas.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>

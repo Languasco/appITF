@@ -18,6 +18,18 @@ export class FuncionesglobalesService {
 
     return fechaFormat;
   }
+  
+  formatoFechaI(fecha : any) {
+
+    var date = new Date(fecha); 
+    var d = date.getDate();
+    var m = date.getMonth() + 1; //Month from 0 to 11
+    var y = date.getFullYear();
+
+    const fechaFormat =  y + '/' +  (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) ;
+
+    return fechaFormat;
+  }
 
   formatoFechaIngles(string) {
     var info = string.split('/').reverse().join('-');

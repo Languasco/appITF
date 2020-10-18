@@ -346,7 +346,6 @@ export class RejaComponent implements OnInit {
       $('#txtDescripcion').addClass('disabledForm');   
       $('#modal_mantenimiento').modal('show');  
     },0);  
- 
   
   } 
 

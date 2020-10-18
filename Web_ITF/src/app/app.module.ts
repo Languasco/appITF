@@ -23,6 +23,9 @@ import { NoimagePipe } from './pipes/noimage.pipe';
 //filtar cualquier tabla
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+
+
+
 import * as locales from 'ngx-bootstrap/locale';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 
@@ -33,6 +36,10 @@ import { SpinnerloadingComponent } from './components/spinnerloading/spinnerload
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule, BsLocaleService, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
  
+
+// // timePiecker Boostrap
+import { TimepickerModule } from 'ngx-bootstrap';
+
 import { LightboxModule } from 'ngx-lightbox'; 
 import { UsuariosComponent } from './pages/Accesos/usuarios/usuarios.component';
 import { AccesosComponent } from './pages/Accesos/accesos/accesos.component'; 
@@ -60,9 +67,8 @@ import { TargetComponent } from './pages/Procesos/target/target.component';
 import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target.component';
 import { AprobarAltasBajasTargetComponent } from './pages/Procesos/aprobar-altas-bajas-target/aprobar-altas-bajas-target.component';
 import { RejaComponent } from './pages/Procesos/reja/reja.component';
- 
-
- 
+import { ProgramacionComponent } from './pages/Procesos/programacion/programacion.component';
+  
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +99,8 @@ import { RejaComponent } from './pages/Procesos/reja/reja.component';
     TargetComponent,
     AltasTargetComponent,
     AprobarAltasBajasTargetComponent,
-    RejaComponent
+    RejaComponent,
+    ProgramacionComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +115,7 @@ import { RejaComponent } from './pages/Procesos/reja/reja.component';
     LightboxModule,
     Ng2SearchPipeModule,
     TreeviewModule.forRoot(),
- 
+    TimepickerModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

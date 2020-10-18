@@ -56,6 +56,7 @@
     <Compile Include="Mantenimientos\Productos_E.cs" />
     <Compile Include="Procesos\AsignacionProducto_E.cs" />
     <Compile Include="Procesos\OrdenTrabajo_E.cs" />
+    <Compile Include="Procesos\Programacion_E.cs" />
     <Compile Include="Procesos\RejaPromocional_E.cs" />
     <Compile Include="Procesos\SolicitudCab_E.cs" />
     <Compile Include="Procesos\Target_E.cs" />

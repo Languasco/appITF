@@ -50,5 +50,7 @@ namespace Datos
         public virtual DbSet<tbl_Ubigeo> tbl_Ubigeo { get; set; }
         public virtual DbSet<tbl_Usuarios> tbl_Usuarios { get; set; }
         public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
+        public virtual DbSet<tbl_Programacion_Cab> tbl_Programacion_Cab { get; set; }
+        public virtual DbSet<tbl_Programacion_Det> tbl_Programacion_Det { get; set; }
     }
 }

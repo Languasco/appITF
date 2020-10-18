@@ -32,6 +32,8 @@
         <AssociationConnector Association="ITF_PERUModel.FK_tbl_Aceesid_Op_3C69FB99" />
         <AssociationConnector Association="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B" />
         <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos_Direccion" Width="1.5" PointX="9.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Programacion_Cab" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Programacion_Det" Width="1.5" PointX="16.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

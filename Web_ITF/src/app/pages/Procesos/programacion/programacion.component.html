@@ -1,0 +1,424 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> PROGRAMACION Y REPORTE DE VISITAS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+
+            <div class="row" style="margin-top: -10px;">
+
+                <div class="col-md-3">
+                    <label for=""> Ciclo</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idCiclo">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Medico</label>
+                    <br>
+                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Nombres o Apellidos" maxlength="20" formControlName="medico">
+                </div>
+
+                <div class="col-md-3">
+                    <label for=""> Categoria</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="categoria">
+                        <option value="0"> [ --TODOS-- ]</option>
+                        <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label for=""> Especialidad</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="especialidad">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="esp.id_Especialidad" *ngFor="let esp of especialidades">{{esp.descripcion_especialidad}}</option>
+                    </select>
+                </div>
+
+
+                <div class="col-md-3">
+                    <label for=""> Resultado Vsitas</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="resultado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="esp.id_Resultado_Visita" *ngFor="let esp of resultadosVisitas">{{esp.descripcion_resultado_visita}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <br>
+                    <div class="btn-group btn-block ">
+                        <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                        <div class="dropdown-menu text-center ">
+                            <div class="p-2">
+                                <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                            </div>
+                            <div class="p-2">
+                                <button class="btn btn-info btn-block  " style="font-size: 13px;">   <i class="fas fa-file-upload"> Importar Perfil Médico  </i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+        <hr>
+
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+
+        <div class=" tableFixHead">
+            <table class="table  table-hover table-sm">
+                <tbody>
+                    <tr *ngFor="let item of programacionCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>
+                            <div class="alert alert-info" role="alert" (click)="abrir_modalProgramacion(item)">
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-2 bd-highlight"> {{item.nroVisitas}} </div>
+                                    <div class="p-2 bd-highlight"> {{item.datosMedico}} </div>
+                                    <div class="p-2 bd-highlight"> <b> CAT : </b> {{item.categoria}} </div>
+                                    <div class="p-2 bd-highlight"> <b> FP : </b> {{item.fechaProgramacion}} </div>
+                                    <div class="p-2 bd-highlight"> <b> HP : </b> {{item.horaProgramacion}} </div>
+                                    <div class="p-2 bd-highlight"> <b> RESULTADO : </b> {{item.resultados}} </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-2 bd-highlight"> </div>
+                                    <div class="p-2 bd-highlight"> {{item.cmpMedico}} </div>
+                                    <div class="p-2 bd-highlight"> <b> ESP : </b> {{item.especialidad}} </div>
+                                    <div class="p-2 bd-highlight"> <b> FR : </b> {{item.fechaReporte}} </div>
+                                    <div class="p-2 bd-highlight"> <b> HR : </b> {{item.horaReporte}} </div>
+                                    <div class="p-2 bd-highlight"> <b> ESTADO : </b> {{item.descripcionEstado}} </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> INFORMACION DE VISITA </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+
+
+
+                <fieldset class="shadow-sm  ">
+                    <legend>INFORMACION DE VISITA</legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <form [formGroup]="formParams" style=" margin-top: -15px;">
+                                <div class="row " style=" margin-top: -10px;">
+                                    <div class="col-md-3">
+                                        <label> Ciclo</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="ciclo">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Nro visitas</label>
+                                        <input type="text" class="form-control disabledForm" maxlength="250" formControlName="visita">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Visitador</label>
+                                        <input type="text" class="form-control disabledForm" maxlength="250" formControlName="visitador">
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-3">
+                                        <label> CMP</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="cmp">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Medico</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="medico">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Categoría</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="categoria">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label> Especialidad</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="especialidad">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Dirección</label>
+                                        <br>
+                                        <select class="form-control comboBox" formControlName="id_Medicos_Direccion">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="direc.id_Medicos_Direccion" *ngFor="let direc of direccionesMedicos">{{direc.direccion_medico_direccion}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Fecha Programacion </label>
+                                                <div class="pt-4">
+                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_programacion_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for=""> Hora Programacion </label>
+                                                <div style="margin-top: -2px;">
+                                                    <timepicker formControlName="hora_programacion_programacion_cab" [showMeridian]="ismeridian"></timepicker>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Fecha Reporte </label>
+                                                <div class="pt-4">
+                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_reporte_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for=""> Hora Reporte </label>
+                                                <div style="margin-top: -2px;">
+                                                    <timepicker formControlName="hora_reporte_programacion_cab" [showMeridian]="ismeridian"></timepicker>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for=""> Resultado Vsitas</label>
+                                        <br>
+                                        <select class="form-control comboBox" formControlName="id_resultado_visita">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="esp.id_Resultado_Visita" *ngFor="let esp of resultadosVisitas">{{esp.descripcion_resultado_visita}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Visita Acompañado</label>
+                                        <select class="form-control comboBox" formControlName="visita_acompaniada_programacion_cab" (change)="onChange_visita($event.target.value)">
+                                            <option value="NO"> NO </option>
+                                            <option value="SI"> SI </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Datos Acompañante</label>
+                                        <input type="text" id="txtAcompaniante" class="form-control  " maxlength="250" formControlName="datos_acompaniante_programacion_cab">
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <div class="d-flex justify-content-center">
+                                <div class="p-2 bd-highlight">
+                                    <button class="btn btn-sm btn-success" title="Aprobar" (click)="saveUpdate_programacion()"> <i class="far fa-save">  </i> Guardar </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+
+                <fieldset class="shadow-sm mt-2">
+                    <legend>DETALLE PRODUCTO</legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div style=" margin-top: -10px !important; margin-bottom: 10px;">
+                                <button class="btn btn-sm btn-warning  " title="Agregar Producto" (click)="abrir_modalProducto()">  <i class="fa fa-plus-circle fa-1x">  </i>  Productos</button>
+                            </div>
+
+                            <div class="search-results tableFixHead">
+                                <table class="table  table-hover table-sm">
+                                    <thead class="theadTable2">
+
+                                        <tr style="height: 40px !important;">
+                                            <th scope="col">#</th>
+                                            <th scope="col">orden</th>
+                                            <th scope="col">codigo</th>
+                                            <th scope="col">producto</th>
+                                            <th scope="col">lote</th>
+                                            <th class="text-center">cant. ent</th>
+                                            <th class="text-center">eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of programacionDet; index as j">
+                                            <th scope="row"> {{j + 1}} </th>
+                                            <td>{{item.orden}} </td>
+                                            <td>{{item.codigoProducto}} </td>
+                                            <td>{{item.producto}} </td>
+                                            <td>{{item.lote}} </td>
+                                            <td class="text-right">{{item.cantidad}} </td>
+                                            <td class="text-center">
+                                                <span class="badge badge-danger puntero" style="padding: 5px;" (click)="eliminarProducto(item)">  Eliminar </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+
+
+
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <!-- <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button> -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="modal_producto" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog " style="border: solid #00b6ad;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> VISITA PRODUCTO </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_producto()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: #00b6ad;">
+
+                <form [formGroup]="formParamsProd" style=" margin-top: -15px;">
+
+                    <fieldset class="shadow-sm  ">
+                        <legend>INFORMACION DE VISITA</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+
+
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <label> Producto </label>
+                                        <select id="cboProducto" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="idProducto" (change)="change_productos($event.target.value)"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="prod.id_Producto" *ngFor="let prod of productos">{{prod.codigo_producto}} : {{prod.descripcion_producto}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-8">
+                                        <label> Lote </label>
+                                        <select class="form-control comboBox" formControlName="lote" (change)="change_lote($event.target.value)"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="stock.codigoLote" *ngFor="let stock of stocks">{{stock.codigoLote}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Stock </label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="stock">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Cantidad Entregada </label>
+                                        <input type="text" class="form-control  " (keypress)="keyPress($event)" formControlName="cantidad">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Orden </label>
+                                        <input type="text" class="form-control  " (keypress)="keyPress($event)" formControlName="orden">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-success" title="Aprobar" (click)="anadirProducto()"> <i class="fas fa-check-double">  </i> Añadir </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
