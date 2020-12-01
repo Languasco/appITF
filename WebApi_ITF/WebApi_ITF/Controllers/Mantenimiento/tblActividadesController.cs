@@ -157,6 +157,29 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 9)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+                    resul = obj_negocios.get_busqueda_medico(  idUsuario);
+                }
+                else if (opcion == 10 )  ///----- alertas 
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idCiclo = Convert.ToInt32(parametros[0].ToString());
+                    int idMedico = Convert.ToInt32(parametros[1].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[2].ToString());
+
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.getActividadesAlertas(idCiclo, idMedico, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
                 else
                 {
                     res.ok = false;
@@ -213,6 +236,7 @@ namespace WebApi_ITF.Controllers.Mantenimiento
             objReemplazar.fecha_actividad = tbl_Actividades.fecha_actividad;
             objReemplazar.id_Duracion = tbl_Actividades.id_Duracion;
             objReemplazar.detalle_actividad = tbl_Actividades.detalle_actividad;
+            objReemplazar.id_Medico = tbl_Actividades.id_Medico;
 
             objReemplazar.estado = tbl_Actividades.estado;
             objReemplazar.usuario_edicion = tbl_Actividades.usuario_creacion;

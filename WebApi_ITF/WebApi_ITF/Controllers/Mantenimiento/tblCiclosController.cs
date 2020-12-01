@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Datos;
+using Negocio.Mantenimientos;
 using Negocio.Resultados;
 
 namespace WebApi_ITF.Controllers.Mantenimiento
@@ -205,6 +206,18 @@ namespace WebApi_ITF.Controllers.Mantenimiento
             try
             {
                 db.SaveChanges();
+
+                int idEstado  = Convert.ToInt32(tbl_Ciclos.estado) ;
+                int idUsuario = Convert.ToInt32(tbl_Ciclos.usuario_creacion);
+
+                if (idEstado == 4 ) //--- solo si el ciclo esta en proceso
+                {
+                    Mantenimientos_BL obj_negocio = new Mantenimientos_BL();
+                    obj_negocio.set_puntosContactoCalculo(id, idUsuario);
+                }
+
+
+
                 res.ok = true;
                 res.data = "OK";
                 res.totalpage = 0;

@@ -75,6 +75,10 @@ export class AprobarActividadComponent implements OnInit {
       fechaRespuesta: new FormControl( new Date()), 
       descripcionRespuesta: new FormControl(''), 
       descripcionEstado: new FormControl(''), 
+
+      id_Medico: new FormControl(''), 
+      descripcionMedico: new FormControl(''), 
+
     }) 
  }
 
@@ -171,7 +175,7 @@ export class AprobarActividadComponent implements OnInit {
 
  } 
 
- editar({ id_actividad, ciclo, solicitante, duracion, fechaSolicitud, descripcionSolicitud,usuario_aprobador_actividad, aprobadorRechazador, fechaRespuesta, descripcionRespuesta,id_estado, descripcionEstado }){
+ editar({  id_actividad,id_Ciclo, ciclo, solicitante, duracion, fechaSolicitud, descripcionSolicitud,usuario_aprobador_actividad, aprobadorRechazador, fechaRespuesta, descripcionRespuesta,id_estado, descripcionEstado, id_Medico, descripcionMedico }){
 
    this.flag_modoEdicion=true;   
    this.idEstadoGlobal =id_estado;
@@ -189,13 +193,15 @@ export class AprobarActividadComponent implements OnInit {
 
     this.formParams.patchValue({ "id_actividad" : id_actividad,  "ciclo" : ciclo, "solicitante" : solicitante ,"duracion" : duracion , "fechaSolicitud" :  fechaSolicitud , "descripcionSolicitud" : descripcionSolicitud,  
     "usuario_aprobador_actividad" : this.idUserGlobal, "aprobadorRechazador" : this.idUsuarioLoggeadoGlobal,
-    "fechaRespuesta" : new Date (),  "descripcionRespuesta" : '', "descripcionEstado" : descripcionEstado, "usuario_creacion" : this.idUserGlobal });
+    "fechaRespuesta" : new Date (),  "descripcionRespuesta" : '', "descripcionEstado" : descripcionEstado, "usuario_creacion" : this.idUserGlobal , "id_Medico" : id_Medico,  "descripcionMedico" : descripcionMedico });
+
+    this.notificaciones_medicos( id_Ciclo , id_Medico);
 
    } if (id_estado =='8' || id_estado =='9'  ) {  //---- cerradas
 
     this.formParams.patchValue({ "id_actividad" : id_actividad,  "ciclo" : ciclo, "solicitante" : solicitante ,"duracion" : duracion , "fechaSolicitud" : fechaSolicitud , "descripcionSolicitud" : descripcionSolicitud,  
     "usuario_aprobador_actividad" : usuario_aprobador_actividad,"aprobadorRechazador" : aprobadorRechazador,
-    "fechaRespuesta" : fechaRespuesta ,  "descripcionRespuesta" : descripcionRespuesta, "descripcionEstado" : descripcionEstado, "usuario_creacion" : this.idUserGlobal });
+    "fechaRespuesta" : fechaRespuesta ,  "descripcionRespuesta" : descripcionRespuesta, "descripcionEstado" : descripcionEstado, "usuario_creacion" : this.idUserGlobal  , "id_Medico" : id_Medico,  "descripcionMedico" : descripcionMedico});
 
    }
 
@@ -240,6 +246,35 @@ export class AprobarActividadComponent implements OnInit {
    }) 
 
  }
+
+ notificaciones_medicos(idCiclo : number, idMedico: number,){
+
+  if (idCiclo == 0) {
+    return;
+  }
+  if (idMedico == 0) {
+    return;
+  }
+
+  Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+  Swal.showLoading();
+  this.actividadService.set_alertas_actividad( idCiclo  , idMedico, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+    Swal.close();      
+    
+    if (res.ok ==true) {    
+      if (res.data.length > 0) {
+        this.alertasService.Swal_Success_Socket('Notificaciones',res.data[0].alertaActividad)  
+      }
+    }else{
+      this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+      alert(JSON.stringify(res.data));
+    }
+  })
+
+
+      
+ }
+
 
 
 }

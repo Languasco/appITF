@@ -74,7 +74,6 @@
                         <th scope="col">NRO</th>
                         <th scope="col">Solicitante</th>
                         <th scope="col">Fecha Solicitud</th>
-                        <!-- <th scope="col">Descripcion Solicitud</th> -->
                         <th scope="col">Fecha Respuesta</th>
                         <th scope="col">Comentario Respuesta</th>
                         <th scope="col">Estado</th>
@@ -87,7 +86,6 @@
                         <td>{{item.id_Sol_Medico_cab}} </td>
                         <td>{{item.solicitante}} </td>
                         <td>{{item.fechaSolicitudFormateado}} </td>
-                        <!-- <td>{{item.descripcionSolicitud}} </td> -->
                         <td>{{item.fechaRespuesta}} </td>
                         <td>{{item.comentarioRespuesta}} </td>
                         <td style="font-size: 13px;">{{item.descripcionEstado}}</td>
@@ -134,7 +132,7 @@
                         </div> -->
                         <div class="card border-info " *ngIf="idEstadoSolicitudGlobal ==11">
                             <div class="card-body text-info" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
-                                <i class="fas fa-window-close"></i>
+                                <i class="fas fa-share-square"></i>
                                 <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
                             </div>
                         </div>
@@ -404,7 +402,7 @@
                                     </div>
                                     <div class="d-flex justify-content-center" *ngIf="idEstadoSolicitudGlobal == 11 || idEstadoSolicitudGlobal == 14 ">
                                         <div class="p-2 bd-highlight" *ngIf="id_MedicoGlobal==0">
-                                            <button class="btn btn-sm btn-warning" (click)="saveUpdate()" title="Nuevo direccion"> <i class="fa fa-plus-circle"> </i>  Dirección</button>
+                                            <button class="btn btn-sm btn-warning" (click)="saveUpdate()" title="Nuevo direccion"> <i class="fa fa-plus-circle"> </i> Agregar Dirección</button>
 
                                         </div>
                                     </div>
@@ -494,6 +492,7 @@
                                                                 <th scope="col">Distrito</th>
                                                                 <th scope="col">Direccion</th>
                                                                 <th scope="col">Referencia</th>
+                                                                <th scope="col">Nombre Institucion</th>
                                                                 <th colspan="2" class="text-center" *ngIf="idEstadoSolicitudGlobal == 11">Acciones</th>
                                                             </tr>
                                                         </thead>
@@ -505,6 +504,7 @@
                                                                 <td>{{item.nombreDistrito}}</td>
                                                                 <td>{{item.direccion_medico_direccion}}</td>
                                                                 <td>{{item.referencia_medico_direccion}}</td>
+                                                                <td>{{item.nombre_institucion_direccion}}</td>
                                                                 <td class="text-center" *ngIf="idEstadoSolicitudGlobal == 11">
                                                                     <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarDireccion(item)">  Editar </span>
                                                                 </td>
@@ -531,7 +531,7 @@
 
                 <div class="d-flex justify-content-between" *ngIf="idEstadoSolicitudGlobal == 11 || idEstadoSolicitudGlobal == 14">
                     <div class="p-2 bd-highlight"></div>
-                    <div class="p-2 bd-highlight" style="width: 50%;">
+                    <div class="p-2 bd-highlight" style="width: 50%;" *ngIf="id_MedicoGlobal > 0">
                         <button class="btn btn-success btn-block" *ngIf="idEstadoMedicoGlobal == 10 || idEstadoMedicoGlobal == 14" (click)="saveUpdate_final()" title="Guardar la informacion"> <i class="fas fa-save"> GUARDAR MEDICO </i></button>
                     </div>
                     <div class="p-2 bd-highlight"></div>

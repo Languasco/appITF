@@ -148,5 +148,13 @@ export class MedicoService {
     return this.http.put(this.URL + 'tblMedicosDireccion/' + idMedicosDireccion , JSON.stringify(objMantenimiento), httpOptions);
   }
 
+  get_buscarDireccionMedico_id(idDireccion:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '12');
+    parametros = parametros.append('filtro', String(idDireccion));
+
+    return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
+  }
+
 
 }

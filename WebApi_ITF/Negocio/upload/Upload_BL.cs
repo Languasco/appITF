@@ -522,6 +522,81 @@ namespace Negocio.upload
             }
             return dt_detalle;
         }
+        
+        public string setAlmacenandoFile_ExcelProgramacionData1(string fileLocation )
+        {
+            string resultado = "";
+            DataTable dt = new DataTable();
+
+            try
+            {
+                dt = ListaImportado_Excel(fileLocation, "[Importar$]");
+
+                using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    con.Open();
+
+                    //using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_TEMPORAL_PERFIL_MEDICO_1_DELETE", con))
+                    //{
+                    //    cmd.CommandTimeout = 0;
+                    //    cmd.CommandType = CommandType.StoredProcedure;
+                    //    cmd.ExecuteNonQuery();
+                    //}
+
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_PERFIL_MEDICO_1";
+                        bulkCopy.WriteToServer(dt);
+                    }
+                    resultado = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+        
+        public string setAlmacenandoFile_ExcelProgramacionData2(string fileLocation)
+        {
+            string resultado = "";
+            DataTable dt = new DataTable();
+
+            try
+            {
+                dt = ListaImportado_Excel(fileLocation, "[TAB_CLOSE_UP$]");
+
+                using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    con.Open();
+
+                    //using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_TEMPORAL_PERFIL_MEDICO_2_DELETE", con))
+                    //{
+                    //    cmd.CommandTimeout = 0;
+                    //    cmd.CommandType = CommandType.StoredProcedure;
+                    //    cmd.ExecuteNonQuery();
+                    //}
+
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_PERFIL_MEDICO_2";
+                        bulkCopy.WriteToServer(dt);
+                    }
+                    resultado = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
 
     }
 }

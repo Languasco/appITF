@@ -132,7 +132,7 @@
                         </div>
                         <div class="card border-info " *ngIf="idEstadoCabGlobal ==16">
                             <div class="card-body text-info" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
-                                <i class="fas fa-window-close"></i>
+                                <i class="fas fa-share-square"></i>
                                 <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
                             </div>
                         </div>
@@ -201,7 +201,8 @@
                                             <th scope="col">Especialidad</th>
                                             <th class="text-center">Nro Contactos</th>
                                             <th scope="col">Estado</th>
-                                            <th scope="col">Mostrar Info</th>
+                                            <th class="text-center">Visitado Por</th>
+                                            <th class="text-center">perfil medico</th>
                                             <th class="text-center" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 ">Aprobar</th>
                                             <th class="text-center" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 ">Rechazar</th>
                                         </tr>
@@ -218,8 +219,9 @@
                                                 <input type="number" min="1" class="form-control form-control-sm  text-right " style=" background-color: beige; font-size: 13px;color: black; font-weight: 800; " maxlength="20" [(ngModel)]="item.nro_contactos">
                                             </td>
                                             <td>{{item.descripcionEstado}}</td>
+                                            <td style="color:red">{{item.visitadoPor}}</td>
                                             <td class="text-center">
-                                                <span class="badge badge-info puntero" *ngIf="item.visitado == 1" style="padding: 5px;" title="Mostrar Informacion Medico" (click)="abrir_modalInformacion(item)">  Mostrar Info </span>
+                                                <span class="badge badge-info puntero" *ngIf="item.visitado == 1" style="padding: 5px;" title="Mostrar Informacion Medico" (click)="abrir_modalInformacion(item)">  Ver Perfil </span>
                                             </td>
 
                                             <td class="text-center" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 ">
@@ -250,7 +252,7 @@
 </div>
 
 
-<div class="modal fade" id="modal_informacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="modal_informacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content" style="    border-color: cyan;">
             <div class="modal-header">
@@ -287,6 +289,148 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+
+<div class="modal fade" id="modal_informacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="    border-color: cyan;">
+            <div class="modal-header">
+                <h4 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important; font-weight: 600;">Información de Médicos</h4>
+                <button type="button" class="close" (click)="cerrarModalInfo()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="shadow-sm mt-2">
+                    <legend></legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Medico : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.medico}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Matricula : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.matricula}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Especialidad : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.especialidad}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Direccion : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.direccion}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+                                <div class="p-2 bd-highlight"> </div>
+                                <div class="p-2 bd-highlight" style="width: 50%;">
+                                    <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+                                </div>
+                                <div class="p-2 bd-highlight"> </div>
+                            </div>
+
+                            <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr class="theadTable3">
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th class="text-right"><b> Total {{ totalColumna1 | number }} </b></th>
+                                        <th class="text-right">Total : {{ totalColumna2 | number }}</th>
+                                        <th class="text-right">Total : {{ totalColumna3 | number }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th *ngFor="let column of columnsMedicoCab"> {{column}} </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of perfilMedicoCab |  filter: filtrarCab ; index as j" (click)="abrir_modalInformacion_det(row)">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsMedicoCab  ">
+                                            {{row[column]}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modal_informacion_detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl  modal-dialog-centered  modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="    border-color: cyan;">
+            <div class="modal-header" style="background-color: beige;">
+                <h4 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important; font-weight: 600;">Información de Médicos Detallado</h4>
+                <button type="button" class="close" (click)="cerrarModalInfo_det()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body" style="background-color: beige;">
+
+                <fieldset class="shadow-sm mt-2">
+
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+                                <div class="p-2 bd-highlight"> </div>
+                                <div class="p-2 bd-highlight" style="width: 50%;">
+                                    <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarDet">
+                                </div>
+                                <div class="p-2 bd-highlight"> </div>
+                            </div>
+
+
+                            <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr class="theadTable3">
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th class="text-right"><b> Total {{ totalColumnaDet1 | number }} </b></th>
+                                        <th class="text-right">Total : {{ totalColumnaDet2 | number }}</th>
+                                        <th class="text-right">Total : {{ totalColumnaDet3 | number }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th *ngFor="let column of columnsMedicoDet"> {{column}} </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of perfilMedicoDet |  filter: filtrarDet ; index as j">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsMedicoDet  ">
+                                            {{row[column]}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
                         </div>
                     </div>
                 </fieldset>

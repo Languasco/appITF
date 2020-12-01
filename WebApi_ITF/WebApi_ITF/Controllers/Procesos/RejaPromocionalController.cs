@@ -82,6 +82,18 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 6)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idRejaCab = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    RejaPromocional_BL obj_negocios = new RejaPromocional_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.set_cerrarRejaPromocional(idRejaCab, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
                 else
                 {
                     res.ok = false;

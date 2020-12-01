@@ -73,9 +73,6 @@ export class ProgramacionService {
   }
 
   set_update_programacionCab(objProgramacion:any, idProcCab :number, horaProgram:any , horaReport:any){
-
-    console.log(horaProgram)
-    console.log(horaReport)
     return this.http.put(this.URL + 'tblProgramacion_Cab/'  + idProcCab + '?horaProgramacion='+ horaProgram +'&horaReporte=' + horaReport  , JSON.stringify(objProgramacion), httpOptions); 
   }
 
@@ -84,9 +81,6 @@ export class ProgramacionService {
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '6');
     parametros = parametros.append('filtro', String(idCiclo) + '|' + String(idUser)  );
-
-    console.log(parametros)
-
     return this.http.get( this.URL + 'Programacion' , {params: parametros});
   }
 
@@ -97,6 +91,42 @@ export class ProgramacionService {
     parametros = parametros.append('filtro', String(idCiclo) + '|' + String(idUser)  + '|' + String(idProducto)  );
 
     return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+  set_save_programacionDet(listProgramacionDet : any, idUsuario:number){
+    return this.http.post(this.URL + 'Programacion/set_guardandoDetalleProgramacion?idUsuario='+ idUsuario, JSON.stringify(listProgramacionDet), httpOptions);
+  }
+
+  get_informacionMedico_Programacion(idMedico:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '9');
+    parametros = parametros.append('filtro', String(idMedico));
+
+   return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+  get_informacionMedico_ProgramacionDet(idMedico:number, mercadoProducto : string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '10');
+    parametros = parametros.append('filtro', String(idMedico)  + '|' + String(mercadoProducto)  );
+
+   return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+  get_informacion_rejaPromocional(idEspecialidad:number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '11');
+    parametros = parametros.append('filtro', String(idEspecialidad)    );
+
+   return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+  set_eliminarInformacionTemporal(opcionModal:number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '12');
+    parametros = parametros.append('filtro', String(opcionModal)  );
+
+   return this.http.get( this.URL + 'Programacion' , {params: parametros});
   }
 
 

@@ -132,7 +132,7 @@
                         </div>
                         <div class="card border-info " *ngIf="idEstadoGlobal ==11">
                             <div class="card-body text-info" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
-                                <i class="fas fa-window-close"></i>
+                                <i class="fas fa-share-square"></i>
                                 <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
                             </div>
                         </div>
@@ -476,6 +476,8 @@
                                                                         <th scope="col">Provincia</th>
                                                                         <th scope="col">Distrito</th>
                                                                         <th scope="col">Direccion</th>
+                                                                        <th scope="col">Referencia</th>
+                                                                        <th scope="col">Nombre Institucion</th>
                                                                         <th colspan="2" class="text-center" *ngIf="idEstadoGlobal == 11">Acciones</th>
                                                                     </tr>
                                                                 </thead>
@@ -486,6 +488,8 @@
                                                                         <td>{{item.nombreProvincia}}</td>
                                                                         <td>{{item.nombreDistrito}}</td>
                                                                         <td>{{item.direccion_medico_direccion}}</td>
+                                                                        <td>{{item.referencia_medico_direccion}}</td>
+                                                                        <td>{{item.nombre_institucion_direccion}}</td>
 
                                                                         <td class="text-center" *ngIf="idEstadoGlobal == 11">
                                                                             <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarDireccion(item)">  Editar </span>

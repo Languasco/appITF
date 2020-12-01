@@ -28,5 +28,6 @@ namespace Datos
         public Nullable<System.DateTime> fecha_respuesta_actividad { get; set; }
         public string mensaje_respuesta_actividad { get; set; }
         public string tipo_interfaz_actividad { get; set; }
+        public Nullable<int> id_Medico { get; set; }
     }
 }

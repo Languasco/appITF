@@ -85,5 +85,13 @@ export class RejaService {
     return this.http.get( this.URL + 'RejaPromocional' , {params: parametros});
   }
 
+  set_cerrarRejaPromocional(id_Reja_Cab : number, idUsuario:number){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '6');
+    parametros = parametros.append('filtro',  String(id_Reja_Cab)  + '|' + idUsuario  );
+
+    return this.http.get( this.URL + 'RejaPromocional' , {params: parametros});
+  }
+
 
 }

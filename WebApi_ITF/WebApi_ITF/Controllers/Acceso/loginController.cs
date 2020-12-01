@@ -6,6 +6,7 @@ using System.Web.Http.Cors;
 using Datos;
 using Entidades.Acceso;
 using Microsoft.VisualBasic;
+using Negocio.Acceso;
 using Negocio.Resultados;
 
 namespace WebApi_3R_Dominion.Controllers.Acceso
@@ -57,6 +58,7 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                                              nombre_principal = od.nombre_opcion,
                                              parent_id_principal = od.parentID,
                                              urlmagene_principal = od.urlImagen_Opcion
+
                                          }).Distinct();
 
                         foreach (var item in listaMenu)
@@ -144,6 +146,45 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                     res.totalpage = 0;
 
                     resul = res;
+                }
+                else if (opcion == 3)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idCiclo = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    Login_BL obj_negocios = new Login_BL();
+
+                    tbl_Usuarios objUsuario = db.tbl_Usuarios.Where(p => p.id_Usuario == idUsuario).SingleOrDefault();
+                    if (objUsuario.es_supervisor == 1)
+                    {
+                        resul = obj_negocios.generarResumenGeneral_supervisor(idCiclo, idUsuario);
+                    }
+                    else {
+                        resul = obj_negocios.generarResumenGeneral_normal(idCiclo, idUsuario);
+                    }
+                }
+                else if (opcion == 4)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idCiclo = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    Login_BL obj_negocios = new Login_BL();
+
+
+                    tbl_Usuarios objUsuario = db.tbl_Usuarios.Where(p => p.id_Usuario == idUsuario).SingleOrDefault();
+                    if (objUsuario.es_supervisor == 1)
+                    {
+                        resul = obj_negocios.generarResumenDiario_supervisor(idCiclo, idUsuario);
+                    }
+                    else
+                    {
+                        resul = obj_negocios.generarResumenDiario_normal(idCiclo, idUsuario);
+                    }
+
                 }
                 else
                 {

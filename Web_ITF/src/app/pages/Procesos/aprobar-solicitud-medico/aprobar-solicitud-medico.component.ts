@@ -250,10 +250,14 @@ inicializarFormularioSolicitud_Det(){
     this.alertasService.Swal_alert('error','Por favor seleccione la especialidad');
     return 
   } 
-  if (this.formParams.value.fecha_nacimiento_medico == '' || this.formParams.value.fecha_nacimiento_medico == null) {
+ 
+  if (this.flag_modoEdicion == false) {
+    if (this.formParams.value.fecha_nacimiento_medico == '' || this.formParams.value.fecha_nacimiento_medico == null) {
     this.alertasService.Swal_alert('error','Por favor seleccione o ingrese la fecha de nacimiento');
     return 
-  } 
+  }
+}
+
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 

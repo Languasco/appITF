@@ -25,21 +25,49 @@ namespace Entidades.Procesos
     {
         public int id_Programacion_cab { get; set; }
         public string nroVisitas { get; set; }
+        public string id_Medico { get; set; }
         public string datosMedico { get; set; }
         public string categoria { get; set; }
-        public string fechaProgramacion { get; set; }
+        public DateTime fechaProgramacion { get; set; }
         public string horaProgramacion { get; set; }
-
 
         public string resultados { get; set; }
         public string cmpMedico { get; set; }
+        public string idEspecialidad { get; set; }
         public string especialidad { get; set; }
-        public string fechaReporte { get; set; }
+        public DateTime fechaReporte { get; set; }
         public string horaReporte { get; set; }
 
         public string idEstado { get; set; }
         public string descripcionEstado { get; set; }
+        public string colorFondo { get; set; }      
 
     }
+
+
+    public class ProgramacionDet_E
+    { 
+        public int id_Programacion_cab { get; set; }
+        public int id_Producto { get; set; }
+        public string lote_programacion_det { get; set; }
+        public int cantidad_programacion_det { get; set; }
+        public int orden_programacion_det { get; set; }
+        public int usuario_creacion { get; set; }      
+    }
+
+    public class PerfilMedicoCab_E
+    {
+        public string nombreMedico { get; set; }
+        public string matricula { get; set; }
+        public string especialidad { get; set; }
+        public string direccion { get; set; }
+        public string mercadoProducto { get; set; }
+        public string doceUltimosMeses { get; set; }
+        public string tresUltimosMeses { get; set; }
+        public string utilmoMes { get; set; }
+    }
+
+
+ 
 
 }

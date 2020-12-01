@@ -21,8 +21,26 @@ export class ActividadService {
   ciclos :any[]=[]; 
   duracionActividades :any[]=[]; 
   estados :any[]=[]; 
+  listadoMedicos :any[]=[]; 
 
   constructor(private http:HttpClient) { }  
+
+  get_listadoMedicos(idUsuario:number){
+    if (this.listadoMedicos.length > 0) {
+      return of( this.listadoMedicos )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '9');
+      parametros = parametros.append('filtro', String(idUsuario));
+  
+      return this.http.get( this.URL + 'tblActividades' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                   console.log(res)
+                        this.listadoMedicos = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
 
 
   get_usuarios(idUsuario:number){
@@ -34,6 +52,22 @@ export class ActividadService {
       parametros = parametros.append('filtro', String(idUsuario));
   
       return this.http.get( this.URL + 'tblActividades' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                        this.usuarios = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
+
+  get_usuarios_programacion(idUsuario:number){
+    if (this.usuarios.length > 0) {
+      return of( this.usuarios )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '8');
+      parametros = parametros.append('filtro', String(idUsuario));
+  
+      return this.http.get( this.URL + 'Programacion' , {params: parametros})
                  .pipe(map((res:any)=>{
                         this.usuarios = res.data;
                        return res.data;
@@ -129,6 +163,24 @@ export class ActividadService {
 
     return this.http.get( this.URL + 'tblActividades' , {params: parametros});
   }
+
+  set_alertas_actividad(id_Ciclo : number , id_Medico : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '10');
+    parametros = parametros.append('filtro',  String(id_Ciclo)  + '|' + String(id_Medico) + '|' + String(id_usuario)   );
+
+    return this.http.get( this.URL + 'tblActividades' , {params: parametros});
+  }
+
+  set_alertas_actividad_new(id_Ciclo : number , id_Medico : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '10');
+    parametros = parametros.append('filtro',  String(id_Ciclo)  + '|' + String(id_Medico) + '|' + String(id_usuario)   );
+
+    return this.http.get( this.URL + 'tblActividades' , {params: parametros}).toPromise();
+  }
+
+
 
   // APROBAR RECHAZAR ACTIVIDADES
 

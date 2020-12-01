@@ -16,6 +16,7 @@ import { TargetService } from '../../../services/Procesos/target.service';
 import { CategoriaService } from '../../../services/Mantenimientos/categoria.service';
 import { EspecialidadService } from '../../../services/Mantenimientos/especialidad.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProgramacionService } from '../../../services/Procesos/programacion.service';
 
 declare var $:any;
 @Component({
@@ -58,9 +59,30 @@ export class AprobarAltasBajasTargetComponent implements OnInit {
 
   targetDet :any[]=[]; 
   detalleInformacion :any[]=[]; 
+
+
+  filtrarCab = "";
+  filtrarDet = "";
+  objectoPerfilMedicoCab :any = {};
+  perfilMedicoCab :any[]=[]; 
+  columnsMedicoCab :any[]=[]; 
+
+  perfilMedicoDet :any[]=[]; 
+  columnsMedicoDet :any[]=[]; 
+  message = '';
+
+  id_MedicoGlobal = 0;
+
+  totalColumna1 = 0 ; 
+  totalColumna2 = 0 ; 
+  totalColumna3 = 0 ; 
+
+  totalColumnaDet1 = 0 ; 
+  totalColumnaDet2 = 0 ; 
+  totalColumnaDet3 = 0 ; 
  
  
-  constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private targetService : TargetService, private uploadService : UploadService, private categoriaService :CategoriaService, private  especialidadService :EspecialidadService, private actividadService :ActividadService, private activatedRoute:ActivatedRoute ) {     
+  constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private targetService : TargetService, private uploadService : UploadService, private categoriaService :CategoriaService, private  especialidadService :EspecialidadService, private actividadService :ActividadService, private activatedRoute:ActivatedRoute , private programacionService : ProgramacionService) {     
 
     this.idUserGlobal = this.loginService.get_idUsuario();
     this.UsuarioLoggeadoGlobal = this.loginService.getSessionNombre();
@@ -304,29 +326,150 @@ async aprobarRechazar_altasBajas_target(opcion:string,objTarget:any ){
 
 } 
 
-abrir_modalInformacion(objTarget:any){
-  Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
-  Swal.showLoading();
-  this.targetService.get_informacionMedico_Target(objTarget.id_Medico)
-      .subscribe((res:RespuestaServer)=>{  
-        Swal.close();    
-          if (res.ok==true) {        
-              this.detalleInformacion = res.data; 
-              setTimeout(()=>{ // 
-                $('#modal_informacion').modal('show');  
-              },0);
-          }else{
-            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
-            alert(JSON.stringify(res.data));
-          }
-  })
-}
+// abrir_modalInformacion(objTarget:any){
+//   Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+//   Swal.showLoading();
+//   this.targetService.get_informacionMedico_Target(objTarget.id_Medico)
+//       .subscribe((res:RespuestaServer)=>{  
+//         Swal.close();    
+//           if (res.ok==true) {        
+//               this.detalleInformacion = res.data; 
+//               setTimeout(()=>{ // 
+//                 $('#modal_informacion').modal('show');  
+//               },0);
+//           }else{
+//             this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+//             alert(JSON.stringify(res.data));
+//           }
+//   })
+// }
 
-cerrarModalInfo(){
-  setTimeout(()=>{ // 
-    $('#modal_informacion').modal('hide');  
-  },0); 
-} 
+
+  abrir_modalInformacion(objTarget:any){
+  
+    this.id_MedicoGlobal = objTarget.id_Medico;
+  
+    Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+    Swal.showLoading();
+    this.programacionService.get_informacionMedico_Programacion( objTarget.id_Medico )
+        .subscribe((res:RespuestaServer)=>{  
+          Swal.close();    
+            if (res.ok==true) {   
+  
+                this.perfilMedicoCab =[];
+                this.columnsMedicoCab = [];
+              
+                this.perfilMedicoCab = res.data; 
+  
+                if (this.perfilMedicoCab.length > 0){     
+  
+                  setTimeout(()=>{ // 
+                    $('#modal_informacion').modal('show');  
+                  },0);         
+                  
+                  const {nombreMedico, matricula, especialidad, direccion } =   this.perfilMedicoCab[0];
+                  
+                  this.objectoPerfilMedicoCab = {
+                    medico : nombreMedico,
+                    matricula : matricula,
+                    especialidad : especialidad,
+                    direccion : direccion
+                  }
+                  
+                  //---- generando las columnas dinamicas ----
+                  let columnsMedico :any [] = [];
+                  columnsMedico = Object.keys(this.perfilMedicoCab[0]); 
+  
+                  for (const key in columnsMedico) {
+                       if (Number(key)>3) {
+                        this.columnsMedicoCab.push( columnsMedico[key] );
+                       }   
+                  }   
+  
+                  this.totalColumna1 = 0;
+                  this.totalColumna2 = 0;
+                  this.totalColumna3 = 0;
+  
+                  for (let index = 0; index < this.perfilMedicoCab.length; index++) {
+                     this.totalColumna1 += Number(this.perfilMedicoCab[index][this.columnsMedicoCab[1]]);                    
+                     this.totalColumna2 += Number(this.perfilMedicoCab[index][this.columnsMedicoCab[2]]);   
+                     this.totalColumna3 += Number(this.perfilMedicoCab[index][this.columnsMedicoCab[3]]);   
+                  }   
+  
+                }else{  
+                  this.alertasService.Swal_alert('warning', 'No hay informacion para mostrar..');
+                  return;
+                }
+  
+            }else{
+              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+              alert(JSON.stringify(res.data));
+            }
+    })
+  }
+
+  cerrarModalInfo(){
+    setTimeout(()=>{ // 
+      $('#modal_informacion').modal('hide');  
+    },0); 
+  } 
+  
+  cerrarModalInfo_det(){
+    setTimeout(()=>{ // 
+      $('#modal_informacion_detalle').modal('hide');  
+    },0); 
+  }
+
+  
+  abrir_modalInformacion_det({mercadoProducto}){
+    Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+    Swal.showLoading();
+    this.programacionService.get_informacionMedico_ProgramacionDet( this.id_MedicoGlobal , mercadoProducto)
+        .subscribe((res:RespuestaServer)=>{  
+          Swal.close();    
+            if (res.ok==true) {   
+
+
+              this.perfilMedicoDet =[];
+              this.columnsMedicoDet = [];
+
+                this.perfilMedicoDet = res.data; 
+                setTimeout(()=>{ // 
+                  $('#modal_informacion_detalle').modal('show');  
+                },0);    
+
+                if (this.perfilMedicoDet.length > 0){     
+
+                        //---- generando las columnas dinamicas ----
+ 
+                        this.columnsMedicoDet = Object.keys(this.perfilMedicoDet[0]); 
+      
+                        this.totalColumnaDet1 = 0;
+                        this.totalColumnaDet2 = 0;
+                        this.totalColumnaDet3 = 0;
+      
+                        for (let index = 0; index < this.perfilMedicoDet.length; index++) {
+                           this.totalColumnaDet1 += Number(this.perfilMedicoDet[index][this.columnsMedicoDet[1]]);                    
+                           this.totalColumnaDet2 += Number(this.perfilMedicoDet[index][this.columnsMedicoDet[2]]);   
+                           this.totalColumnaDet3 += Number(this.perfilMedicoDet[index][this.columnsMedicoDet[3]]);   
+                        }
+                }
+
+            }else{
+              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+              alert(JSON.stringify(res.data));
+            }
+    })
+  }
+
+  getAlineamiento(valor:any){
+    if (valor == 'mercadoProducto') {
+      return 'text-left'
+    }else{
+      return 'text-right'
+    }
+  }
+  
  
 
 

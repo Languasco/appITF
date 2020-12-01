@@ -380,6 +380,44 @@ export class RejaComponent implements OnInit {
     })
   }  
 
+  
+  cerrarRejaPromocional(objBD:any){
+
+  if (objBD.idEstado ===0 || objBD.idEstado =='0') {      
+    return;      
+  }
+
+  this.alertasService.Swal_Question('Sistemas', 'Esta seguro de cerrar la Reja Promocional ?')
+  .then((result)=>{
+    if(result.value){
+
+      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+      Swal.showLoading();
+      this.rejaService.set_cerrarRejaPromocional(objBD.id_Reja_Cab, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+        Swal.close();        
+        if (res.ok ==true) { 
+          
+          for (const user of this.rejaPromocionalCab) {
+            if (user.id_Reja_Cab == objBD.id_Reja_Cab ) {
+                user.idEstado = 21;
+                user.descripcionEstado =  "Cerrado" ;
+                break;
+            }
+          }
+          this.alertasService.Swal_Success('Se cerró correctamente..')  
+
+        }else{
+          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+          alert(JSON.stringify(res.data));
+        }
+      })
+       
+    }
+  }) 
+
+}
+
+
 
 
 

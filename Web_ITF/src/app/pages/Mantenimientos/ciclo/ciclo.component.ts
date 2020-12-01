@@ -125,14 +125,6 @@ export class CicloComponent implements OnInit {
 
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
      Swal.showLoading();
-
-    //  const  codRol  = await this.cicloService.get_verificar_codigoRol(this.formParams.value.codigo_perfil);
-    //  if (codRol) {
-    //   Swal.close();
-    //   this.alertasService.Swal_alert('error','El codigo ya se encuentra registrada, verifique..');
-    //   return;
-    //  }    
-
      this.cicloService.set_save_ciclo(this.formParams.value).subscribe((res:RespuestaServer)=>{
        Swal.close();    
        if (res.ok ==true) {     

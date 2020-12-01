@@ -1,34 +1,160 @@
-<div class="login" *ngIf="!showMenu">
-    <div class="d-flex justify-content-between">
-        <div class="p-2 bd-highlight"> </div>
-        <div class="p-2 bd-highlight center-text pt-5">
-            <div class="login-content">
-                <form [formGroup]="formParams" style="  border: 0.5px solid #00b6ad; padding: 30px; background-color: white;">
-                    <img src="./assets/img/logoItf.jpg">
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> REPORTE RR-MM </h5>
+    </div>
+    <div class="card-body">
 
-                    <br>
-                    <br>
-                    <div class="input-div one">
-                        <div class="i">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="div">
-                            <input type="text" class="form-control" style="font-size: 15px !important;" formControlName="usuario" placeholder="Usuario" autocomplete="off">
+        <fieldset class="shadow-sm" style="margin-top: -15px">
+            <legend>
+
+                <form [formGroup]="formParamsFiltro">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <label for=""> Ciclo</label>
+                            <br>
+                            <select class="form-control comboBox " formControlName="idCiclo" (change)="change_ciclo($event.target.value)">
+                                <option value="0"> [ -- SELECCIONE-- ]</option>
+                                <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="input-div pass">
-                        <div class="i">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div class="div">
-                            <input type="password" class="form-control" style="font-size: 15px !important;" formControlName="contrasenia" placeholder="Contraseña" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-outline-success" (click)="iniciarSesion()"> Ingresar</button>
                 </form>
+
+            </legend>
+            <div class="panel panel-default ">
+                <div class="panel-body">
+
+
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> FECHA INICIO CICLO : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoReporteCab.fecha_inicio_ciclo}}  </b>
+                            <br>
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> DIAS CICLO MES : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoReporteCab.dias_ciclo_mes}}  </b>
+                            <br>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> FECHA FIN CICLO : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoReporteCab.fecha_fin_ciclo}}  </b>
+                            <br>
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> DIAS A LA FECHA : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoReporteCab.dias_a_la_fecha}}  </b>
+                            <br>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <label for=""> FECHA ACTUAL : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoReporteCab.fecha_actual}}  </b>
+                            <br>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+
+        <ul class="nav nav-pills mb-3 mt-2" id="pills-tab" role="tablist" style="background-color: #117a8b !important;  margin-bottom: 3px !important;">
+            <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
+                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
+            </li>
+        </ul>
+        <div class="">
+            <div class="tab-content" id="pills-tabContent">
+                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
+                    <div class="card border-success">
+                        <div class="card-body">
+
+                            <table class="table  table-hover table-bordered table-sm">
+                                <thead class="theadTable2">
+                                    <tr class="theadTable3">
+                                        <th scope="col">#</th>
+                                        <th scope="col"> </th>
+                                        <th scope="col"> </th>
+                                        <th colspan="4" class="text-center">Mes</th>
+
+                                        <th colspan="4" class="text-center">a la Fecha</th>
+                                    </tr>
+                                    <tr style="height: 40px !important;">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre y apellido</th>
+                                        <th scope="col">Accion</th>
+                                        <th class="text-center">Cuota</th>
+                                        <th class="text-center">Visitas</th>
+                                        <th class="text-center">%</th>
+                                        <th class="text-center">Saldo</th>
+
+                                        <th class="text-center">Cuota</th>
+                                        <th class="text-center">Visitas</th>
+                                        <th class="text-center">%</th>
+                                        <th class="text-center">Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of resumenGeneral   ; index as j">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td>{{item.representante_medico}} </td>
+                                        <td>{{item.accion}} </td>
+                                        <td class="text-right">{{item.cuota_mes | number}} </td>
+                                        <td class="text-right">{{item.numero_visitas | number }} </td>
+                                        <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_mes | number}} </td>
+                                        <td class="text-right">{{item.saldo_mes | number}} </td>
+
+                                        <td class="text-right">{{item.cuota_fecha | number}} </td>
+                                        <td class="text-right">{{item.numero_visitas | number }} </td>
+                                        <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_fecha | number}} </td>
+                                        <td class="text-right">{{item.saldo_fecha | number}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1]" role="tabpanel" class="tab-pane active">
+                    <div class="card border-success">
+                        <div class="card-body">
+
+                            <div class="tableFixHead">
+                                <table class="table  table-bordered  table-hover table-sm">
+                                    <thead class="theadTable2">
+                                        <tr>
+                                            <th *ngFor="let column of columnsResumenDiario" class="text-center"> {{column}} </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of resumenDiario ; index as j">
+                                            <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsResumenDiario  ">
+                                                {{row[column]}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="p-2 bd-highlight"> </div>
+
+
+
+
     </div>
 </div>

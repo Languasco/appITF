@@ -26,11 +26,18 @@ import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target
 import { AprobarAltasBajasTargetComponent } from './pages/Procesos/aprobar-altas-bajas-target/aprobar-altas-bajas-target.component';
 import { RejaComponent } from './pages/Procesos/reja/reja.component';
 import { ProgramacionComponent } from './pages/Procesos/programacion/programacion.component';
+import { SolicitudDireccionComponent } from './pages/Procesos/solicitud-direccion/solicitud-direccion.component';
+import { AprobarSolicitudDireccionComponent } from './pages/Procesos/aprobar-solicitud-direccion/aprobar-solicitud-direccion.component';
+import { LoginComponent } from './pages/login/login.component';
  
   
 const APP_ROUTERS: Routes = [
-    //{ path: 'home', component: HomeComponent  ,  canActivate: [AuthGuard]},  
-    { path: '', component: HomeComponent},  
+ 
+    // { path: '', component: HomeComponent},  
+
+    { path: 'login', component: LoginComponent},  
+    { path: 'home', component: HomeComponent,  canActivate: [ AuthGuard]},  
+
     { path: 'seguridad-usuarios', component: UsuariosComponent},  
     { path: 'seguridad-accesos', component: AccesosComponent , canActivate: [ AuthGuard]}, 
     { path: 'seguridad-profile', component: ProfileComponent , canActivate: [ AuthGuard]}, 
@@ -61,9 +68,11 @@ const APP_ROUTERS: Routes = [
     { path: 'proceso-reja-promocional', component: RejaComponent , canActivate: [ AuthGuard ]}, 
 
     { path: 'proceso-programacion-visitas', component: ProgramacionComponent , canActivate: [ AuthGuard ]}, 
+    { path: 'proceso-solicitud-direccion', component: SolicitudDireccionComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-aprobar-solicitud-direccion', component: AprobarSolicitudDireccionComponent  , canActivate: [ AuthGuard]}, 
 
-    { path: '', pathMatch:'full', redirectTo:'inicio' },
-    { path: '**', pathMatch:'full', redirectTo:'inicio' },
+    { path: '', pathMatch:'full', redirectTo:'home' },
+    { path: '**', pathMatch:'full', redirectTo:'home' },
   ];
   
   export const APP_ROUTING = RouterModule.forRoot(APP_ROUTERS,{useHash:true});  

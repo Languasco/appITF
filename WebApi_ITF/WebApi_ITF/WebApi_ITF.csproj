@@ -219,6 +219,7 @@
     <Compile Include="Controllers\Procesos\RejaPromocionalController.cs" />
     <Compile Include="Controllers\Procesos\TargetController.cs" />
     <Compile Include="Controllers\Procesos\tblProgramacion_CabController.cs" />
+    <Compile Include="Controllers\Procesos\tblSolMedicoDireccionController.cs" />
     <Compile Include="Controllers\Procesos\tblSolMedico_CabController.cs" />
     <Compile Include="Controllers\Procesos\tblSolMedico_DetController.cs" />
     <Compile Include="Controllers\Procesos\tblStockController.cs" />
@@ -239,6 +240,7 @@
     <Content Include="Archivos\Iconos\iconImage1.png" />
     <Content Include="Archivos\Iconos\iconImage2.png" />
     <Content Include="Archivos\Iconos\iconImage3.png" />
+    <Content Include="Archivos\Programacion\readme.txt" />
     <Content Include="Archivos\QR\1.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -271,6 +273,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Archivos\Programacion\FORMATO_DATA1.xlsx" />
+    <Content Include="Archivos\Programacion\FORMATO_DATA2.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

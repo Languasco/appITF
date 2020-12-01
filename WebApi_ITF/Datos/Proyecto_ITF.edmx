@@ -37,6 +37,7 @@
           <Property Name="fecha_respuesta_actividad" Type="datetime" />
           <Property Name="mensaje_respuesta_actividad" Type="varchar" MaxLength="255" />
           <Property Name="tipo_interfaz_actividad" Type="varchar" MaxLength="1" />
+          <Property Name="id_Medico" Type="int" />
         </EntityType>
         <EntityType Name="tbl_Categorias">
           <Key>
@@ -238,6 +239,8 @@
           <Property Name="fecha_creacion" Type="datetime" />
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="cuota_frecuencia_perfil" Type="numeric" Precision="12" Scale="6" />
+          <Property Name="cuota_cobertura_perfil" Type="numeric" Precision="12" Scale="6" />
         </EntityType>
         <EntityType Name="tbl_Perfil_Accesos">
           <Key>
@@ -348,6 +351,22 @@
           <Property Name="estado_sol_medico_det" Type="int" />
           <Property Name="usuario_creacion" Type="int" />
           <Property Name="fecha_creacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Sol_Medico_Direccion">
+          <Key>
+            <PropertyRef Name="id_Sol_Medico_Direccion" />
+          </Key>
+          <Property Name="id_Sol_Medico_Direccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Medicos_Direccion" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="usuario_aprobador_sol_medico_direccion" Type="int" />
+          <Property Name="fecha_respuesta_sol_medico_direccion" Type="datetime" />
+          <Property Name="mensaje_respuesta_sol_medico_direccion" Type="varchar" MaxLength="255" />
+          <Property Name="tipo_interfaz_actividad" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="tbl_Stock">
           <Key>
@@ -461,6 +480,7 @@
           <EntitySet Name="tbl_Resultados_Visitas" EntityType="Self.tbl_Resultados_Visitas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Sol_Medico_Cab" EntityType="Self.tbl_Sol_Medico_Cab" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Sol_Medico_Det" EntityType="Self.tbl_Sol_Medico_Det" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Sol_Medico_Direccion" EntityType="Self.tbl_Sol_Medico_Direccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Stock" EntityType="Self.tbl_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Tipos_Productos" EntityType="Self.tbl_Tipos_Productos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Ubigeo" EntityType="Self.tbl_Ubigeo" Schema="dbo" store:Type="Tables" />
@@ -480,9 +500,7 @@
       <Schema Namespace="ITF_PERUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ITF_PERUEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tbl_Accesos_Evento" EntityType="ITF_PERUModel.tbl_Accesos_Evento" />
-          <EntitySet Name="tbl_Actividades" EntityType="ITF_PERUModel.tbl_Actividades" />
           <EntitySet Name="tbl_Categorias" EntityType="ITF_PERUModel.tbl_Categorias" />
-          <EntitySet Name="tbl_Ciclos" EntityType="ITF_PERUModel.tbl_Ciclos" />
           <EntitySet Name="tbl_Control_Stock" EntityType="ITF_PERUModel.tbl_Control_Stock" />
           <EntitySet Name="tbl_Definicion_Opciones" EntityType="ITF_PERUModel.tbl_Definicion_Opciones" />
           <EntitySet Name="tbl_Duracion_Actividades" EntityType="ITF_PERUModel.tbl_Duracion_Actividades" />
@@ -493,7 +511,6 @@
           <EntitySet Name="tbl_Identificador_Medico" EntityType="ITF_PERUModel.tbl_Identificador_Medico" />
           <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
           <EntitySet Name="tbl_Monedas" EntityType="ITF_PERUModel.tbl_Monedas" />
-          <EntitySet Name="tbl_Perfil" EntityType="ITF_PERUModel.tbl_Perfil" />
           <EntitySet Name="tbl_Perfil_Accesos" EntityType="ITF_PERUModel.tbl_Perfil_Accesos" />
           <EntitySet Name="tbl_Productos" EntityType="ITF_PERUModel.tbl_Productos" />
           <EntitySet Name="tbl_Resultados_Visitas" EntityType="ITF_PERUModel.tbl_Resultados_Visitas" />
@@ -514,6 +531,10 @@
           <EntitySet Name="tbl_Medicos_Direccion" EntityType="ITF_PERUModel.tbl_Medicos_Direccion" />
           <EntitySet Name="tbl_Programacion_Cab" EntityType="ITF_PERUModel.tbl_Programacion_Cab" />
           <EntitySet Name="tbl_Programacion_Det" EntityType="ITF_PERUModel.tbl_Programacion_Det" />
+          <EntitySet Name="tbl_Sol_Medico_Direccion" EntityType="ITF_PERUModel.tbl_Sol_Medico_Direccion" />
+          <EntitySet Name="tbl_Actividades" EntityType="ITF_PERUModel.tbl_Actividades" />
+          <EntitySet Name="tbl_Ciclos" EntityType="ITF_PERUModel.tbl_Ciclos" />
+          <EntitySet Name="tbl_Perfil" EntityType="ITF_PERUModel.tbl_Perfil" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -531,25 +552,6 @@
           <NavigationProperty Name="tbl_Definicion_Opciones" Relationship="ITF_PERUModel.FK_tbl_Aceesid_Op_3C69FB99" FromRole="tbl_Accesos_Evento" ToRole="tbl_Definicion_Opciones" />
           <NavigationProperty Name="tbl_Usuarios" Relationship="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B" FromRole="tbl_Accesos_Evento" ToRole="tbl_Usuarios" />
         </EntityType>
-        <EntityType Name="tbl_Actividades">
-          <Key>
-            <PropertyRef Name="id_actividad" />
-          </Key>
-          <Property Name="id_actividad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Ciclo" Type="Int32" />
-          <Property Name="fecha_actividad" Type="DateTime" Precision="3" />
-          <Property Name="id_Duracion" Type="Int32" />
-          <Property Name="detalle_actividad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_aprobador_actividad" Type="Int32" />
-          <Property Name="fecha_respuesta_actividad" Type="DateTime" Precision="3" />
-          <Property Name="mensaje_respuesta_actividad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="tipo_interfaz_actividad" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="tbl_Categorias">
           <Key>
             <PropertyRef Name="id_Categoria" />
@@ -557,20 +559,6 @@
           <Property Name="id_Categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="codigo_categoria" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="descripcion_categoria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tbl_Ciclos">
-          <Key>
-            <PropertyRef Name="id_Ciclo" />
-          </Key>
-          <Property Name="id_Ciclo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre_ciclo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="desde_ciclo" Type="DateTime" Precision="0" />
-          <Property Name="hasta_ciclo" Type="DateTime" Precision="0" />
           <Property Name="estado" Type="Int32" />
           <Property Name="usuario_creacion" Type="Int32" />
           <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
@@ -715,19 +703,6 @@
           <Property Name="codigo_moneda" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="descripcion_moneda" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="simbolo_moneda" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tbl_Perfil">
-          <Key>
-            <PropertyRef Name="id_perfil" />
-          </Key>
-          <Property Name="id_perfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo_perfil" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion_perfil" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="Int32" />
           <Property Name="usuario_creacion" Type="Int32" />
           <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
@@ -951,6 +926,71 @@
           <Property Name="cantidad_programacion_det" Type="Decimal" Precision="15" Scale="6" />
           <Property Name="orden_programacion_det" Type="Int32" />
         </EntityType>
+        <EntityType Name="tbl_Sol_Medico_Direccion">
+          <Key>
+            <PropertyRef Name="id_Sol_Medico_Direccion" />
+          </Key>
+          <Property Name="id_Sol_Medico_Direccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Medicos_Direccion" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_aprobador_sol_medico_direccion" Type="Int32" />
+          <Property Name="fecha_respuesta_sol_medico_direccion" Type="DateTime" Precision="3" />
+          <Property Name="mensaje_respuesta_sol_medico_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_interfaz_actividad" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Actividades">
+          <Key>
+            <PropertyRef Name="id_actividad" />
+          </Key>
+          <Property Name="id_actividad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Ciclo" Type="Int32" />
+          <Property Name="fecha_actividad" Type="DateTime" Precision="3" />
+          <Property Name="id_Duracion" Type="Int32" />
+          <Property Name="detalle_actividad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_aprobador_actividad" Type="Int32" />
+          <Property Name="fecha_respuesta_actividad" Type="DateTime" Precision="3" />
+          <Property Name="mensaje_respuesta_actividad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_interfaz_actividad" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="id_Medico" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Ciclos">
+          <Key>
+            <PropertyRef Name="id_Ciclo" />
+          </Key>
+          <Property Name="id_Ciclo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_ciclo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="desde_ciclo" Type="DateTime" Precision="0" />
+          <Property Name="hasta_ciclo" Type="DateTime" Precision="0" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Perfil">
+          <Key>
+            <PropertyRef Name="id_perfil" />
+          </Key>
+          <Property Name="id_perfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo_perfil" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_perfil" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="cuota_frecuencia_perfil" Type="Decimal" Precision="12" Scale="6" />
+          <Property Name="cuota_cobertura_perfil" Type="Decimal" Precision="12" Scale="6" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -972,26 +1012,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Actividades">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Actividades">
-              <MappingFragment StoreEntitySet="tbl_Actividades">
-                <ScalarProperty Name="tipo_interfaz_actividad" ColumnName="tipo_interfaz_actividad" />
-                <ScalarProperty Name="mensaje_respuesta_actividad" ColumnName="mensaje_respuesta_actividad" />
-                <ScalarProperty Name="fecha_respuesta_actividad" ColumnName="fecha_respuesta_actividad" />
-                <ScalarProperty Name="usuario_aprobador_actividad" ColumnName="usuario_aprobador_actividad" />
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="detalle_actividad" ColumnName="detalle_actividad" />
-                <ScalarProperty Name="id_Duracion" ColumnName="id_Duracion" />
-                <ScalarProperty Name="fecha_actividad" ColumnName="fecha_actividad" />
-                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
-                <ScalarProperty Name="id_actividad" ColumnName="id_actividad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Categorias">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Categorias">
               <MappingFragment StoreEntitySet="tbl_Categorias">
@@ -1003,21 +1023,6 @@
                 <ScalarProperty Name="descripcion_categoria" ColumnName="descripcion_categoria" />
                 <ScalarProperty Name="codigo_categoria" ColumnName="codigo_categoria" />
                 <ScalarProperty Name="id_Categoria" ColumnName="id_Categoria" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Ciclos">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Ciclos">
-              <MappingFragment StoreEntitySet="tbl_Ciclos">
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="hasta_ciclo" ColumnName="hasta_ciclo" />
-                <ScalarProperty Name="desde_ciclo" ColumnName="desde_ciclo" />
-                <ScalarProperty Name="nombre_ciclo" ColumnName="nombre_ciclo" />
-                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1171,20 +1176,6 @@
                 <ScalarProperty Name="descripcion_moneda" ColumnName="descripcion_moneda" />
                 <ScalarProperty Name="codigo_moneda" ColumnName="codigo_moneda" />
                 <ScalarProperty Name="id_Moneda" ColumnName="id_Moneda" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Perfil">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Perfil">
-              <MappingFragment StoreEntitySet="tbl_Perfil">
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="descripcion_perfil" ColumnName="descripcion_perfil" />
-                <ScalarProperty Name="codigo_perfil" ColumnName="codigo_perfil" />
-                <ScalarProperty Name="id_perfil" ColumnName="id_perfil" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1389,6 +1380,75 @@
                 <ScalarProperty Name="id_Producto" ColumnName="id_Producto" />
                 <ScalarProperty Name="id_Programacion_cab" ColumnName="id_Programacion_cab" />
                 <ScalarProperty Name="id_Programacion_det" ColumnName="id_Programacion_det" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Sol_Medico_Direccion">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Sol_Medico_Direccion">
+              <MappingFragment StoreEntitySet="tbl_Sol_Medico_Direccion">
+                <ScalarProperty Name="tipo_interfaz_actividad" ColumnName="tipo_interfaz_actividad" />
+                <ScalarProperty Name="mensaje_respuesta_sol_medico_direccion" ColumnName="mensaje_respuesta_sol_medico_direccion" />
+                <ScalarProperty Name="fecha_respuesta_sol_medico_direccion" ColumnName="fecha_respuesta_sol_medico_direccion" />
+                <ScalarProperty Name="usuario_aprobador_sol_medico_direccion" ColumnName="usuario_aprobador_sol_medico_direccion" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="id_Medicos_Direccion" ColumnName="id_Medicos_Direccion" />
+                <ScalarProperty Name="id_Sol_Medico_Direccion" ColumnName="id_Sol_Medico_Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Actividades">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Actividades">
+              <MappingFragment StoreEntitySet="tbl_Actividades">
+                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
+                <ScalarProperty Name="tipo_interfaz_actividad" ColumnName="tipo_interfaz_actividad" />
+                <ScalarProperty Name="mensaje_respuesta_actividad" ColumnName="mensaje_respuesta_actividad" />
+                <ScalarProperty Name="fecha_respuesta_actividad" ColumnName="fecha_respuesta_actividad" />
+                <ScalarProperty Name="usuario_aprobador_actividad" ColumnName="usuario_aprobador_actividad" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="detalle_actividad" ColumnName="detalle_actividad" />
+                <ScalarProperty Name="id_Duracion" ColumnName="id_Duracion" />
+                <ScalarProperty Name="fecha_actividad" ColumnName="fecha_actividad" />
+                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
+                <ScalarProperty Name="id_actividad" ColumnName="id_actividad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Ciclos">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Ciclos">
+              <MappingFragment StoreEntitySet="tbl_Ciclos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="hasta_ciclo" ColumnName="hasta_ciclo" />
+                <ScalarProperty Name="desde_ciclo" ColumnName="desde_ciclo" />
+                <ScalarProperty Name="nombre_ciclo" ColumnName="nombre_ciclo" />
+                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Perfil">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Perfil">
+              <MappingFragment StoreEntitySet="tbl_Perfil">
+                <ScalarProperty Name="cuota_cobertura_perfil" ColumnName="cuota_cobertura_perfil" />
+                <ScalarProperty Name="cuota_frecuencia_perfil" ColumnName="cuota_frecuencia_perfil" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descripcion_perfil" ColumnName="descripcion_perfil" />
+                <ScalarProperty Name="codigo_perfil" ColumnName="codigo_perfil" />
+                <ScalarProperty Name="id_perfil" ColumnName="id_perfil" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

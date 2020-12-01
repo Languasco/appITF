@@ -68,6 +68,9 @@ import { AltasTargetComponent } from './pages/Procesos/altas-target/altas-target
 import { AprobarAltasBajasTargetComponent } from './pages/Procesos/aprobar-altas-bajas-target/aprobar-altas-bajas-target.component';
 import { RejaComponent } from './pages/Procesos/reja/reja.component';
 import { ProgramacionComponent } from './pages/Procesos/programacion/programacion.component';
+import { SolicitudDireccionComponent } from './pages/Procesos/solicitud-direccion/solicitud-direccion.component';
+import { AprobarSolicitudDireccionComponent } from './pages/Procesos/aprobar-solicitud-direccion/aprobar-solicitud-direccion.component';
+import { LoginComponent } from './pages/login/login.component';
   
 @NgModule({
   declarations: [
@@ -100,7 +103,10 @@ import { ProgramacionComponent } from './pages/Procesos/programacion/programacio
     AltasTargetComponent,
     AprobarAltasBajasTargetComponent,
     RejaComponent,
-    ProgramacionComponent
+    ProgramacionComponent,
+    SolicitudDireccionComponent,
+    AprobarSolicitudDireccionComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -189,7 +189,19 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 12)
+                {
 
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+                    string[] parametros = filtro.Split('|');
+                    int idDireccion = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_direccionesMedicos_id(idDireccion);
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
 
                 else
                 {

@@ -96,3 +96,15 @@ legend {
         column-count: 5;
     }
 }
+
+ul li {
+    font-size: 11px;
+    font-family: tahoma;
+    font-weight: 700;
+}
+
+.table .theadTable3 th {
+    background-color: #dee2e6;
+    color: black;
+    border-color: #117a8b;
+}

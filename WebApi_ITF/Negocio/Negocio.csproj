@@ -63,6 +63,7 @@
     <Compile Include="Procesos\AsignacionProducto_BL.cs" />
     <Compile Include="Procesos\ProgramacionBL.cs" />
     <Compile Include="Procesos\RejaPromocional_BL.cs" />
+    <Compile Include="Procesos\SolicitudDireccion_BL.cs" />
     <Compile Include="Procesos\SolicitudesCab_BL.cs" />
     <Compile Include="Procesos\Target_BL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

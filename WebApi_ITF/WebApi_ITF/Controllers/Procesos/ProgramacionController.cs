@@ -107,6 +107,61 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 8)  ///----- usuaarios 
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+
+                   res.ok = true;
+                    res.data = obj_negocios.get_usuariosProgramacion(idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
+                else if (opcion == 9)   
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idMedico = Convert.ToInt32(parametros[0].ToString());
+
+                    //resul = obj_negocios.get_informacionPerfilMedico_Cab(idMedico);
+                    res.ok = true;
+                    res.data = obj_negocios.get_informacionPerfilMedico_Cab(idMedico);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 10)   
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idMedico = Convert.ToInt32(parametros[0].ToString());
+                    string nombreProducto = parametros[1].ToString();
+
+                    //resul = obj_negocios.get_informacionPerfilMedico_Det(idMedico,nombreProducto);
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_informacionPerfilMedico_Det(idMedico, nombreProducto);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 11 )
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idEspecialidad = Convert.ToInt32(parametros[0].ToString());
+ 
+                    res.ok = true;
+                    res.data = obj_negocios.get_informacionRejaPromocional(idEspecialidad);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 12)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int opcionModal = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocios.set_eliminarTemporales(opcionModal);
+                    res.totalpage = 0;
+                    resul = res;
+                }
 
                 else
                 {
@@ -128,21 +183,28 @@ namespace WebApi_ITF.Controllers.Procesos
         
 
         [HttpPost]
-            [Route("api/Cancelacion_masiva_doc/set_guardandoPagos")]
-            public string set_guardandoPagos(List<Programacion_E> List_Detalle)
+            [Route("api/Programacion/set_guardandoDetalleProgramacion")]
+            public object set_guardandoDetalleProgramacion(List<ProgramacionDet_E> List_Detalle, int idUsuario)
             {
-                string resultado = "";
+                Resultado res = new Resultado();
+                object resul = null;
                 try
                 {
-                    ProgramacionBL obj_negocio = new ProgramacionBL();
-                    resultado = obj_negocio.Set_almacenandoDetalle_Cancelaciones(List_Detalle);
+                        ProgramacionBL obj_negocio = new ProgramacionBL();
+                        res.ok = true;
+                        res.data = obj_negocio.Set_almacenandoDetalle_programacion(List_Detalle, idUsuario);
+                        res.totalpage = 0;
+
+                        resul = res;
                 }
                 catch (Exception ex)
                 {
-                    resultado = ex.Message;
+                    res.ok = false;
+                    res.data = ex.Message;
+                    res.totalpage = 0;
+                    resul = res;
                 }
-                return resultado;
-
+                return resul;
             }
 
         }

@@ -379,6 +379,7 @@
                                                                         <th scope="col">Distrito</th>
                                                                         <th scope="col">Direccion</th>
                                                                         <th scope="col">Referencia</th>
+                                                                        <th scope="col">Nombre Institucion</th>
                                                                         <th colspan="2" class="text-center">Acciones</th>
                                                                     </tr>
                                                                 </thead>
@@ -390,6 +391,7 @@
                                                                         <td>{{item.nombreDistrito}}</td>
                                                                         <td>{{item.direccion_medico_direccion}}</td>
                                                                         <td>{{item.referencia_medico_direccion}}</td>
+                                                                        <td>{{item.nombre_institucion_direccion}}</td>
                                                                         <td class="text-center">
                                                                             <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarDireccion(item)">  Editar </span>
                                                                         </td>
@@ -507,6 +509,7 @@
                                 <th scope="col">DISTRITO</th>
                                 <th scope="col">DIRECCION</th>
                                 <th scope="col">REFERENCIA </th>
+                                <th scope="col">NOMBRE INSTITUCION </th>
                                 <th scope="col">MENSAJE </th>
                             </tr>
                         </thead>
@@ -535,6 +538,7 @@
                                     </div>
                                 </td>
                                 <td>{{item.referencia}}</td>
+                                <td>{{item.nombreInstitucion}}</td>
                                 <td>
                                     <div style="width: 250px;">
                                         {{item.mensaje}}

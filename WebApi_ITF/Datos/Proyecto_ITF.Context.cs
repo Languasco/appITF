@@ -26,9 +26,7 @@ namespace Datos
         }
     
         public virtual DbSet<tbl_Accesos_Evento> tbl_Accesos_Evento { get; set; }
-        public virtual DbSet<tbl_Actividades> tbl_Actividades { get; set; }
         public virtual DbSet<tbl_Categorias> tbl_Categorias { get; set; }
-        public virtual DbSet<tbl_Ciclos> tbl_Ciclos { get; set; }
         public virtual DbSet<tbl_Control_Stock> tbl_Control_Stock { get; set; }
         public virtual DbSet<tbl_Definicion_Opciones> tbl_Definicion_Opciones { get; set; }
         public virtual DbSet<tbl_Duracion_Actividades> tbl_Duracion_Actividades { get; set; }
@@ -39,7 +37,6 @@ namespace Datos
         public virtual DbSet<tbl_Identificador_Medico> tbl_Identificador_Medico { get; set; }
         public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
         public virtual DbSet<tbl_Monedas> tbl_Monedas { get; set; }
-        public virtual DbSet<tbl_Perfil> tbl_Perfil { get; set; }
         public virtual DbSet<tbl_Perfil_Accesos> tbl_Perfil_Accesos { get; set; }
         public virtual DbSet<tbl_Productos> tbl_Productos { get; set; }
         public virtual DbSet<tbl_Resultados_Visitas> tbl_Resultados_Visitas { get; set; }
@@ -52,5 +49,9 @@ namespace Datos
         public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
         public virtual DbSet<tbl_Programacion_Cab> tbl_Programacion_Cab { get; set; }
         public virtual DbSet<tbl_Programacion_Det> tbl_Programacion_Det { get; set; }
+        public virtual DbSet<tbl_Sol_Medico_Direccion> tbl_Sol_Medico_Direccion { get; set; }
+        public virtual DbSet<tbl_Actividades> tbl_Actividades { get; set; }
+        public virtual DbSet<tbl_Ciclos> tbl_Ciclos { get; set; }
+        public virtual DbSet<tbl_Perfil> tbl_Perfil { get; set; }
     }
 }

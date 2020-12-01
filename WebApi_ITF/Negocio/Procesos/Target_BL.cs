@@ -188,6 +188,8 @@ namespace Negocio.Procesos
                                 Entidad.apellido_materno_medico = dr["apellido_materno_medico"].ToString(); 
                                 Entidad.codigo_categoria = dr["codigo_categoria"].ToString();
                                 Entidad.codigo_especialidad = dr["codigo_especialidad"].ToString();
+                                Entidad.direccion = dr["direccion"].ToString();
+                                
                                 Entidad.visitadoPor = dr["visitadoPor"].ToString();
                                 
                                 Entidad.nro_contactos = dr["nro_contactos"].ToString();

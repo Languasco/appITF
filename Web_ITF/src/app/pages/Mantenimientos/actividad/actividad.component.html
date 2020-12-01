@@ -141,6 +141,20 @@
                                     </div>
                                 </div>
 
+
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <label for=""> Medico</label>
+                                        <br>
+                                        <!-- <select class="form-control comboBox" formControlName="id_Medico" (change)="change_medicos($event.target.value)"> -->
+                                        <select id="cboMedico" class="form-control comboBox selectSearch" formControlName="id_Medico">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option [value]="med.id_Medico" *ngFor="let med of medicosDet">{{med.datosMedico | uppercase}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label> Detalle </label>

@@ -136,6 +136,9 @@
     <Compile Include="tbl_Sol_Medico_Det.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Sol_Medico_Direccion.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Stock.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using Entidades.Mantenimientos;
+using Entidades.Procesos;
 using Negocio.Conexion;
 using Negocio.Resultados;
 using System;
@@ -315,6 +316,7 @@ namespace Negocio.Mantenimientos
                                 Entidad.Aprobador = dr["Aprobador"].ToString();
                                 Entidad.observacion = dr["observacion"].ToString();
                                 Entidad.usuario = dr["usuario"].ToString();
+                                Entidad.id_Medico = dr["id_Medico"].ToString();
 
                                 obj_List.Add(Entidad);
                             }
@@ -448,6 +450,7 @@ namespace Negocio.Mantenimientos
                                 AprobarActividades_E Entidad = new AprobarActividades_E();
 
                                 Entidad.id_actividad = Convert.ToInt32(dr["id_actividad"].ToString());
+                                Entidad.id_Ciclo = Convert.ToInt32(dr["id_Ciclo"].ToString());
                                 Entidad.ciclo = dr["ciclo"].ToString();
                                 Entidad.solicitante = dr["solicitante"].ToString();
                                 Entidad.duracion = dr["duracion"].ToString();
@@ -460,6 +463,10 @@ namespace Negocio.Mantenimientos
                                 Entidad.id_estado = dr["id_estado"].ToString();
                                 Entidad.descripcionRespuesta = dr["descripcionRespuesta"].ToString();
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+
+                                Entidad.id_Medico = dr["id_Medico"].ToString();
+                                Entidad.descripcionMedico = dr["descripcionMedico"].ToString();
+
                                 obj_List.Add(Entidad);
                             }
 
@@ -734,6 +741,133 @@ namespace Negocio.Mantenimientos
             }
             return resultado;
         }
+
+        public DataTable get_direccionesMedicos_id(int idDireccion)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_SOL_DIRECCION_MEDICO_LISTA_DIRECCION_ID", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idDireccion", SqlDbType.VarChar).Value = idDireccion;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+                       
+        public object get_busqueda_medico(int idUsuario)
+        {
+            Resultado res = new Resultado();
+            List<AltasBajasTarget_Medico_E> obj_List = new List<AltasBajasTarget_Medico_E>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_ACTIVIDADES_COMBO_MEDICOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                AltasBajasTarget_Medico_E Entidad = new AltasBajasTarget_Medico_E();
+
+                                Entidad.id_Medico = Convert.ToInt32(dr["id_Medico"].ToString());
+                                Entidad.datosMedico = dr["datosMedico"].ToString();
+                                obj_List.Add(Entidad);
+                            }
+
+                            res.ok = true;
+                            res.data = obj_List;
+                            res.totalpage = 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+        
+        public DataTable getActividadesAlertas(int idCiclo, int idMedico, int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_ACTIVIDADES_ALERTAS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idCiclo", SqlDbType.Int).Value = idCiclo;
+                        cmd.Parameters.Add("@idMedico", SqlDbType.Int).Value = idMedico;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string set_puntosContactoCalculo(int idCiclo, int idUsuario)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PUNTOS_CONTACTO_CALCULO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_ciclo", SqlDbType.Int).Value = idCiclo; 
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
 
     }
 }

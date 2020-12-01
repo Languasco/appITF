@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
     this.showMenu=false;
     this.menuPrincipal = [];
     this.loginService.updateLoginNameStatus(false,null);
-    this.router.navigateByUrl('/');    
+    this.router.navigateByUrl('/login');    
   }  
 
   downloadApk(){

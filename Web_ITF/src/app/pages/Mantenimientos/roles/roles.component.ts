@@ -53,7 +53,9 @@ export class RolesComponent implements OnInit {
       codigo_perfil: new FormControl(''),
       descripcion_perfil: new FormControl(''), 
       estado : new FormControl('1'),   
-      usuario_creacion : new FormControl('')
+      usuario_creacion : new FormControl(''),
+      cuota_frecuencia_perfil : new FormControl(''),
+      cuota_cobertura_perfil : new FormControl(''),
     }) 
  }
 
@@ -160,6 +162,10 @@ export class RolesComponent implements OnInit {
          for (const obj of this.roles) {
            if (obj.id_perfil == this.formParams.value.id_perfil ) {
               obj.descripcion_perfil= this.formParams.value.descripcion_perfil ; 
+
+              obj.cuota_frecuencia_perfil= this.formParams.value.cuota_frecuencia_perfil ; 
+              obj.cuota_cobertura_perfil= this.formParams.value.cuota_cobertura_perfil ; 
+
               obj.estado= this.formParams.value.estado ;
               obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
               break;
@@ -176,9 +182,9 @@ export class RolesComponent implements OnInit {
 
  } 
 
- editar({ id_perfil, codigo_perfil, descripcion_perfil, estado  }){
+ editar({ id_perfil, codigo_perfil, descripcion_perfil, estado, cuota_frecuencia_perfil, cuota_cobertura_perfil  }){
    this.flag_modoEdicion=true;
-   this.formParams.patchValue({ "id_perfil" : id_perfil,  "codigo_perfil" : codigo_perfil ,"descripcion_perfil" : descripcion_perfil, "estado" : estado, "usuario_creacion" : this.idUserGlobal });
+   this.formParams.patchValue({ "id_perfil" : id_perfil,  "codigo_perfil" : codigo_perfil ,"descripcion_perfil" : descripcion_perfil, "estado" : estado, "usuario_creacion" : this.idUserGlobal,"cuota_frecuencia_perfil" : cuota_frecuencia_perfil,"cuota_cobertura_perfil" : cuota_cobertura_perfil });
    setTimeout(()=>{ // 
     $('#txtcodigo').addClass('disabledForm');
     $('#modal_mantenimiento').modal('show');  

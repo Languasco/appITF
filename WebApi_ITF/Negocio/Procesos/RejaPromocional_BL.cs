@@ -201,5 +201,34 @@ namespace Negocio.Procesos
         }
 
 
+        public string set_cerrarRejaPromocional(int idRejaCab, int idUsuario)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_REJA_CERRAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idRejaCab", SqlDbType.Int).Value = idRejaCab;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+            }
+            return resultado;
+        }
+
+
     }
 }

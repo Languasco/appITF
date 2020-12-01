@@ -14,7 +14,6 @@ namespace Negocio.Procesos
 {
     public class ProgramacionBL
     {
-
         public object get_mostrarProgramaciones(int idUsuario, int idCiclo, string medico, int idCategoria, int idEspecialidad, int idResultado, int idEstado)
         {
             Resultado res = new Resultado();
@@ -47,19 +46,23 @@ namespace Negocio.Procesos
 
                                 Entidad.id_Programacion_cab = Convert.ToInt32(dr["id_Programacion_cab"].ToString());
                                 Entidad.nroVisitas = dr["nroVisitas"].ToString();
+                                Entidad.id_Medico = dr["id_Medico"].ToString();
                                 Entidad.datosMedico = dr["datosMedico"].ToString();
 
                                 Entidad.categoria = dr["categoria"].ToString();
-                                Entidad.fechaProgramacion = dr["fechaProgramacion"].ToString();
+                                Entidad.fechaProgramacion = Convert.ToDateTime(dr["fechaProgramacion"].ToString());
                                 Entidad.horaProgramacion = dr["horaProgramacion"].ToString();
                                 Entidad.resultados = dr["resultados"].ToString();
 
                                 Entidad.cmpMedico = dr["cmpMedico"].ToString();
+                                Entidad.idEspecialidad = dr["idEspecialidad"].ToString();
                                 Entidad.especialidad = dr["especialidad"].ToString();
-                                Entidad.fechaReporte = dr["fechaReporte"].ToString();
+ 
+                                Entidad.fechaReporte = Convert.ToDateTime(dr["fechaReporte"].ToString());
                                 Entidad.horaReporte = dr["horaReporte"].ToString();
                                 Entidad.idEstado = dr["idEstado"].ToString();
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+                                Entidad.colorFondo = dr["colorFondo"].ToString();
 
                                 obj_List.Add(Entidad);
                             }
@@ -80,41 +83,23 @@ namespace Negocio.Procesos
             return res;
         }
 
-        public string Set_almacenandoDetalle_Cancelaciones(List<Programacion_E> List_Detalle)
+        public string Set_almacenandoDetalle_programacion(List<ProgramacionDet_E> List_Detalle, int idUsuario)
         {
-
             string Resultado = null;
-            bool flagCant = false;
             int user = 0;
-            //---validacion de registros
-
-            for (int i = 0; i < List_Detalle.Count; i++)
-            {
-                flagCant = true;
-                break;
-            }
-
-            if (flagCant == false)
-            {
-                Resultado = "No se cargo la informacion correctamente, Actualice la pagina y vuelva a intentarlo";
-                return Resultado;
-            }
-
-            user = List_Detalle[0].id_usuario;
-
 
             DataTable dt_detalle = new DataTable();
             try
             {
                 try
                 {
-                    PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(Programacion_E));
+                    PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(ProgramacionDet_E));
                     foreach (PropertyDescriptor prop in properties)
                     {
                         dt_detalle.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
                     }
 
-                    foreach (Programacion_E item in List_Detalle)
+                    foreach (ProgramacionDet_E item in List_Detalle)
                     {
                         DataRow row = dt_detalle.NewRow();
                         foreach (PropertyDescriptor prop in properties)
@@ -131,7 +116,7 @@ namespace Negocio.Procesos
                 using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMPORAL_DETALLE_PAGOS", con))
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_DELETE_TEMPORAL_DETALLE_PROGRAMACION", con))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -144,12 +129,12 @@ namespace Negocio.Procesos
                     {
                         bulkCopy.BatchSize = 500;
                         bulkCopy.NotifyAfter = 1000;
-                        bulkCopy.DestinationTableName = "T_TEMPORAL_DETALLE_PAGOS";
+                        bulkCopy.DestinationTableName = "TEMPORAL_DETALLE_PROGRAMACION";
                         bulkCopy.WriteToServer(dt_detalle);
                     }
 
                     //----insertando tabla de cancelaciones ----
-                    using (SqlCommand cmd = new SqlCommand("PROC_I_CANCELACION_MASIVA_DOC", con))
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_GRABAR_DETALLE", con))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -160,13 +145,12 @@ namespace Negocio.Procesos
                     Resultado = "OK";
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                Resultado = ex.Message;
+                throw;
             }
 
             return Resultado;
-
         }
 
         public DataTable get_datosProgramacionCab(int idProgCab)
@@ -315,5 +299,247 @@ namespace Negocio.Procesos
 
 
         }
+        
+        public DataTable get_usuariosProgramacion(int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_COMBO_USUARIOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUsuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        //public object get_informacionPerfilMedico_Cab(int idMedico)
+        //{
+        //    Resultado res = new Resultado();
+        //    List<PerfilMedicoCab_E> obj_List = new List<PerfilMedicoCab_E>();
+        //    try
+        //    {
+        //        using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+        //        {
+        //            cn.Open();
+        //            using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_PERFIL_MEDICO_AGRUPADO", cn))
+        //            {
+        //                cmd.CommandTimeout = 0;
+        //                cmd.CommandType = CommandType.StoredProcedure;
+
+        //                cmd.Parameters.Add("@idMedico", SqlDbType.Int).Value = idMedico;
+
+        //                using (SqlDataReader dr = cmd.ExecuteReader())
+        //                {
+        //                    while (dr.Read())
+        //                    {
+        //                        PerfilMedicoCab_E Entidad = new PerfilMedicoCab_E();
+
+        //                        Entidad.nombreMedico = dr["nombreMedico"].ToString();
+        //                        Entidad.matricula = dr["matricula"].ToString();
+        //                        Entidad.especialidad = dr["especialidad"].ToString();
+        //                        Entidad.direccion = dr["direccion"].ToString();
+
+        //                        Entidad.mercadoProducto = dr["mercadoProducto"].ToString();
+        //                        Entidad.doceUltimosMeses = dr["doceUltimosMeses"].ToString();
+        //                        Entidad.tresUltimosMeses = dr["tresUltimosMeses"].ToString();
+        //                        Entidad.utilmoMes = dr["utilmoMes"].ToString();
+
+        //                        obj_List.Add(Entidad);
+        //                    }
+
+        //                    res.ok = true;
+        //                    res.data = obj_List;
+        //                    res.totalpage = 0;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        res.ok = false;
+        //        res.data = ex.Message;
+        //        res.totalpage = 0;
+        //    }
+        //    return res;
+        //}
+
+        //public object get_informacionPerfilMedico_Det(int idMedico,string nombreProducto)
+        //{
+        //    Resultado res = new Resultado();
+        //    List<PerfilMedicoCab_E> obj_List = new List<PerfilMedicoCab_E>();
+        //    try
+        //    {
+        //        using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+        //        {
+        //            cn.Open();
+        //            using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_PERFIL_MEDICO_DETALLADO", cn))
+        //            {
+        //                cmd.CommandTimeout = 0;
+        //                cmd.CommandType = CommandType.StoredProcedure;
+        //                cmd.Parameters.Add("@idMedico", SqlDbType.Int).Value = idMedico;
+        //                cmd.Parameters.Add("@nombreProducto", SqlDbType.VarChar).Value = nombreProducto;
+
+        //                using (SqlDataReader dr = cmd.ExecuteReader())
+        //                {
+        //                    while (dr.Read())
+        //                    {
+        //                        PerfilMedicoCab_E Entidad = new PerfilMedicoCab_E();
+
+        //                        Entidad.mercadoProducto = dr["mercadoProducto"].ToString();
+        //                        Entidad.doceUltimosMeses = dr["doceUltimosMeses"].ToString();
+        //                        Entidad.tresUltimosMeses = dr["tresUltimosMeses"].ToString();
+        //                        Entidad.utilmoMes = dr["utilmoMes"].ToString();
+
+        //                        obj_List.Add(Entidad);
+        //                    }
+
+        //                    res.ok = true;
+        //                    res.data = obj_List;
+        //                    res.totalpage = 0;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        res.ok = false;
+        //        res.data = ex.Message;
+        //        res.totalpage = 0;
+        //    }
+        //    return res;
+        //}
+
+
+
+        public DataTable get_informacionPerfilMedico_Cab(int   idMedico)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_PERFIL_MEDICO_AGRUPADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idMedico", SqlDbType.Int).Value = idMedico;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+               
+        public DataTable get_informacionPerfilMedico_Det(int idMedico, string nombreProducto)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_PERFIL_MEDICO_DETALLADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idMedico", SqlDbType.Int).Value = idMedico;
+                        cmd.Parameters.Add("@nombreProducto", SqlDbType.VarChar).Value = nombreProducto;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_informacionRejaPromocional(int idEspecialidad )
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_REJA_PROMOCIONAL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_especialidad", SqlDbType.Int).Value = idEspecialidad;
+ 
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+        public string set_eliminarTemporales(int opcionModal)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_ELIMINAR_TEMPORALES_PERFILES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@opcionFormato", SqlDbType.Int).Value = opcionModal;
+                        cmd.ExecuteNonQuery();
+
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+            }
+            return resultado;
+        }
+
     }
 }

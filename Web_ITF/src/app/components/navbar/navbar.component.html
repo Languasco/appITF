@@ -3,8 +3,7 @@
 
 <nav class="navbar navbar-dark navbar-expand-md   sticky-top" style="background-color: #117a8b;" *ngIf="showMenu">
     <a class="navbar-brand" [routerLink]="['/']">
-        <!-- <img src="./assets/img/logoDominion.jpeg" style="width:138px; height: 30px;" class="card-img-top " alt="..."> -->
-        ITF - PERU
+        <i class="fas fa-house-user fa-1x"></i> ITF-PERU
     </a>
     <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -15,12 +14,6 @@
             <li class="nav-item dropdown " *ngFor="let menu of menuPrincipal" style="color: white !important;">
                 <a class="nav-link dropdown-toggle  d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="color: white !important ; font-size: 11px; font-weight: 600; font-family:tahoma !important" aria-haspopup="true" aria-expanded="false">
                     {{menu.nombre_principal | uppercase}}
-                    <!-- <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" height="30px" alt="">
-                    </div>
-                    <div class="font-weight-bold">
-                        <div class="text-truncate"> {{menu.nombre_principal | uppercase}} </div>
-                    </div> -->
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

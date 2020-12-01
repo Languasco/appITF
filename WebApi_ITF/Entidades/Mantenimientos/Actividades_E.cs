@@ -20,11 +20,14 @@ namespace Entidades.Mantenimientos
           public string Aprobador { get; set; }
           public string observacion { get; set; }
           public string usuario { get; set; }
+          public string id_Medico { get; set; }
+        
     }
 
     public class AprobarActividades_E
     {
         public int id_actividad { get; set; }
+        public int id_Ciclo { get; set; }
         public string ciclo { get; set; }
         public string solicitante { get; set; }
         public string duracion { get; set; }
@@ -37,6 +40,9 @@ namespace Entidades.Mantenimientos
         public string descripcionRespuesta { get; set; }
         public string id_estado { get; set; }
         public string descripcionEstado { get; set; }
+        
+        public string id_Medico { get; set; }
+        public string descripcionMedico { get; set; }
     }
 
 }

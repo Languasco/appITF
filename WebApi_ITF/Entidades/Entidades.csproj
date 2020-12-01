@@ -59,6 +59,7 @@
     <Compile Include="Procesos\Programacion_E.cs" />
     <Compile Include="Procesos\RejaPromocional_E.cs" />
     <Compile Include="Procesos\SolicitudCab_E.cs" />
+    <Compile Include="Procesos\SolicitudDireccion_E.cs" />
     <Compile Include="Procesos\Target_E.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

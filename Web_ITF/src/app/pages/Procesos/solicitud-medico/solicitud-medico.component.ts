@@ -106,7 +106,7 @@ export class SolicitudMedicoComponent implements OnInit {
       id_Especialidad1: new FormControl('0'),
       id_Especialidad2: new FormControl('0'),
       email_medico: new FormControl(''),
-      fecha_nacimiento_medico: new FormControl( new Date() ),
+      fecha_nacimiento_medico: new FormControl( null),
       sexo_medico: new FormControl('M'),
       telefono_medico: new FormControl(''),
       estado: new FormControl('10'),
@@ -245,10 +245,7 @@ mostrarInformacion_solicitudCabecera(){
     this.alertasService.Swal_alert('error','Por favor seleccione la especialidad');
     return 
   } 
-  if (this.formParams.value.fecha_nacimiento_medico == '' || this.formParams.value.fecha_nacimiento_medico == null) {
-    this.alertasService.Swal_alert('error','Por favor seleccione o ingrese la fecha de nacimiento');
-    return 
-  } 
+ 
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 
@@ -409,10 +406,7 @@ mostrarInformacion_solicitudCabecera(){
      this.alertasService.Swal_alert('error','Por favor seleccione la especialidad');
      return 
    } 
-   if (this.formParams.value.fecha_nacimiento_medico == '' || this.formParams.value.fecha_nacimiento_medico == null) {
-     this.alertasService.Swal_alert('error','Por favor seleccione o ingrese la fecha de nacimiento');
-     return 
-   } 
+ 
   
    this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
  
@@ -762,7 +756,6 @@ verificarDireccionCargada(direccionmedicodireccion: string){
 
 modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
 
-  
   if (codigo_departamento =='0') {
     this.provincias = [];
     this.distritos = [];

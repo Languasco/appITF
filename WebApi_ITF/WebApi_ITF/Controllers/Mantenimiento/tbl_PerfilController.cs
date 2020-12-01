@@ -49,6 +49,8 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                         a.descripcion_perfil,
                                         a.estado,
                                         descripcion_estado = a.estado == 0 ? "INACTIVO" : "ACTIVO",
+                                        a.cuota_cobertura_perfil,
+                                        a.cuota_frecuencia_perfil,
                                         a.usuario_creacion
 
                                     }).ToList();
@@ -63,6 +65,8 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                         a.descripcion_perfil,
                                         a.estado,
                                         descripcion_estado = a.estado == 0 ? "INACTIVO" : "ACTIVO",
+                                        a.cuota_cobertura_perfil,
+                                        a.cuota_frecuencia_perfil,
                                         a.usuario_creacion
                                     }).ToList();
                     }
@@ -163,7 +167,9 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                 a.descripcion_perfil,
                                 a.estado,
                                 descripcion_estado = a.estado == 0 ? "INACTIVO" : "ACTIVO",
-                                a.usuario_creacion
+                                a.usuario_creacion,
+                                a.cuota_cobertura_perfil,
+                                a.cuota_frecuencia_perfil,
                             }).ToList();
                 res.totalpage = 0;
             }
@@ -185,6 +191,9 @@ namespace WebApi_ITF.Controllers.Mantenimiento
 
             objReemplazar.descripcion_perfil = tbl_Perfil.descripcion_perfil;
             objReemplazar.estado = tbl_Perfil.estado;
+
+            objReemplazar.cuota_cobertura_perfil = tbl_Perfil.cuota_cobertura_perfil;
+            objReemplazar.cuota_frecuencia_perfil = tbl_Perfil.cuota_frecuencia_perfil;
 
             objReemplazar.usuario_edicion = tbl_Perfil.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;

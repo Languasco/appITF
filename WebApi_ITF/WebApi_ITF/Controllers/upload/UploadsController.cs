@@ -264,5 +264,84 @@ namespace WebApi_3R_Dominion.Controllers.upload
         }
 
 
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_programacionData1")]
+        public object post_archivoExcel_programacionData1()
+        {
+            Resultado res = new Resultado();
+            string sPath = "";
+            try
+            {
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Programacion/FORMATO_DATA1.xlsx");
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelProgramacionData1(sPath);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "El archivo FORMATO_DATA1.xlsx no se encuentra en el servidor, verifique";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_programacionData2")]
+        public object post_archivoExcel_programacionData2()
+        {
+            Resultado res = new Resultado();
+            string sPath = "";
+            try
+            {
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Programacion/FORMATO_DATA2.xlsx");
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelProgramacionData2(sPath);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "El archivo FORMATO_DATA2.xlsx no se encuentra en el servidor, verifique";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+               
     }
 }

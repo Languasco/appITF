@@ -74,6 +74,15 @@ export class UploadService {
   }
 
 
+  upload_Excel_formato1( ) { 
+    return this.http.post(this.URL + 'Uploads/post_archivoExcel_programacionData1',httpOptions);
+  }
+
+  upload_Excel_formato2( ) { 
+    return this.http.post(this.URL + 'Uploads/post_archivoExcel_programacionData2',httpOptions);
+  }
+
+
  
 
 }

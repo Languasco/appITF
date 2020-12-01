@@ -44,6 +44,8 @@ namespace Entidades.Procesos
         public string codigo_especialidad { get; set; }
         public string visitadoPor { get; set; }
         public string nro_contactos { get; set; }
+        public string datosMedico { get; set; }
+        public string direccion { get; set; }       
 
     }
 

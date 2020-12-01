@@ -139,5 +139,24 @@ export class LoginService {
       return null;
     }
   }
+  
+  get_reporteResumen_rrmm(idCiclo : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '3');
+    parametros = parametros.append('filtro',  String(idCiclo)  + '|' +   String(id_usuario)   );
+    //parametros = parametros.append('filtro',    '1|6'   );
+
+    return this.http.get( this.URL + 'login' , {params: parametros});
+  }
+
+  get_reporteResumenDiario_rrmm(idCiclo : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '4');
+    parametros = parametros.append('filtro',  String(idCiclo)  + '|' +   String(id_usuario)   );
+    // parametros = parametros.append('filtro',    '1|18'   );
+
+    return this.http.get( this.URL + 'login' , {params: parametros});
+  }
+
 
 }

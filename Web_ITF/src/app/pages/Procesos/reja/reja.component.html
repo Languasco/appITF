@@ -51,6 +51,7 @@
                         <th scope="col">DESCRIPCION </th>
                         <th scope="col">ESTADO</th>
                         <th class="text-center">EDITAR</th>
+                        <th class="text-center">CERRAR</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,9 @@
                         <td class="text-center">
                             <span class="badge badge-primary puntero btn-block" *ngIf="(item.idEstado == 19 ) " style="padding: 5px;font-size: 9px;" (click)="editar_reja(item)">  Editar </span>
                             <span class="badge badge-dark puntero btn-block" *ngIf="( item.idEstado == 20 || item.idEstado == 21 ) " style="padding: 5px;font-size: 9px;" (click)="editar_reja(item)">  Visualizar </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-warning puntero btn-block" *ngIf="(item.idEstado != 21 ) " style="padding: 5px;font-size: 9px;" (click)="cerrarRejaPromocional(item)">  Cerrar </span>
                         </td>
                     </tr>
                 </tbody>
@@ -153,7 +157,7 @@
                                 <div class="row">
                                     <div class="col-md-5">
 
-                                        <form [formGroup]="formParamsDet" style=" margin-top: -10px !important; margin-bottom: 10px;">
+                                        <form [formGroup]="formParamsDet" style=" margin-top: -10px !important; margin-bottom: 10px;" *ngIf="idEstadoCabGlobal == 19 ">
                                             <div class="row">
                                                 <div class="col-9">
                                                     <label for=""> Especialidad</label>
