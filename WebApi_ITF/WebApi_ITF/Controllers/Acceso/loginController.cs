@@ -93,7 +93,8 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                         listamenu.id_usuario = objUsuario.id_Usuario;
                         listamenu.nombre_usuario = objUsuario.apellido_paterno_usuario + " " + objUsuario.apellido_materno_usuario + " " + objUsuario.nombres_usuario;
                         listamenu.id_perfil = objUsuario.id_Perfil;
-
+                        listamenu.es_supervisor =Convert.ToInt32( objUsuario.es_supervisor );
+                         
                         res.ok = true;
                         res.data = listamenu;
                         res.totalpage = 0;

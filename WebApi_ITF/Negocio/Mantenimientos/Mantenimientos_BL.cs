@@ -148,8 +148,7 @@ namespace Negocio.Mantenimientos
                                 Entidad.telefono_medico = dr["telefono_medico"].ToString();
                                 Entidad.estado = dr["estado"].ToString();
                                 Entidad.descripcion_estado = dr["descripcion_estado"].ToString();
-                                
-
+                                Entidad.id_tipo_visita = dr["id_tipo_visita"].ToString();
                                 obj_List.Add(Entidad);
                             }
 
@@ -425,7 +424,7 @@ namespace Negocio.Mantenimientos
         //---------------APROBAR O RECHAZAR ACTIVIDADES
         //---------------------------------------------
 
-        public object get_actividadesAprobarRechazar(int idUsuario , string fechaIni,string fechaFin, int idEstado)
+        public object get_actividadesAprobarRechazar(int idUsuario , string fechaIni,string fechaFin, int idEstado, int id_usuario )
         {
             Resultado res = new Resultado();
             List<AprobarActividades_E> obj_List = new List<AprobarActividades_E>();
@@ -442,6 +441,7 @@ namespace Negocio.Mantenimientos
                         cmd.Parameters.Add("@fechaIni", SqlDbType.VarChar).Value = fechaIni;
                         cmd.Parameters.Add("@fechaFin", SqlDbType.VarChar).Value = fechaFin;
                         cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
+                        cmd.Parameters.Add("@idUsuario_logueado", SqlDbType.Int).Value = id_usuario;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -866,6 +866,32 @@ namespace Negocio.Mantenimientos
                 throw;
             }
             return res;
+        }
+
+        public DataTable get_tipoVisitas()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_TIPO_VISITA_COMBO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 

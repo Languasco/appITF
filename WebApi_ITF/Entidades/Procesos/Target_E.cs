@@ -15,6 +15,7 @@ namespace Entidades.Procesos
         public string  categoria { get; set; }
         public string  especialidad { get; set; }
         public string  descripcionEstado { get; set; }
+        public string descripcion_tipo_visita { get; set; }
     }
 
     public class AltasBajasTarget_E

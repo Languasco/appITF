@@ -71,6 +71,22 @@ import { ProgramacionComponent } from './pages/Procesos/programacion/programacio
 import { SolicitudDireccionComponent } from './pages/Procesos/solicitud-direccion/solicitud-direccion.component';
 import { AprobarSolicitudDireccionComponent } from './pages/Procesos/aprobar-solicitud-direccion/aprobar-solicitud-direccion.component';
 import { LoginComponent } from './pages/login/login.component';
+
+///------- GRAFICOS CON FUSION CHART
+
+import { FusionChartsModule } from "angular-fusioncharts";
+
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as Widgets from "fusioncharts/fusioncharts.widgets.js";
+import * as Gantt from "fusioncharts/fusioncharts.gantt.js";
+import { CumpleaniosComponent } from './pages/Reportes/cumpleanios/cumpleanios.component';
+import { VisitasPendientesComponent } from './pages/Reportes/visitas-pendientes/visitas-pendientes.component';
+
+// Pass the fusioncharts library and chart modules
+FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
   
 @NgModule({
   declarations: [
@@ -106,7 +122,9 @@ import { LoginComponent } from './pages/login/login.component';
     ProgramacionComponent,
     SolicitudDireccionComponent,
     AprobarSolicitudDireccionComponent,
-    LoginComponent
+    LoginComponent,
+    CumpleaniosComponent,
+    VisitasPendientesComponent
   ],
   imports: [
     BrowserModule,
@@ -122,6 +140,7 @@ import { LoginComponent } from './pages/login/login.component';
     Ng2SearchPipeModule,
     TreeviewModule.forRoot(),
     TimepickerModule.forRoot(),
+    FusionChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

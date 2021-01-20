@@ -28,7 +28,10 @@ namespace Entidades.Mantenimientos
         public string  telefono_medico { get; set; }
         public string  estado { get; set; }
         public string descripcion_estado { get; set; }
+        public string id_tipo_visita { get; set; }
 
-        
+
+
+
     }
 }

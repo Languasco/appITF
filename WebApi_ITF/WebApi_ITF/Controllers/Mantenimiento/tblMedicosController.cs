@@ -202,6 +202,15 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     resul = res;
 
                 }
+                else if (opcion == 13) ///---  tipo visistas
+                {
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_tipoVisitas();
+                    res.totalpage = 0;
+                    resul = res;
+                }
 
                 else
                 {
@@ -258,7 +267,8 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                                 a.telefono_medico,        
                                 a.estado,
                                 descripcion_estado = a.estado == 0 ? "INACTIVO" : "ACTIVO",
-                                a.usuario_creacion
+                                a.usuario_creacion,
+                                a.id_tipo_visita
                             }).ToList();
                 res.totalpage = 0;
             }
@@ -290,12 +300,12 @@ namespace WebApi_ITF.Controllers.Mantenimiento
             objReemplazar.email_medico = tbl_Medicos.email_medico;
             objReemplazar.fecha_nacimiento_medico = tbl_Medicos.fecha_nacimiento_medico;
             objReemplazar.sexo_medico = tbl_Medicos.sexo_medico;
+            objReemplazar.id_tipo_visita = tbl_Medicos.id_tipo_visita;
 
             objReemplazar.telefono_medico = tbl_Medicos.telefono_medico;
             objReemplazar.estado = tbl_Medicos.estado;
             objReemplazar.usuario_edicion = tbl_Medicos.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;
-
 
             db.Entry(objReemplazar).State = EntityState.Modified;
 

@@ -36,6 +36,8 @@ export class AprobarSolicitudMedicoComponent implements OnInit {
   idSol_CabGlobal  :number = 0;
   idEstadoGlobal  :number = 10;
 
+  idEstado_det_Global :number = 0;
+
   flag_modoEdicion :boolean =false;
   flagModo_EdicionDet :boolean =false;
   flag_modoEdicionSolicitud :boolean =false;
@@ -59,6 +61,7 @@ export class AprobarSolicitudMedicoComponent implements OnInit {
   solicitudDetalle :any[]=[]; 
   usuarios :any[]=[]; 
   estados :any[]=[]; 
+  tipoVisitas :any[]=[]; 
 
   descripcionEstadoGlobal = '';
   titulo = '';
@@ -106,6 +109,7 @@ export class AprobarSolicitudMedicoComponent implements OnInit {
       sexo_medico: new FormControl('M'),
       telefono_medico: new FormControl(''),
       estado: new FormControl('10'),
+      id_tipo_visita : new FormControl('0'),
       usuario_creacion: new FormControl('0'),
     }) 
  }
@@ -141,6 +145,7 @@ inicializarFormularioSolicitud_Det(){
     codigo_distrito: new FormControl('0'),
     direccion_medico_direccion: new FormControl(''),
     referencia_medico_direccion: new FormControl(''),
+    nombre_institucion_direccion: new FormControl(''),
     estado: new FormControl('1'),
     usuario_creacion: new FormControl('0'),
    }) 
@@ -149,12 +154,12 @@ inicializarFormularioSolicitud_Det(){
  getCargarCombos(){ 
 
   this.spinner.show();
-  combineLatest([  this.actividadService.get_usuarios(this.idUserGlobal),this.actividadService.get_estados(), this.categoriaService.get_categorias()  ])
-  .subscribe( ([ _usuarios, _estados , _categorias])=>{
+  combineLatest([  this.actividadService.get_usuarios(this.idUserGlobal),this.actividadService.get_estados(), this.categoriaService.get_categorias(),  this.medicoService.get_tipoVisitas()  ])
+  .subscribe( ([ _usuarios, _estados , _categorias, _tipoVisitas ])=>{
     this.usuarios = _usuarios;
     this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Sol_Medico_Cab'); 
     this.categorias = _categorias;
-
+    this.tipoVisitas = _tipoVisitas;
     this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
 
     this.spinner.hide(); 
@@ -258,6 +263,12 @@ inicializarFormularioSolicitud_Det(){
   }
 }
 
+if (this.formParams.value.id_tipo_visita == '' || this.formParams.value.id_tipo_visita == null ||  this.formParams.value.id_tipo_visita == '0' ) {
+  this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de visita');
+  return 
+} 
+
+
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 
@@ -338,6 +349,7 @@ inicializarFormularioSolicitud_Det(){
               obj.fecha_nacimiento_medico= this.formParams.value.fecha_nacimiento_medico ; 
               obj.sexo_medico= this.formParams.value.sexo_medico ; 
               obj.telefono_medico= this.formParams.value.telefono_medico ; 
+              obj.id_tipo_visita= this.formParams.value.id_tipo_visita ; 
               
               obj.estado= this.formParams.value.estado ;
               obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
@@ -356,15 +368,16 @@ inicializarFormularioSolicitud_Det(){
  } 
 
  editar({ id_Medico, id_Identificador_Medico, cmp_medico, nombres_medico, apellido_paterno_medico, apellido_materno_medico, id_Categoria, id_Especialidad1, 
-  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado }){
+  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado, id_tipo_visita }){
 
   this.flag_modoEdicion=true;
   this.id_MedicoGlobal = id_Medico;
 
   this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : id_Identificador_Medico ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
-   "email_medico" : email_medico, "fecha_nacimiento_medico" : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
-   "estado" : estado, "usuario_creacion" : this.idUserGlobal 
+   "email_medico" : email_medico, "fecha_nacimiento_medico" :  (fechaNacimientoMedico == '1900-01-01T00:00:00' ) ? null : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,      "estado" : estado, "usuario_creacion" : this.idUserGlobal , "id_tipo_visita" : (id_tipo_visita == null )? 0 : id_tipo_visita  
   });
+
+  this.idEstado_det_Global = estado;
    
   //----obteniendo las direcciones ----
   this.getDireccionesDet();
@@ -480,7 +493,12 @@ guardarDetalle_direccion(){
     this.alertasService.Swal_alert('error', 'Por favor ingrese la direccion.');
     return 
   }
+  if (this.formParamsDirection.value.nombre_institucion_direccion == '' || this.formParamsDirection.value.nombre_institucion_direccion == 0 || this.formParamsDirection.value.nombre_institucion_direccion == null)  {
+    this.alertasService.Swal_alert('error', 'Por favor ingrese el nombre de la institución.');
+    return 
+  }
  
+
 
   Swal.fire({
     icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
@@ -520,6 +538,7 @@ guardarDetalle_direccion(){
                 objdetalle.codigo_distrito = this.formParamsDirection.value.codigo_distrito;
                 objdetalle.direccion_medico_direccion = this.formParamsDirection.value.direccion_medico_direccion;
                 objdetalle.referencia_medico_direccion = this.formParamsDirection.value.referencia_medico_direccion;
+                objdetalle.nombre_institucion_direccion = this.formParamsDirection.value.nombre_institucion_direccion;
                 break;
              }
            }
@@ -544,7 +563,7 @@ verificarDireccionCargada(direccionmedicodireccion: string){
   return flagRepetida;
 }
 
-modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, estado,  }){    
+modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
 
   
   if (codigo_departamento =='0') {
@@ -555,7 +574,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
       this.formParamsDirection.patchValue({
         "id_Medicos_Direccion"  : id_Medicos_Direccion ,
         "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 ,
+        "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion 
       }); 
     }, 0); 
 
@@ -572,8 +591,8 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
             this.formParamsDirection.patchValue({
               "id_Medicos_Direccion"  : id_Medicos_Direccion ,
               "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
-              "estado"  : 1 ,
+              "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , 
+              "estado"  : 1 ,  "nombre_institucion_direccion"  : nombre_institucion_direccion 
             }); 
           }, 0);  
 
@@ -593,7 +612,7 @@ modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo
                 "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                 "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
                 "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion ,
-                "estado"  : 1 ,
+                "estado"  : 1 ,  "nombre_institucion_direccion"  : nombre_institucion_direccion 
               }); 
             }, 0);          
 

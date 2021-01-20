@@ -223,6 +223,7 @@
     <Compile Include="Controllers\Procesos\tblSolMedico_CabController.cs" />
     <Compile Include="Controllers\Procesos\tblSolMedico_DetController.cs" />
     <Compile Include="Controllers\Procesos\tblStockController.cs" />
+    <Compile Include="Controllers\Reporte\ReportesController.cs" />
     <Compile Include="Controllers\upload\UploadsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -302,7 +303,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Reporte\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

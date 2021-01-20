@@ -109,6 +109,9 @@
     <Compile Include="tbl_Medicos_Direccion.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Mes.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Monedas.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
@@ -159,7 +162,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Proyecto_ITF.edmx.diagram">
       <DependentUpon>Proyecto_ITF.edmx</DependentUpon>

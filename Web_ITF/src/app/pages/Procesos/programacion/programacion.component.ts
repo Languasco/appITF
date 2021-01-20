@@ -36,6 +36,7 @@ export class ProgramacionComponent implements OnInit {
   idEstado_Global :number = 0;
   idCiclo_Global :number = 0;
   idVisitador_Global :number = 0;
+  idMedico_Global:number = 0;
 
   flag_modoEdicion :boolean =false;
 
@@ -164,8 +165,6 @@ export class ProgramacionComponent implements OnInit {
     this.especialidades = _especialidades;
     this.resultadosVisitas = _resultadosVisitas;
 
-    console.log(_resultadosVisitas)
-
     this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario });  
     this.spinner.hide(); 
   })
@@ -188,7 +187,6 @@ export class ProgramacionComponent implements OnInit {
             this.spinner.hide();
             if (res.ok==true) {        
                 this.programacionCab = res.data; 
-                console.log(   this.programacionCab)
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));
               alert(JSON.stringify(res.data));
@@ -228,9 +226,7 @@ export class ProgramacionComponent implements OnInit {
 
             this.idCiclo_Global = id_Ciclo;
             this.idVisitador_Global = idVisitador;
-
-            console.log('visita_acompaniada_programacion_cab')
-            console.log(visita_acompaniada_programacion_cab)
+            this.idMedico_Global = id_Medico;
 
             this.formParams.patchValue({ 
               "id_Programacion_cab" : this.idProgramacionCab_Global ,
@@ -370,7 +366,18 @@ export class ProgramacionComponent implements OnInit {
   }
  
   this.formParams.patchValue({"id_Programacion_cab" : this.idProgramacionCab_Global ,  "hora_programacion_programacion_cab" : fechaformatoStart, "hora_reporte_programacion_cab" : fechaformatoEnd, "usuario_creacion" : this.idUserGlobal , "estado_programacion_cab"  : estadoProgramacion});  
-
+  
+  if ( this.formParams.value.id_resultado_visita != '0') {     
+    const fechaValida =  this.funcionesglobalesService.formatoFecha(this.formParams.value.fecha_reporte_programacion_cab);
+    const resVerifica : any = await this.programacionService.get_verificar_visitaMedico(  this.idMedico_Global, fechaValida);
+ 
+    if (resVerifica.ok ==true) { 
+      if (resVerifica.data.length > 0 ) {
+        Swal.close();
+        this.alertasService.Swal_alert('error','Medico ya fue visitado en la fecha de reporte');
+      }
+    } 
+  }
 
   this.alertasService.Swal_Question('Sistemas', 'Esta seguro de Grabar la informacion de la Visita ?')
   .then((result)=>{

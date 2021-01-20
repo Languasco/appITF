@@ -389,6 +389,14 @@
                                                                     <label> Email </label>
                                                                     <input type="text" class="form-control " maxlength="250" formControlName="email_medico">
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <label> Tipo de Visitas </label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_tipo_visita">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="visita.id_tipo_visita" *ngFor="let visita of tipoVisitas">{{visita.descripcion_tipo_visita}}</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -397,11 +405,11 @@
 
                                             </div>
 
-                                            <!-- <div class="d-flex justify-content-center" *ngIf="idEstadoGlobal == 11">
+                                            <div class="d-flex justify-content-center" *ngIf="idEstado_det_Global == 10">
                                                 <div class="p-2 bd-highlight">
-                                                    <button class="btn btn-sm btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Guadar Medico</i></button>                                    
+                                                    <button class="btn btn-sm btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Guadar Medico</i></button>
                                                 </div>
-                                            </div> -->
+                                            </div>
 
                                         </div>
                                     </div>
@@ -454,15 +462,23 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-12">
+                                                                    <label> Nombre de institución </label>
+                                                                    <input type="text" class="form-control " maxlength="250" formControlName="nombre_institucion_direccion">
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
                                                                     <label> Referencia </label>
                                                                     <textarea class="form-control" formControlName="referencia_medico_direccion" rows="2"></textarea>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="row mb-2" *ngIf="idEstadoGlobal == 11">
+                                                            <div class="row mb-2" *ngIf="idEstado_det_Global == 10">
                                                                 <div class="col-md-12">
                                                                     <div class="text-center mt-2 ">
-                                                                        <!-- <button class="btn btn-sm btn-success " (click)="guardarDetalle_direccion()">  <i class="fas fa-save"> Grabar</i> </button>                                                                       -->
+                                                                        <button class="btn btn-sm btn-success " (click)="guardarDetalle_direccion()">  <i class="fas fa-save"> Grabar</i> </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -587,9 +603,6 @@
                         <button class="btn btn-warning ml-2" title="Aprobar" (click)="aprobarRechazarMedico('O')"> <i class="fas fa-tasks"> Observada </i></button>
                         <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarMedico('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
                     </div>
-
-
-
                 </div>
 
             </div>

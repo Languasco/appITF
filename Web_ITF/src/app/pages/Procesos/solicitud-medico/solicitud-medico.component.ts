@@ -62,6 +62,7 @@ export class SolicitudMedicoComponent implements OnInit {
   solicitudDetalle :any[]=[]; 
   usuarios :any[]=[]; 
   estados :any[]=[]; 
+  tipoVisitas :any[]=[]; 
 
   descripcionEstadoGlobal = '';
   titulo = '';
@@ -109,6 +110,7 @@ export class SolicitudMedicoComponent implements OnInit {
       fecha_nacimiento_medico: new FormControl( null),
       sexo_medico: new FormControl('M'),
       telefono_medico: new FormControl(''),
+      id_tipo_visita: new FormControl('0'),
       estado: new FormControl('10'),
       usuario_creacion: new FormControl('0'),
     }) 
@@ -142,11 +144,12 @@ export class SolicitudMedicoComponent implements OnInit {
  getCargarCombos(){ 
 
   this.spinner.show();
-  combineLatest([  this.actividadService.get_usuarios(this.idUserGlobal),this.actividadService.get_estados(), this.categoriaService.get_categorias()  ])
-  .subscribe( ([ _usuarios, _estados , _categorias])=>{
+  combineLatest([  this.actividadService.get_usuarios(this.idUserGlobal),this.actividadService.get_estados(), this.categoriaService.get_categorias(), this.medicoService.get_tipoVisitas()  ])
+  .subscribe( ([ _usuarios, _estados , _categorias, _tipoVisitas ])=>{
     this.usuarios = _usuarios;
     this.estados = _estados.filter((estado) => estado.grupo_estado ==='tbl_Sol_Medico_Cab'); 
     this.categorias = _categorias;
+    this.tipoVisitas = _tipoVisitas;
 
     this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario  });  
 
@@ -245,6 +248,12 @@ mostrarInformacion_solicitudCabecera(){
     this.alertasService.Swal_alert('error','Por favor seleccione la especialidad');
     return 
   } 
+
+  if (this.formParams.value.id_tipo_visita == '' || this.formParams.value.id_tipo_visita == null ||  this.formParams.value.id_tipo_visita == '0' ) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de visita');
+    return 
+  } 
+
  
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
@@ -352,6 +361,7 @@ mostrarInformacion_solicitudCabecera(){
               obj.fecha_nacimiento_medico= this.formParams.value.fecha_nacimiento_medico ; 
               obj.sexo_medico= this.formParams.value.sexo_medico ; 
               obj.telefono_medico= this.formParams.value.telefono_medico ; 
+              obj.id_tipo_visita= this.formParams.value.id_tipo_visita ; 
               
               obj.estado= this.formParams.value.estado ;
               obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
@@ -406,6 +416,12 @@ mostrarInformacion_solicitudCabecera(){
      this.alertasService.Swal_alert('error','Por favor seleccione la especialidad');
      return 
    } 
+
+   if (this.formParams.value.id_tipo_visita == '' || this.formParams.value.id_tipo_visita == null ||  this.formParams.value.id_tipo_visita == '0' ) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de visita');
+    return 
+  } 
+
  
   
    this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
@@ -517,6 +533,7 @@ mostrarInformacion_solicitudCabecera(){
                obj.fecha_nacimiento_medico= this.formParams.value.fecha_nacimiento_medico ; 
                obj.sexo_medico= this.formParams.value.sexo_medico ; 
                obj.telefono_medico= this.formParams.value.telefono_medico ; 
+               obj.id_tipo_visita= this.formParams.value.id_tipo_visita ; 
                
                obj.estado= this.formParams.value.estado ;
                obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
@@ -557,7 +574,7 @@ mostrarInformacion_solicitudCabecera(){
 } 
  
  editar({ id_Medico, id_Identificador_Medico, cmp_medico, nombres_medico, apellido_paterno_medico, apellido_materno_medico, id_Categoria, id_Especialidad1, 
-  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado }){
+  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado , id_tipo_visita }){
 
   //-----estado del medico de solicitud ---
   this.idEstadoMedicoGlobal = estado;
@@ -568,7 +585,7 @@ mostrarInformacion_solicitudCabecera(){
 
   this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : id_Identificador_Medico ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
    "email_medico" : email_medico, "fecha_nacimiento_medico" : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
-   "estado" : estado, "usuario_creacion" : this.idUserGlobal 
+   "estado" : estado, "usuario_creacion" : this.idUserGlobal , "id_tipo_visita" :  (id_tipo_visita == null )? 0 : id_tipo_visita   
   });
    
   //----obteniendo las direcciones ----

@@ -541,5 +541,36 @@ namespace Negocio.Procesos
             return resultado;
         }
 
+
+        public DataTable get_validacionVisita(int idMedico, string fechaProgram)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_VERIFICA_VISITA_MEDICO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_medico", SqlDbType.Int).Value = idMedico;
+                        cmd.Parameters.Add("@fecha_reporte", SqlDbType.VarChar).Value = fechaProgram;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }

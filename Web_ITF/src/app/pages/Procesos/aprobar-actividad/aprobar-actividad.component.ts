@@ -117,7 +117,7 @@ export class AprobarActividadComponent implements OnInit {
   const fechaFin = this.funcionesglobalesService.formatoFecha(this.formParamsFiltro.value.fecha_fin);
  
   this.spinner.show();
-  this.actividadService.get_mostrar_actividadAprobar( this.formParamsFiltro.value.idUsuario, fechaIni , fechaFin,  this.formParamsFiltro.value.idEstado)
+  this.actividadService.get_mostrar_actividadAprobar( this.formParamsFiltro.value.idUsuario, fechaIni , fechaFin,  this.formParamsFiltro.value.idEstado, this.idUserGlobal )
       .subscribe((res:RespuestaServer)=>{  
           this.spinner.hide();
           if (res.ok==true) {        

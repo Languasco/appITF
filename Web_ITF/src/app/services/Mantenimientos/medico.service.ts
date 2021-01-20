@@ -22,8 +22,26 @@ export class MedicoService {
   departamentos :any[]=[]; 
   provincias :any[]=[]; 
   distritos :any[]=[]; 
+  tipoVisitas :any[]=[]; 
 
   constructor(private http:HttpClient) { } 
+
+
+  get_tipoVisitas(){
+    if (this.tipoVisitas.length > 0) {
+      return of( this.tipoVisitas )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '13');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'tblMedicos' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                        this.tipoVisitas = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
   
   get_profesiones(){
     if (this.profesiones.length > 0) {

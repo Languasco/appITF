@@ -111,9 +111,10 @@ namespace WebApi_ITF.Controllers.Procesos
                     string fechaFin = parametros[2].ToString();
                     int idEstado = Convert.ToInt32(parametros[3].ToString());
                     string opcionTarget = parametros[4].ToString();
+                    int idUsuariologeado = Convert.ToInt32(parametros[5].ToString());
 
                     Target_BL obj_negocios = new Target_BL();
-                    resul = obj_negocios.get_mostrar_Aprobar_AltasBajasTarget_cab(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget);
+                    resul = obj_negocios.get_mostrar_Aprobar_AltasBajasTarget_cab(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget, idUsuariologeado);
                 }
                 else if (opcion == 8)
                 {

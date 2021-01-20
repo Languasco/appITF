@@ -89,11 +89,12 @@ export class TargetService {
 
     ///----APROBAR ALTAS BAJAS TARGET ----
 
-    get_mostrar_AprobacionAltasBajasTarget({idUsuario, fecha_ini, fecha_fin, estado },opcionTarget:string, fechaIni:string, fechaFin:string){
+    get_mostrar_AprobacionAltasBajasTarget({idUsuario, fecha_ini, fecha_fin, estado },opcionTarget:string, fechaIni:string, fechaFin:string,  idUsuario_logeado:number){
       let parametros = new HttpParams();
       parametros = parametros.append('opcion', '7');
-      parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget) );
+      parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget)  + '|' + String(idUsuario_logeado)  );
   
+      console.log(parametros)
       return this.http.get( this.URL + 'Target' , {params: parametros});
     }
 

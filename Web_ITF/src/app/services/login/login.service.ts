@@ -35,9 +35,6 @@ export class LoginService {
     parametros = parametros.append('opcion', '1');
     parametros = parametros.append('filtro', nombreUsuario + '|' + contrasenia );
 
-
-    console.log(this.URL + 'Login')
-
     return this.http.get( this.URL + 'Login' , {params: parametros})
                .pipe(map((res:any)=>{       
                     if (res.ok ==true || res.ok == 'true' ) {        
@@ -47,7 +44,8 @@ export class LoginService {
                         nombre_usuario : res.data.nombre_usuario,
                         id_perfil:res.data.id_perfil,
                         menu_permisos : res.data.menuPermisos,
-                        menu_eventos : res.data.menuEventos
+                        menu_eventos : res.data.menuEventos,
+                        es_supervisor:res.data.es_supervisor,
                       }                      
                       this.guardarSesion(infoUser);
 
@@ -156,6 +154,15 @@ export class LoginService {
     // parametros = parametros.append('filtro',    '1|18'   );
 
     return this.http.get( this.URL + 'login' , {params: parametros});
+  }
+
+  get_flag_EsSupervisor():number{
+    if (localStorage.getItem('data_ITF_usuario')) { 
+       this.dataLogeado =  JSON.parse(localStorage.getItem("data_ITF_usuario"));
+      return this.dataLogeado['es_supervisor'];
+    }else{
+      return 0;
+    }
   }
 
 

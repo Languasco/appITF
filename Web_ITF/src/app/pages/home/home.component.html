@@ -80,48 +80,198 @@
                     <div class="card border-success">
                         <div class="card-body">
 
-                            <table class="table  table-hover table-bordered table-sm">
-                                <thead class="theadTable2">
-                                    <tr class="theadTable3">
-                                        <th scope="col">#</th>
-                                        <th scope="col"> </th>
-                                        <th scope="col"> </th>
-                                        <th colspan="4" class="text-center">Mes</th>
 
-                                        <th colspan="4" class="text-center">a la Fecha</th>
-                                    </tr>
-                                    <tr style="height: 40px !important;">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nombre y apellido</th>
-                                        <th scope="col">Accion</th>
-                                        <th class="text-center">Cuota</th>
-                                        <th class="text-center">Visitas</th>
-                                        <th class="text-center">%</th>
-                                        <th class="text-center">Saldo</th>
+                            <div id="Representante" *ngIf="flag_es_supervisor ==0">
+                                <div class="d-flex justify-content-center">
+                                    <div>
+                                        <h4>FRECUENCIA</h4>
+                                    </div>
+                                </div>
 
-                                        <th class="text-center">Cuota</th>
-                                        <th class="text-center">Visitas</th>
-                                        <th class="text-center">%</th>
-                                        <th class="text-center">Saldo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of resumenGeneral   ; index as j">
-                                        <th scope="row"> {{j + 1}} </th>
-                                        <td>{{item.representante_medico}} </td>
-                                        <td>{{item.accion}} </td>
-                                        <td class="text-right">{{item.cuota_mes | number}} </td>
-                                        <td class="text-right">{{item.numero_visitas | number }} </td>
-                                        <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_mes | number}} </td>
-                                        <td class="text-right">{{item.saldo_mes | number}} </td>
+                                <div class="row">
+                                    <div class="col-md-6">
 
-                                        <td class="text-right">{{item.cuota_fecha | number}} </td>
-                                        <td class="text-right">{{item.numero_visitas | number }} </td>
-                                        <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_fecha | number}} </td>
-                                        <td class="text-right">{{item.saldo_fecha | number}} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <div class=" text-center">
+                                            <fusioncharts type="angulargauge" [height]="200" [dataSource]="dataFrecuenciaMes">
+                                            </fusioncharts>
+                                        </div>
+
+
+                                        <table class="table  table-hover table-bordered table-sm">
+                                            <thead class="theadTable2">
+                                                <tr class="theadTable3">
+                                                    <th colspan="4" class="text-center">Mes </th>
+                                                </tr>
+                                                <tr style="height: 40px !important;">
+                                                    <th class="text-center">Cuota</th>
+                                                    <th class="text-center">Visitas</th>
+                                                    <th class="text-center">%</th>
+                                                    <th class="text-center">Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of frecuenciaMes   ; index as j">
+
+                                                    <td class="text-right">{{item.cuota_mes | number}} </td>
+                                                    <td class="text-right">{{item.numero_visitas | number }} </td>
+                                                    <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_mes | number}} </td>
+                                                    <td class="text-right">{{item.saldo_mes | number}} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="  text-center">
+                                            <fusioncharts type="angulargauge" [height]="200" [dataSource]="dataFrecuenciaFecha">
+                                            </fusioncharts>
+                                        </div>
+
+                                        <table class="table  table-hover table-bordered table-sm">
+                                            <thead class="theadTable2">
+                                                <tr class="theadTable3">
+                                                    <th colspan="4" class="text-center"> A la fecha</th>
+                                                </tr>
+                                                <tr style="height: 40px !important;">
+                                                    <th class="text-center">Cuota</th>
+                                                    <th class="text-center">Visitas</th>
+                                                    <th class="text-center">%</th>
+                                                    <th class="text-center">Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of frecuenciaFecha   ; index as j">
+                                                    <td class="text-right">{{item.cuota_fecha | number}} </td>
+                                                    <td class="text-right">{{item.numero_visitas | number }} </td>
+                                                    <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_fecha)}">{{item.porcentaje_fecha | number}} </td>
+                                                    <td class="text-right">{{item.saldo_fecha | number}} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <div>
+                                        <h4>COBERTURA</h4>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="mt-2 text-center">
+                                            <fusioncharts type="angulargauge" [height]="200" [dataSource]="dataCoberturaMes">
+                                            </fusioncharts>
+                                        </div>
+
+
+                                        <table class="table  table-hover table-bordered table-sm">
+                                            <thead class="theadTable2">
+                                                <tr class="theadTable3">
+                                                    <th colspan="4" class="text-center">Mes </th>
+                                                </tr>
+                                                <tr style="height: 40px !important;">
+                                                    <th class="text-center">Cuota</th>
+                                                    <th class="text-center">Visitas</th>
+                                                    <th class="text-center">%</th>
+                                                    <th class="text-center">Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of CoberturaMes   ; index as j">
+
+                                                    <td class="text-right">{{item.cuota_mes | number}} </td>
+                                                    <td class="text-right">{{item.numero_visitas | number }} </td>
+                                                    <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_mes | number}} </td>
+                                                    <td class="text-right">{{item.saldo_mes | number}} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="mt-2 text-center ">
+                                            <fusioncharts type="angulargauge" [height]="200" [dataSource]="dataCoberturaFecha">
+                                            </fusioncharts>
+                                        </div>
+
+                                        <table class="table  table-hover table-bordered table-sm">
+                                            <thead class="theadTable2">
+                                                <tr class="theadTable3">
+                                                    <th colspan="4" class="text-center"> A la fecha</th>
+                                                </tr>
+                                                <tr style="height: 40px !important;">
+                                                    <th class="text-center">Cuota</th>
+                                                    <th class="text-center">Visitas</th>
+                                                    <th class="text-center">%</th>
+                                                    <th class="text-center">Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of CoberturaFecha   ; index as j">
+                                                    <td class="text-right">{{item.cuota_fecha | number}} </td>
+                                                    <td class="text-right">{{item.numero_visitas | number }} </td>
+                                                    <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_fecha)}">{{item.porcentaje_fecha | number}} </td>
+                                                    <td class="text-right">{{item.saldo_fecha | number}} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="Supervisor" *ngIf="flag_es_supervisor == 1">
+                                <table class="table  table-hover table-bordered table-sm">
+                                    <thead class="theadTable2">
+                                        <tr class="theadTable3">
+
+                                            <th scope="col"> </th>
+                                            <th scope="col"> </th>
+                                            <th colspan="4" class="text-center">Mes</th>
+
+                                            <th colspan="4" class="text-center">a la Fecha</th>
+                                        </tr>
+                                        <tr style="height: 40px !important;">
+
+                                            <th scope="col">Nombre y apellido</th>
+                                            <th scope="col">Accion</th>
+                                            <th class="text-center">Cuota</th>
+                                            <th class="text-center">Visitas</th>
+                                            <th class="text-center">%</th>
+                                            <th class="text-center">Saldo</th>
+
+                                            <th class="text-center">Cuota</th>
+                                            <th class="text-center">Visitas</th>
+                                            <th class="text-center">%</th>
+                                            <th class="text-center">Saldo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of resumenGeneral   ; index as j" [ngStyle]="item.flag_pintar == 1 && {'background-color': '#e9ecef'}">
+
+                                            <td>{{item.representante_medico}} </td>
+                                            <td>{{item.accion}} </td>
+                                            <td class="text-right">{{item.cuota_mes | number}} </td>
+                                            <td class="text-right">{{item.numero_visitas | number }} </td>
+                                            <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_mes | number}} </td>
+                                            <td class="text-right">{{item.saldo_mes | number}} </td>
+
+                                            <td class="text-right">{{item.cuota_fecha | number}} </td>
+                                            <td class="text-right">{{item.numero_visitas | number }} </td>
+                                            <td class="text-right" style="color: black;" [ngStyle]="{'background-color':getColorEstado(item.porcentaje_mes)}">{{item.porcentaje_fecha | number}} </td>
+                                            <td class="text-right">{{item.saldo_fecha | number}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
 
                         </div>
                     </div>
@@ -139,7 +289,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let row of resumenDiario ; index as j">
+                                        <tr *ngFor="let row of resumenDiario ; index as j" [ngStyle]="row.flag_pintar == 1 && {'background-color': '#e9ecef'}">
                                             <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsResumenDiario  ">
                                                 {{row[column]}}
                                             </td>

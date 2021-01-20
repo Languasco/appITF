@@ -51,6 +51,7 @@ export class MedicoComponent implements OnInit {
   distritos :any[]=[]; 
 
   direccionDetalle :any[]=[]; 
+  tipoVisitas :any[]=[]; 
 
 
   // -------importaciones 
@@ -99,6 +100,7 @@ export class MedicoComponent implements OnInit {
       sexo_medico: new FormControl('M'),
       telefono_medico: new FormControl(''),
       estado: new FormControl('1'),
+      id_tipo_visita: new FormControl('0'),
       usuario_creacion: new FormControl('0'),
     }) 
  }
@@ -120,12 +122,13 @@ export class MedicoComponent implements OnInit {
 
  getCargarCombos(){ 
   this.spinner.show();
-  combineLatest([  this.categoriaService.get_categorias(), this.especialidadService.get_especialidades() , this.medicoService.get_profesiones() , this.medicoService.get_departamentos()])
-  .subscribe( ([ _categorias, _especialidades, _profesiones, _departamentos  ])=>{
+  combineLatest([  this.categoriaService.get_categorias(), this.especialidadService.get_especialidades() , this.medicoService.get_profesiones() , this.medicoService.get_departamentos(), this.medicoService.get_tipoVisitas() ])
+  .subscribe( ([ _categorias, _especialidades, _profesiones, _departamentos, _tipoVisitas  ])=>{
     this.categorias = _categorias;
     this.especialidades = _especialidades;
     this.profesiones = _profesiones;
     this.departamentos = _departamentos;
+    this.tipoVisitas = _tipoVisitas;
     this.spinner.hide(); 
   })
 }
@@ -204,7 +207,13 @@ export class MedicoComponent implements OnInit {
       return 
     }
   }
- 
+
+  if (this.formParams.value.id_tipo_visita == '' || this.formParams.value.id_tipo_visita == null ||  this.formParams.value.id_tipo_visita == '0' ) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de visita');
+    return 
+  } 
+
+   
  
   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
 
@@ -272,6 +281,7 @@ export class MedicoComponent implements OnInit {
               obj.fechaNacimientoMedico=  this.formParams.value.fecha_nacimiento_medico ;             
               obj.sexo_medico= this.formParams.value.sexo_medico ; 
               obj.telefono_medico= this.formParams.value.telefono_medico ; 
+              obj.id_tipo_visita= this.formParams.value.id_tipo_visita ; 
               
               obj.estado= this.formParams.value.estado ;
               obj.descripcion_estado = this.formParams.value.estado == 0 ? "INACTIVO" : "ACTIVO";  
@@ -290,14 +300,13 @@ export class MedicoComponent implements OnInit {
  } 
 
  editar({ id_Medico, id_Identificador_Medico, cmp_medico, nombres_medico, apellido_paterno_medico, apellido_materno_medico, id_Categoria, id_Especialidad1, 
-  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado }){
+  id_Especialidad2, email_medico, fecha_nacimiento_medico,fechaNacimientoMedico, sexo_medico, telefono_medico, estado, id_tipo_visita  }){
 
   this.flag_modoEdicion=true;
   this.id_MedicoGlobal = id_Medico;
 
   this.formParams.patchValue({ "id_Medico" : id_Medico,  "id_Identificador_Medico" : String(id_Identificador_Medico) ,"cmp_medico" : cmp_medico, "nombres_medico" : nombres_medico,  "apellido_paterno_medico" : apellido_paterno_medico ,"apellido_materno_medico" : apellido_materno_medico,  "id_Categoria" : id_Categoria,  "id_Especialidad1" : id_Especialidad1 ,"id_Especialidad2" : id_Especialidad2, 
-   "email_medico" : email_medico, "fecha_nacimiento_medico" :  (fechaNacimientoMedico == '1900-01-01T00:00:00' ) ? null : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,   
-   "estado" : estado, "usuario_creacion" : this.idUserGlobal 
+   "email_medico" : email_medico, "fecha_nacimiento_medico" :  (fechaNacimientoMedico == '1900-01-01T00:00:00' ) ? null : new Date(fechaNacimientoMedico) , "sexo_medico" : sexo_medico ,"telefono_medico" : telefono_medico,  "estado" : estado, "usuario_creacion" : this.idUserGlobal , "id_tipo_visita" :  (id_tipo_visita == null )? 0 : id_tipo_visita  
   });
    
   //----obteniendo las direcciones ----

@@ -129,6 +129,14 @@ export class ProgramacionService {
    return this.http.get( this.URL + 'Programacion' , {params: parametros});
   }
 
+  get_verificar_visitaMedico(idMedico_Global:number, fechaReporte:string ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '13');
+    parametros = parametros.append('filtro', String(idMedico_Global)  + '|' + String(fechaReporte));
+
+    return this.http.get( this.URL + 'Programacion' , {params: parametros}).toPromise();
+  }
+
 
  
 }

@@ -394,6 +394,14 @@
                                                             <label> Email </label>
                                                             <input type="text" class="form-control " maxlength="250" formControlName="email_medico">
                                                         </div>
+                                                        <div class="col-md-6">
+                                                            <label> Tipo de Visitas </label>
+                                                            <br>
+                                                            <select class="form-control comboBox" formControlName="id_tipo_visita">
+                                                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                <option [value]="visita.id_tipo_visita" *ngFor="let visita of tipoVisitas">{{visita.descripcion_tipo_visita}}</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
 

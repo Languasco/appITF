@@ -274,6 +274,17 @@
                                                                 </div>
 
                                                                 <div class="col-md-6">
+                                                                    <label> Tipo de Visitas </label>
+                                                                    <br>
+                                                                    <select class="form-control comboBox" formControlName="id_tipo_visita">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="visita.id_tipo_visita" *ngFor="let visita of tipoVisitas">{{visita.descripcion_tipo_visita}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
                                                                     <label> Estado</label>
                                                                     <br>
                                                                     <select id="cboEstado" class="form-control comboBox" formControlName="estado">
@@ -283,6 +294,8 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
+
+
                                                         </div>
 
                                                     </form>

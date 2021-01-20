@@ -194,6 +194,7 @@
           <Property Name="fecha_creacion" Type="datetime" />
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="id_tipo_visita" Type="int" />
         </EntityType>
         <EntityType Name="tbl_Medicos_Direccion">
           <Key>
@@ -212,6 +213,13 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
           <Property Name="nombre_institucion_direccion" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_Mes">
+          <Key>
+            <PropertyRef Name="id_Mes" />
+          </Key>
+          <Property Name="id_Mes" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tbl_Monedas">
           <Key>
@@ -471,6 +479,7 @@
           <EntitySet Name="tbl_Identificador_Medico" EntityType="Self.tbl_Identificador_Medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Medicos" EntityType="Self.tbl_Medicos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Medicos_Direccion" EntityType="Self.tbl_Medicos_Direccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Mes" EntityType="Self.tbl_Mes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Monedas" EntityType="Self.tbl_Monedas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Perfil" EntityType="Self.tbl_Perfil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Perfil_Accesos" EntityType="Self.tbl_Perfil_Accesos" Schema="dbo" store:Type="Tables" />
@@ -509,7 +518,6 @@
           <EntitySet Name="tbl_Evento" EntityType="ITF_PERUModel.tbl_Evento" />
           <EntitySet Name="tbl_Feriados" EntityType="ITF_PERUModel.tbl_Feriados" />
           <EntitySet Name="tbl_Identificador_Medico" EntityType="ITF_PERUModel.tbl_Identificador_Medico" />
-          <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
           <EntitySet Name="tbl_Monedas" EntityType="ITF_PERUModel.tbl_Monedas" />
           <EntitySet Name="tbl_Perfil_Accesos" EntityType="ITF_PERUModel.tbl_Perfil_Accesos" />
           <EntitySet Name="tbl_Productos" EntityType="ITF_PERUModel.tbl_Productos" />
@@ -535,6 +543,8 @@
           <EntitySet Name="tbl_Actividades" EntityType="ITF_PERUModel.tbl_Actividades" />
           <EntitySet Name="tbl_Ciclos" EntityType="ITF_PERUModel.tbl_Ciclos" />
           <EntitySet Name="tbl_Perfil" EntityType="ITF_PERUModel.tbl_Perfil" />
+          <EntitySet Name="tbl_Mes" EntityType="ITF_PERUModel.tbl_Mes" />
+          <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -666,29 +676,6 @@
           </Key>
           <Property Name="id_Identificador_Medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion_identificador_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tbl_Medicos">
-          <Key>
-            <PropertyRef Name="id_Medico" />
-          </Key>
-          <Property Name="id_Medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Identificador_Medico" Type="Int32" />
-          <Property Name="cmp_medico" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="nombres_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="apellido_paterno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="apellido_materno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="id_Categoria" Type="Int32" />
-          <Property Name="id_Especialidad1" Type="Int32" />
-          <Property Name="id_Especialidad2" Type="Int32" />
-          <Property Name="email_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_nacimiento_medico" Type="DateTime" Precision="3" />
-          <Property Name="sexo_medico" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="telefono_medico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="Int32" />
           <Property Name="usuario_creacion" Type="Int32" />
           <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
@@ -991,6 +978,37 @@
           <Property Name="cuota_frecuencia_perfil" Type="Decimal" Precision="12" Scale="6" />
           <Property Name="cuota_cobertura_perfil" Type="Decimal" Precision="12" Scale="6" />
         </EntityType>
+        <EntityType Name="tbl_Mes">
+          <Key>
+            <PropertyRef Name="id_Mes" />
+          </Key>
+          <Property Name="id_Mes" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Medicos">
+          <Key>
+            <PropertyRef Name="id_Medico" />
+          </Key>
+          <Property Name="id_Medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Identificador_Medico" Type="Int32" />
+          <Property Name="cmp_medico" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombres_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="apellido_paterno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="apellido_materno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_Categoria" Type="Int32" />
+          <Property Name="id_Especialidad1" Type="Int32" />
+          <Property Name="id_Especialidad2" Type="Int32" />
+          <Property Name="email_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_nacimiento_medico" Type="DateTime" Precision="3" />
+          <Property Name="sexo_medico" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="telefono_medico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="id_tipo_visita" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1137,30 +1155,6 @@
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="descripcion_identificador_medico" ColumnName="descripcion_identificador_medico" />
                 <ScalarProperty Name="id_Identificador_Medico" ColumnName="id_Identificador_Medico" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Medicos">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos">
-              <MappingFragment StoreEntitySet="tbl_Medicos">
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="telefono_medico" ColumnName="telefono_medico" />
-                <ScalarProperty Name="sexo_medico" ColumnName="sexo_medico" />
-                <ScalarProperty Name="fecha_nacimiento_medico" ColumnName="fecha_nacimiento_medico" />
-                <ScalarProperty Name="email_medico" ColumnName="email_medico" />
-                <ScalarProperty Name="id_Especialidad2" ColumnName="id_Especialidad2" />
-                <ScalarProperty Name="id_Especialidad1" ColumnName="id_Especialidad1" />
-                <ScalarProperty Name="id_Categoria" ColumnName="id_Categoria" />
-                <ScalarProperty Name="apellido_materno_medico" ColumnName="apellido_materno_medico" />
-                <ScalarProperty Name="apellido_paterno_medico" ColumnName="apellido_paterno_medico" />
-                <ScalarProperty Name="nombres_medico" ColumnName="nombres_medico" />
-                <ScalarProperty Name="cmp_medico" ColumnName="cmp_medico" />
-                <ScalarProperty Name="id_Identificador_Medico" ColumnName="id_Identificador_Medico" />
-                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1449,6 +1443,39 @@
                 <ScalarProperty Name="descripcion_perfil" ColumnName="descripcion_perfil" />
                 <ScalarProperty Name="codigo_perfil" ColumnName="codigo_perfil" />
                 <ScalarProperty Name="id_perfil" ColumnName="id_perfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Mes">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Mes">
+              <MappingFragment StoreEntitySet="tbl_Mes">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_Mes" ColumnName="id_Mes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Medicos">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos">
+              <MappingFragment StoreEntitySet="tbl_Medicos">
+                <ScalarProperty Name="id_tipo_visita" ColumnName="id_tipo_visita" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="telefono_medico" ColumnName="telefono_medico" />
+                <ScalarProperty Name="sexo_medico" ColumnName="sexo_medico" />
+                <ScalarProperty Name="fecha_nacimiento_medico" ColumnName="fecha_nacimiento_medico" />
+                <ScalarProperty Name="email_medico" ColumnName="email_medico" />
+                <ScalarProperty Name="id_Especialidad2" ColumnName="id_Especialidad2" />
+                <ScalarProperty Name="id_Especialidad1" ColumnName="id_Especialidad1" />
+                <ScalarProperty Name="id_Categoria" ColumnName="id_Categoria" />
+                <ScalarProperty Name="apellido_materno_medico" ColumnName="apellido_materno_medico" />
+                <ScalarProperty Name="apellido_paterno_medico" ColumnName="apellido_paterno_medico" />
+                <ScalarProperty Name="nombres_medico" ColumnName="nombres_medico" />
+                <ScalarProperty Name="cmp_medico" ColumnName="cmp_medico" />
+                <ScalarProperty Name="id_Identificador_Medico" ColumnName="id_Identificador_Medico" />
+                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -184,10 +184,12 @@ export class ActividadService {
 
   // APROBAR RECHAZAR ACTIVIDADES
 
-  get_mostrar_actividadAprobar(idUsuario:number, fechaIni :string, fechaFin :string,  idEstado:number){
+  get_mostrar_actividadAprobar(idUsuario:number, fechaIni :string, fechaFin :string,  idEstado:number, id_usuario : number){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '7');
-    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin)   + '|' + String(idEstado)   );
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin)   + '|' + String(idEstado) + '|' + String(id_usuario)  );
+
+    console.log(parametros)
 
     return this.http.get( this.URL + 'tblActividades' , {params: parametros});
   }

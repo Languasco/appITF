@@ -1,0 +1,76 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> CUMPLEAÑOS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Mes  </label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idMes">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="ciclo.id_Mes" *ngFor="let ciclo of meses">{{ciclo.nombre}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <br>
+                    <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 11px;">  <i class="fas fa-search"> </i> Mostrar </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Identificador</th>
+                        <th scope="col">cmp</th>
+                        <th scope="col">Nombres Apellidos</th>
+                        <th scope="col">Fec. Nacimiento</th>
+
+                        <th scope="col">Email</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of cumpleanios |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.descripcion_identificador_medico}}</td>
+                        <td>{{item.cmp_medico}} </td>
+                        <td>{{item.apellido_paterno_medico}} {{item.apellido_materno_medico}} {{item.nombres_medico}} </td>
+                        <td>{{item.fecha_nacimiento_medico}} </td>
+
+                        <td>{{item.email_medico}} </td>
+                        <td>{{item.codigo_categoria}} </td>
+                        <td>{{item.codigo_especialidad}}</td>
+                        <td>{{item.descripcion_estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

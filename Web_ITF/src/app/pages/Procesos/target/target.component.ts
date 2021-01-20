@@ -16,6 +16,7 @@ import { TargetService } from '../../../services/Procesos/target.service';
 import { CategoriaService } from '../../../services/Mantenimientos/categoria.service';
 import { EspecialidadService } from '../../../services/Mantenimientos/especialidad.service';
 
+import * as XLSX from 'xlsx'; 
 declare var $:any;
 
 @Component({
@@ -47,6 +48,9 @@ export class TargetComponent implements OnInit {
   opcionTarget='';
   tituloTarget='';
  
+                 
+ 
+
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private targetService : TargetService, private uploadService : UploadService, private categoriaService :CategoriaService, private  especialidadService :EspecialidadService, private actividadService :ActividadService ) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
   }
@@ -296,6 +300,25 @@ export class TargetComponent implements OnInit {
       }
     })       
   }
+
+
+  exportExcel(nombreHoja:string, objdata:any): void  {
+
+    /* table id is passed over here */   
+    var element; 
+        element = document.getElementById('idTarget'); 
+ 
+
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, nombreHoja);
+
+    /* save to file */
+    XLSX.writeFile(wb, nombreHoja + '.xlsx');			
+}
+
 
 
 

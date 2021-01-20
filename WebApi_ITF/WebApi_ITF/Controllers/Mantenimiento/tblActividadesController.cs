@@ -137,9 +137,10 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     string fechaIni = parametros[1].ToString();
                     string fechaFin = parametros[2].ToString();
                     int idEstado = Convert.ToInt32(parametros[3].ToString());
+                    int id_usuario = Convert.ToInt32(parametros[4].ToString());
 
                     Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
-                    resul = obj_negocios.get_actividadesAprobarRechazar(idUsuario, fechaIni, fechaFin, idEstado);
+                    resul = obj_negocios.get_actividadesAprobarRechazar(idUsuario, fechaIni, fechaFin, idEstado, id_usuario);
                 }
                 else if (opcion == 8)
                 {

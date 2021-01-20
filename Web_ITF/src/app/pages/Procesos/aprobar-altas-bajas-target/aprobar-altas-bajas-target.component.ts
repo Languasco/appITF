@@ -169,7 +169,7 @@ export class AprobarAltasBajasTargetComponent implements OnInit {
   const fechaFin = this.funcionesglobalesService.formatoFecha(this.formParamsFiltro.value.fecha_fin);
  
   this.spinner.show();
-  this.targetService.get_mostrar_AprobacionAltasBajasTarget( this.formParamsFiltro.value, this.opcionTarget, fechaIni, fechaFin)
+  this.targetService.get_mostrar_AprobacionAltasBajasTarget( this.formParamsFiltro.value, this.opcionTarget, fechaIni, fechaFin , this.idUserGlobal)
       .subscribe((res:RespuestaServer)=>{  
           this.spinner.hide();
           if (res.ok==true) {        
@@ -471,6 +471,6 @@ async aprobarRechazar_altasBajas_target(opcion:string,objTarget:any ){
   }
   
  
-
+  
 
 }

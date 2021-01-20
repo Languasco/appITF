@@ -29,6 +29,7 @@ import { ProgramacionComponent } from './pages/Procesos/programacion/programacio
 import { SolicitudDireccionComponent } from './pages/Procesos/solicitud-direccion/solicitud-direccion.component';
 import { AprobarSolicitudDireccionComponent } from './pages/Procesos/aprobar-solicitud-direccion/aprobar-solicitud-direccion.component';
 import { LoginComponent } from './pages/login/login.component';
+import { CumpleaniosComponent } from './pages/Reportes/cumpleanios/cumpleanios.component';
  
   
 const APP_ROUTERS: Routes = [
@@ -70,6 +71,8 @@ const APP_ROUTERS: Routes = [
     { path: 'proceso-programacion-visitas', component: ProgramacionComponent , canActivate: [ AuthGuard ]}, 
     { path: 'proceso-solicitud-direccion', component: SolicitudDireccionComponent , canActivate: [ AuthGuard]}, 
     { path: 'proceso-aprobar-solicitud-direccion', component: AprobarSolicitudDireccionComponent  , canActivate: [ AuthGuard]}, 
+
+    { path: 'reporte-cumpleanios', component: CumpleaniosComponent , canActivate: [ AuthGuard]}, 
 
     { path: '', pathMatch:'full', redirectTo:'home' },
     { path: '**', pathMatch:'full', redirectTo:'home' },

@@ -162,6 +162,17 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 13)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idMedico = Convert.ToInt32(parametros[0].ToString());
+                    string fechaProgram = parametros[1].ToString();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_validacionVisita(idMedico, fechaProgram);
+                    res.totalpage = 0;
+                    resul = res;
+                }
 
                 else
                 {

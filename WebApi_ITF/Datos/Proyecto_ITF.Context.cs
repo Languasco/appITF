@@ -35,7 +35,6 @@ namespace Datos
         public virtual DbSet<tbl_Evento> tbl_Evento { get; set; }
         public virtual DbSet<tbl_Feriados> tbl_Feriados { get; set; }
         public virtual DbSet<tbl_Identificador_Medico> tbl_Identificador_Medico { get; set; }
-        public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
         public virtual DbSet<tbl_Monedas> tbl_Monedas { get; set; }
         public virtual DbSet<tbl_Perfil_Accesos> tbl_Perfil_Accesos { get; set; }
         public virtual DbSet<tbl_Productos> tbl_Productos { get; set; }
@@ -53,5 +52,7 @@ namespace Datos
         public virtual DbSet<tbl_Actividades> tbl_Actividades { get; set; }
         public virtual DbSet<tbl_Ciclos> tbl_Ciclos { get; set; }
         public virtual DbSet<tbl_Perfil> tbl_Perfil { get; set; }
+        public virtual DbSet<tbl_Mes> tbl_Mes { get; set; }
+        public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
     }
 }

@@ -50,6 +50,8 @@ namespace Negocio.Procesos
                                 Entidad.categoria = dr["categoria"].ToString();
                                 Entidad.especialidad = dr["especialidad"].ToString();
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+                                Entidad.descripcion_tipo_visita = dr["descripcion_tipo_visita"].ToString();
+
                                 obj_List.Add(Entidad);
                             }
 
@@ -367,7 +369,7 @@ namespace Negocio.Procesos
         
         //----- APROBACION ALTAS BAJAS TARGET -----------
         
-        public object get_mostrar_Aprobar_AltasBajasTarget_cab(int idUsuario, string fechaIni, string fechaFin, int idEstado, string opcionTarget)
+        public object get_mostrar_Aprobar_AltasBajasTarget_cab(int idUsuario, string fechaIni, string fechaFin, int idEstado, string opcionTarget, int idUsuariologeado)
         {
             Resultado res = new Resultado();
             List<AltasBajasTarget_E> obj_List = new List<AltasBajasTarget_E>();
@@ -386,6 +388,7 @@ namespace Negocio.Procesos
                         cmd.Parameters.Add("@fechaFin", SqlDbType.VarChar).Value = fechaFin;
                         cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
                         cmd.Parameters.Add("@opcionTarget", SqlDbType.VarChar).Value = opcionTarget;
+                        cmd.Parameters.Add("@idUsuario_logueado", SqlDbType.Int).Value = idUsuariologeado;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
