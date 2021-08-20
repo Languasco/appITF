@@ -263,8 +263,6 @@ namespace WebApi_3R_Dominion.Controllers.upload
             return res;
         }
 
-
-
         [HttpPost]
         [Route("api/Uploads/post_archivoExcel_programacionData1")]
         public object post_archivoExcel_programacionData1()
@@ -342,6 +340,122 @@ namespace WebApi_3R_Dominion.Controllers.upload
             }
             return res;
         }
-               
+
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_boticasFarmacias")]
+        public object post_archivoExcel_boticasFarmacias(string filtros)
+        {
+            Resultado res = new Resultado();
+            var nombreFile = "";
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                string idUsuario = parametros[0].ToString();
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFile = idUsuario + "_Importacion_Excel_ByF" + Guid.Parse(guidB) + extension;
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelBoticasFarmacias(sPath, file.FileName, idUsuario);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = obj_negocio.get_datosCargados_boticasFarmacias(idUsuario);
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_target_boticasFarmacias")]
+        public object post_archivoExcel_target_boticasFarmacias(string filtros)
+        {
+            Resultado res = new Resultado();
+            var nombreFile = "";
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                string opcionTarget = parametros[0].ToString();
+                int idusuario = Convert.ToInt32(parametros[1].ToString());
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFile = idusuario.ToString() + "_Importacion_target_Excel_ByF" + Guid.Parse(guidB) + extension;
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+                    string valor = obj_negocio.setAlmacenandoFile_ExcelTarget_boticasFarmacias(sPath, file.FileName, opcionTarget, idusuario);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = obj_negocio.get_datosCargadosTarget_boticasFarmacias(idusuario, opcionTarget);
+                        res.totalpage = 0;
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+
+
     }
 }

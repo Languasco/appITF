@@ -894,6 +894,345 @@ namespace Negocio.Mantenimientos
             }
         }
 
+        public object get_boticasFarmacias(string cmp, string medico, string email, int categoria, int profesional, int idEstado)
+        {
+            Resultado res = new Resultado();
+            List<Medicos_E> obj_List = new List<Medicos_E>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_BYF_LISTADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@cmp", SqlDbType.VarChar).Value = cmp;
+                        cmd.Parameters.Add("@medico", SqlDbType.VarChar).Value = medico;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+
+                        cmd.Parameters.Add("@idCategoria", SqlDbType.Int).Value = categoria;
+                        cmd.Parameters.Add("@idProfesion", SqlDbType.Int).Value = profesional;
+                        cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                Medicos_E Entidad = new Medicos_E();
+
+                                Entidad.id_Medico = dr["id_Medico"].ToString();
+                                Entidad.id_Identificador_Medico = dr["id_Identificador_Medico"].ToString();
+                                Entidad.descripcion_identificador_medico = dr["descripcion_identificador_medico"].ToString();
+                                Entidad.cmp_medico = dr["cmp_medico"].ToString();
+                                Entidad.nombres_medico = dr["nombres_medico"].ToString();
+                                //Entidad.apellido_paterno_medico = dr["apellido_paterno_medico"].ToString();
+                                //Entidad.apellido_materno_medico = dr["apellido_materno_medico"].ToString();
+
+                                Entidad.id_Categoria = dr["id_Categoria"].ToString();
+                                Entidad.codigo_categoria = dr["codigo_categoria"].ToString();
+                                //Entidad.id_Especialidad1 = dr["id_Especialidad1"].ToString();
+                                //Entidad.codigo_especialidad = dr["codigo_especialidad"].ToString();
+                                //Entidad.id_Especialidad2 = dr["id_Especialidad2"].ToString();
+                                Entidad.email_medico = dr["email_medico"].ToString();
+
+                                //Entidad.fecha_nacimiento_medico = dr["fecha_nacimiento_medico"].ToString();
+                                //Entidad.fechaNacimientoMedico = Convert.ToDateTime(dr["fechaNacimientoMedico"].ToString());
+
+                                //Entidad.sexo_medico = dr["sexo_medico"].ToString();
+                                Entidad.telefono_medico = dr["telefono_medico"].ToString();
+                                Entidad.estado = dr["estado"].ToString();
+                                Entidad.descripcion_estado = dr["descripcion_estado"].ToString();
+                                Entidad.id_tipo_visita = dr["id_tipo_visita"].ToString();
+                                obj_List.Add(Entidad);
+                            }
+
+                            res.ok = true;
+                            res.data = obj_List;
+                            res.totalpage = 0;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        public DataTable get_consultandoRuc(string nroRuc)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_BYF_CONSULTA_RUC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@nroRuc", SqlDbType.VarChar).Value = nroRuc;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_locales(string codDepartamento, string codProvincia, string codDistrito)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_BYF_LISTADO_LOCALES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CODIGO_DEPARTAMENTO", SqlDbType.VarChar).Value = codDepartamento;
+                        cmd.Parameters.Add("@CODIGO_PROVINCIA", SqlDbType.VarChar).Value = codProvincia;
+                        cmd.Parameters.Add("@CODIGO_DISTRITO", SqlDbType.VarChar).Value = codDistrito;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        //BOTICAS  Y FARMACIAS
+        public string set_save_update_boticasFarmacias(BoticasFarmacias_E objMantenimiento)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_BYF_SAVE_UPDATE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_Medico", SqlDbType.Int).Value = objMantenimiento.id_Medico;
+                        cmd.Parameters.Add("@id_Identificador_Medico", SqlDbType.Int).Value = objMantenimiento.id_Identificador_Medico;
+                        cmd.Parameters.Add("@cmp_medico", SqlDbType.VarChar).Value = objMantenimiento.cmp_medico;
+                        cmd.Parameters.Add("@nombres_medico", SqlDbType.VarChar).Value = objMantenimiento.nombres_medico;
+                        cmd.Parameters.Add("@id_Categoria", SqlDbType.Int).Value = objMantenimiento.id_Categoria;
+
+                        cmd.Parameters.Add("@email_medico", SqlDbType.VarChar).Value = objMantenimiento.email_medico;
+                        cmd.Parameters.Add("@telefono_medico", SqlDbType.VarChar).Value = objMantenimiento.telefono_medico;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = objMantenimiento.estado;
+                        cmd.Parameters.Add("@id_tipo_visita", SqlDbType.Int).Value = objMantenimiento.id_tipo_visita;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.Int).Value = objMantenimiento.usuario_creacion;
+
+                        cmd.Parameters.Add("@id_Medicos_Direccion", SqlDbType.Int).Value = objMantenimiento.id_Medicos_Direccion;
+                        cmd.Parameters.Add("@codigo_departamento", SqlDbType.VarChar).Value = objMantenimiento.codigo_departamento;
+                        cmd.Parameters.Add("@codigo_provincia", SqlDbType.VarChar).Value = objMantenimiento.codigo_provincia;
+                        cmd.Parameters.Add("@codigo_distrito", SqlDbType.VarChar).Value = objMantenimiento.codigo_distrito;
+                        cmd.Parameters.Add("@direccion_medico_direccion", SqlDbType.VarChar).Value = objMantenimiento.direccion_medico_direccion;
+
+                        cmd.ExecuteNonQuery();
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+        public string set_grabar_ImportacionBoticasFarmacias(int id_usuario)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_BYF_TEMPORAL_BYF_GRABAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = id_usuario;
+
+                        cmd.ExecuteNonQuery();
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+            }
+            return resultado;
+        }
+
+
+        public DataTable get_datosEnviosCorreo_solicitud_boticasFarmacias(  int idusuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_SOLICITUD_BYF_ENVIAR_CORREO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idusuario", SqlDbType.Int).Value = idusuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public void set_envioCorreo_solicitudBoticasFarmacias(int idusuario)
+        {
+            DataTable dt_detalleMail = new DataTable();
+            try
+            {
+                ///---obtenere la informacion para el llenado del correo ---
+                dt_detalleMail = get_datosEnviosCorreo_solicitud_boticasFarmacias(idusuario);
+
+                if (dt_detalleMail.Rows.Count > 0)
+                {
+                    if (dt_detalleMail.Rows[0]["destinatario"].ToString().Length > 0)
+                    {
+                        var message = new MailMessage();
+                        message.From = new MailAddress(dt_detalleMail.Rows[0]["remitente"].ToString());
+                        message.To.Add(new MailAddress(dt_detalleMail.Rows[0]["destinatario"].ToString()));
+                        message.Subject = dt_detalleMail.Rows[0]["asunto"].ToString();
+                        message.Body = dt_detalleMail.Rows[0]["cuerpoMensaje"].ToString();
+                        message.IsBodyHtml = true;
+                        message.Priority = MailPriority.Normal;
+
+                        //---agregando la copia del correo 
+                        if (dt_detalleMail.Rows[0]["copiaDestinatario"].ToString().Length > 0)
+                        {
+                            message.CC.Add(new MailAddress(dt_detalleMail.Rows[0]["copiaDestinatario"].ToString()));
+                        }
+                        using (var smtp = new SmtpClient())
+                        {
+                            smtp.EnableSsl = true;
+                            smtp.UseDefaultCredentials = false;
+
+                            var credential = new NetworkCredential(dt_detalleMail.Rows[0]["remitente"].ToString(), dt_detalleMail.Rows[0]["remitentePass"].ToString());
+                            smtp.Credentials = credential;
+                            smtp.Host = "smtp.gmail.com";
+                            smtp.Port = 587;
+                            smtp.Send(message);
+                        }
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("Error al envio de correo no hay correo de destinatario");
+                    }
+                }
+                else
+                {
+                    throw new System.ArgumentException("Error al envio de correo no hay informacion para enviar");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string set_save_update_SolicitudesBoticasFarmacias(SolicitudesBoticasFarmacias_E objMantenimiento)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_SOLICITUD_BYF_SAVE_UPDATE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+
+                        cmd.Parameters.Add("@id_Sol_Medico_cab", SqlDbType.Int).Value = objMantenimiento.id_Sol_Medico_cab;
+                        cmd.Parameters.Add("@id_Medico", SqlDbType.Int).Value = objMantenimiento.id_Medico;
+                        cmd.Parameters.Add("@id_Identificador_Medico", SqlDbType.Int).Value = objMantenimiento.id_Identificador_Medico;
+                        cmd.Parameters.Add("@cmp_medico", SqlDbType.VarChar).Value = objMantenimiento.cmp_medico;
+                        cmd.Parameters.Add("@nombres_medico", SqlDbType.VarChar).Value = objMantenimiento.nombres_medico;
+                        cmd.Parameters.Add("@id_Categoria", SqlDbType.Int).Value = objMantenimiento.id_Categoria;
+
+                        cmd.Parameters.Add("@email_medico", SqlDbType.VarChar).Value = objMantenimiento.email_medico;
+                        cmd.Parameters.Add("@telefono_medico", SqlDbType.VarChar).Value = objMantenimiento.telefono_medico;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = objMantenimiento.estado;
+                        cmd.Parameters.Add("@id_tipo_visita", SqlDbType.Int).Value = objMantenimiento.id_tipo_visita;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.Int).Value = objMantenimiento.usuario_creacion;
+
+                        cmd.Parameters.Add("@id_Medicos_Direccion", SqlDbType.Int).Value = objMantenimiento.id_Medicos_Direccion;
+                        cmd.Parameters.Add("@codigo_departamento", SqlDbType.VarChar).Value = objMantenimiento.codigo_departamento;
+                        cmd.Parameters.Add("@codigo_provincia", SqlDbType.VarChar).Value = objMantenimiento.codigo_provincia;
+                        cmd.Parameters.Add("@codigo_distrito", SqlDbType.VarChar).Value = objMantenimiento.codigo_distrito;
+                        cmd.Parameters.Add("@direccion_medico_direccion", SqlDbType.VarChar).Value = objMantenimiento.direccion_medico_direccion;
+
+                        cmd.ExecuteNonQuery();
+                        resultado = "OK";
+
+                        if (Convert.ToInt32(objMantenimiento.id_Sol_Medico_cab) == 0)
+                        {
+                            set_envioCorreo_solicitudBoticasFarmacias(Convert.ToInt32(objMantenimiento.usuario_creacion));
+                        }
+
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+
+
+
+
 
     }
 }
+;

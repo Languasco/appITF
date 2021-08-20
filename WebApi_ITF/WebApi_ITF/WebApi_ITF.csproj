@@ -202,6 +202,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Acceso\loginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Mantenimiento\BoticasFarmaciasController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblActividadesController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblCategoriasController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblCiclosController.cs" />

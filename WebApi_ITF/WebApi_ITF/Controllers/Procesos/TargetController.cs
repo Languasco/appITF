@@ -172,6 +172,121 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 12)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    int idCategoria = Convert.ToInt32(parametros[1].ToString());
+                    int idEspecialidad = Convert.ToInt32(parametros[2].ToString());
+                    string rucRazonSocial = parametros[3].ToString();
+                    int idEstado = Convert.ToInt32(parametros[4].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrarTarget_boticasFarmacias(idUsuario, idCategoria, idEspecialidad, rucRazonSocial, idEstado);
+                }
+                else if (opcion == 13)
+                {
+                    string[] parametros = filtro.Split('|');
+                    string opcionTarget = parametros[0].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    Target_BL obj_negocio = new Target_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_grabar_ImportacionTarget_boticasFarmacias(opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 14)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+                    string opcionTarget = parametros[4].ToString();
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrarAltasBajasTarget_boticasFarmacias_cab(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget);
+                }
+                else if (opcion == 15)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string detalleTarget = parametros[1].ToString();
+                    string opcionTarget = parametros[2].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[3].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.Set_insert_update_AltasBajasTarget_boticasFarmacias(idTargetCab, detalleTarget, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 16)
+                {
+                    string[] parametros = filtro.Split('|');
+ 
+                    string rucRazonSocial = parametros[0].ToString();
+                    string codigo_departamento = parametros[1].ToString();
+                    string codigo_provincia = parametros[2].ToString();
+                    string codigo_distrito = parametros[3].ToString();
+                    string opcionTarget = parametros[4].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[5].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrarAltasBajasTarget_boticasFarmacias(rucRazonSocial, codigo_departamento, codigo_provincia, codigo_distrito, opcionTarget, idUsuario);
+                }
+                else if (opcion == 17)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idTargetCab = Convert.ToInt32(parametros[0].ToString());
+                    string opcionTarget = parametros[1].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[2].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.get_AltasBajas_detalleTarget_boticasFarmacias(idTargetCab, opcionTarget, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 18)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+                    string opcionTarget = parametros[4].ToString();
+                    int idUsuariologeado = Convert.ToInt32(parametros[5].ToString());
+
+                    Target_BL obj_negocios = new Target_BL();
+                    resul = obj_negocios.get_mostrar_Aprobar_AltasBajasTarget_BoticasFarmacias(idUsuario, fechaIni, fechaFin, idEstado, opcionTarget, idUsuariologeado);
+                }
+                else if (opcion == 19)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idTargetDet = Convert.ToInt32(parametros[0].ToString());
+                    int nroContactos = Convert.ToInt32(parametros[1].ToString());
+                    string opcionTarget = parametros[2].ToString();
+                    string opcionEstado = parametros[3].ToString();
+                    int idUsuario = Convert.ToInt32(parametros[4].ToString());
+                    int idTargetCab = Convert.ToInt32(parametros[5].ToString());
+
+                    Target_BL obj_negocio = new Target_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_aprobarRechazar_AB_target_boticasFarmacias(idTargetDet, nroContactos, opcionTarget, opcionEstado, idUsuario, idTargetCab);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+
                 else
                 {
                     res.ok = false;

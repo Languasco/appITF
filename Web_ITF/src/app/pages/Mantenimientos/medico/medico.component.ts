@@ -215,7 +215,8 @@ export class MedicoComponent implements OnInit {
 
    
  
-  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
+  const cmpMedico =  Number(this.formParams.value.cmp_medico);  
+  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal, "cmp_medico" :cmpMedico  });
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
       

@@ -137,6 +137,26 @@ export class ProgramacionService {
     return this.http.get( this.URL + 'Programacion' , {params: parametros}).toPromise();
   }
 
+  get_resetearProgramacion(id_Programacion_cab : number , idUser : number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '14');
+    parametros = parametros.append('filtro', String(id_Programacion_cab)  + '|' + String(idUser));
+ 
+    return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+
+  //--- BOTICAS Y FARMACIAS ----
+
+  get_mostrarProgramaciones_boticasFarmacias({idUsuario, idCiclo, medico, categoria,  especialidad,resultado, idEstado }){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '15');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + idCiclo + '|' + medico + '|' +  categoria  + '|' + especialidad + '|' + String(resultado)  + '|' + String(idEstado)  );
+
+    return this.http.get( this.URL + 'Programacion' , {params: parametros});
+  }
+
+
 
  
 }

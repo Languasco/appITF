@@ -19,15 +19,12 @@ export class UploadService {
 
   URL = environment.URL_API;
   constructor(private http:HttpClient) { }
-
- 
   upload_imagen_usuario(file:any, idUsuario:number, idusuarioLogin : any) {   
     const formData = new FormData();   
     formData.append('file', file);
     const filtro =  idUsuario + '|' + idusuarioLogin;
     return this.http.post(this.URL + 'Uploads/post_imagenUsuario?filtros=' + filtro, formData);    
   }
-
  
   upload_Excel_medicos(file:any, idusuario : any) { 
     const formData = new FormData();   
@@ -42,8 +39,6 @@ export class UploadService {
     parametros = parametros.append('filtro', idusuario) ;
     return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
   }
-
-
 
   upload_Excel_stock(file:any, ciclo:number, idusuario : number) { 
     const formData = new FormData();   
@@ -73,7 +68,6 @@ export class UploadService {
     return this.http.get( this.URL + 'Target' , {params: parametros});
   }
 
-
   upload_Excel_formato1( ) { 
     return this.http.post(this.URL + 'Uploads/post_archivoExcel_programacionData1',httpOptions);
   }
@@ -82,7 +76,33 @@ export class UploadService {
     return this.http.post(this.URL + 'Uploads/post_archivoExcel_programacionData2',httpOptions);
   }
 
+  upload_Excel_boticasFarmacias(file:any, idusuario : any) { 
+    const formData = new FormData();   
+    formData.append('file', file);
+    const filtro =  idusuario 
+    return this.http.post(this.URL + 'Uploads/post_archivoExcel_boticasFarmacias?filtros=' + filtro, formData);
+  }
 
+  save_archivoExcel_boticasFarmacias(idusuario : any){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '17');
+    parametros = parametros.append('filtro', idusuario) ;
+    return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
+  }
+
+  upload_Excel_target_boticasFarmacias(file:any, opcionTarget:string, idusuario : number) { 
+    const formData = new FormData();   
+    formData.append('file', file);
+    const filtro =  opcionTarget +'|'+ idusuario ;
+    return this.http.post(this.URL + 'Uploads/post_archivoExcel_target_boticasFarmacias?filtros=' + filtro, formData);
+  }
+
+  save_archivoExcel_target_boticasFarmacias(opcionTarget :string, idusuario : any){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '13');
+    parametros = parametros.append('filtro', opcionTarget  + '|' + idusuario) ;
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
  
 
 }

@@ -132,10 +132,6 @@ inicializarFormularioSolicitud_Det(){
   }) 
 }
 
-
-
-
-
  inicializarFormularioDireccion(){ 
   this.formParamsDirection= new FormGroup({
     id_Medicos_Direccion: new FormControl('0'),
@@ -268,9 +264,8 @@ if (this.formParams.value.id_tipo_visita == '' || this.formParams.value.id_tipo_
   return 
 } 
 
-
- 
-  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
+  const cmpMedico =  Number(this.formParams.value.cmp_medico);
+  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal, "cmp_medico" :cmpMedico  }); 
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
 
@@ -866,12 +861,14 @@ eliminarDireccion(item:any){
   } 
 
     
-cerrarModalAprobar(){
-  setTimeout(()=>{ // 
-    $('#modal_aprobacion').modal('hide');  
-  },0); 
-}
-  
-  
+  cerrarModalAprobar(){
+    setTimeout(()=>{ // 
+      $('#modal_aprobacion').modal('hide');  
+    },0); 
+  }
+    
+  keyPress(event: any) {
+    this.funcionGlobalServices.verificar_soloNumeros(event)  ;
+  }
 
 }

@@ -1,0 +1,419 @@
+<div class=" card border-left-warning  shadow   ">
+<div class="card-header">
+    <h5 class="headerTitle"> MANTENIMIENTO BOTICAS Y FARMACIAS </h5>
+</div>
+<div class="card-body">
+
+    <form [formGroup]="formParamsFiltro">
+        <div class="row" style="margin-top: -10px;">
+            <div class="col-md-2">
+                <label for=""> Ruc</label>
+                <br>
+                <input type="text" class="form-control form-control-sm  " maxlength="20" formControlName="cmp">
+            </div>
+            <div class="col-md-4">
+                <label for=""> Razon Social</label>
+                <br>
+                <input type="text" class="form-control form-control-sm  " maxlength="250" formControlName="medico">
+            </div>
+            <div class="col-md-3">
+                <label for=""> Email</label>
+                <br>
+                <input type="text" class="form-control form-control-sm  " maxlength="200" formControlName="email">
+            </div>
+            <div class="col-md-3">
+                <label for=""> Categoria</label>
+                <br>
+                <select class="form-control comboBox" formControlName="categoria">
+                    <option value="0"> [ --TODOS-- ]</option>
+                    <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+                <div class="col-md-3">
+                <label for=""> IDENTIFICADOR</label>
+                <br>
+                <select class="form-control comboBox "  formControlName="profesional">
+                    <option value="0"> [ -- TODOS-- ]</option>
+                    <option [value]="prof.id_Identificador_Medico" *ngFor="let prof of profesiones">{{prof.descripcion_identificador_medico}}</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label for=""> Estado</label>
+                <br>
+                <select class="form-control comboBox " formControlName="idEstado">
+                    <option value="-1"> [-- TODOS -- ] </option>
+                    <option value="1"> Activo </option>
+                    <option value="0"> Inactivo </option>
+                </select>
+            </div>
+
+            <div class="col-md-6 text-center">    
+                <br>             
+                <button class="btn btn-primary   " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button> 
+                <button class="btn btn-warning  ml-1" style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nuevo</i> </button> 
+                <button class="btn btn-info ml-1 " style="font-size: 13px;" (click)="open_modalImportacion()">   <i class="fas fa-file-upload"> Carga Masiva</i> </button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+        <div class="p-2 bd-highlight"> </div>
+        <div class="p-2 bd-highlight" style="width: 50%;">
+            <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+        </div>
+        <div class="p-2 bd-highlight"> </div>
+    </div>
+
+    <div class="search-results tableFixHead">
+        <table class="table  table-hover table-sm">
+            <thead class="theadTable">
+
+                <tr style="height: 40px !important;">
+                    <th scope="col">#</th>
+                    <th scope="col">IDENTIFICADOR</th>
+                    <th scope="col">CMP</th>
+
+                    <th scope="col">NOMBRES Y APELLIDOS </th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Categoria</th>
+
+                    <th scope="col">Estado</th>
+                    <th class="text-center">Editar</th>
+                    <th class="text-center">Anular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of boticasFarmacias |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 0 && {'color': 'red'}">
+                    <th scope="row"> {{j + 1}} </th>
+                    <td>{{item.descripcion_identificador_medico}}</td>
+                    <td>{{item.cmp_medico}} </td>
+
+                    <td>{{item.nombres_medico}} {{item.apellido_paterno_medico}} {{item.apellido_materno_medico}} </td>
+                    <td>{{item.email_medico}} </td>
+                    <td>{{item.codigo_categoria}} </td>
+                    <td>{{item.descripcion_estado}}</td>
+                    <td class="text-center">
+                        <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="anular(item)">  Anular </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+ 
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                            <!-- <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i> -->
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE BOTICAS Y FARMACIAS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset class="shadow-sm  ">
+                    <legend>DATOS GENERALES</legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form [formGroup]="formParams" >
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label> Código Médico </label>
+                                                    <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for=""> Identificador</label>
+                                                    <br>
+                                                    <select class="form-control comboBox" formControlName="id_Identificador_Medico">
+                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option [value]="prof.id_Identificador_Medico" *ngFor="let prof of profesiones">{{prof.descripcion_identificador_medico}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for=""> Ruc</label>
+                                                    <br>
+                                                    <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="buscarRuc()"  maxlength="20" formControlName="cmp_medico">
+                                                </div>
+                                            </div>
+        
+                                            <div class="row ">
+                                                <div class="col-md-8">
+                                                    <label> Razón Social </label>
+                                                    <input type="text" class="form-control " maxlength="200" formControlName="nombres_medico">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for=""> Categoria</label>
+                                                    <br>
+                                                    <select class="form-control comboBox" formControlName="id_Categoria">
+                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+        
+                                            <div class="row ">
+                                                <div class="col-md-6">
+                                                    <label> Email </label>
+                                                    <input type="text" class="form-control " maxlength="250" formControlName="email_medico">
+                                                </div>
+        
+                                                <div class="col-md-3">
+                                                    <label> Teléfono </label>
+                                                    <input type="number" class="form-control " (keypress)="keyPress($event)" maxlength="100" formControlName="telefono_medico">
+                                                </div>
+        
+                                                <div class="col-md-3">
+                                                    <label> Tipo de Visitas </label>
+                                                    <br>
+                                                    <select class="form-control comboBox" formControlName="id_tipo_visita">
+                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                        <option [value]="visita.id_tipo_visita" *ngFor="let visita of tipoVisitas">{{visita.descripcion_tipo_visita}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label> Estado</label>
+                                                    <br>
+                                                    <select id="cboEstado" class="form-control comboBox" formControlName="estado">
+                                                        <option value="-1"> [ --SELECCIONE-- ]</option>
+                                                        <option value="1"> Activo </option>
+                                                        <option value="0"> Anulado </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+        
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form [formGroup]="formParamsDirection"  >
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label for=""> Departamento</label>
+                                                            <br>
+                                                            <select class="form-control comboBox" formControlName="codigo_departamento" (change)="changeDepartamento($event)">
+                                                                <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                <option [value]="item.CODDPTO" *ngFor="let item of departamentos">{{item.NOMBRE}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for=""> Provincia</label>
+                                                            <br>
+                                                            <select class="form-control comboBox" formControlName="codigo_provincia" (change)="changeProvincia($event)">
+                                                                <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                <option [value]="prov.CODPROV" *ngFor="let prov of provincias">{{prov.NOMBRE}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for=""> Distrito</label>
+                                                            <br>
+                                                            <select class="form-control comboBox" formControlName="codigo_distrito" (change)="changeDistritos($event)" >
+                                                                <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                <option [value]="dist.CODDIS" *ngFor="let dist of distritos">{{dist.NOMBRE}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label> Dirección </label>
+                                                            <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
+                                                        </div>
+                                                    </div>
+            
+  
+                                                    <div class=" tableFixHead ">
+                                                        <table class="table table-hover table-sm">
+                                                            <thead class="theadTable">
+                                                                <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Departamento</th>
+                                                                    <th scope="col">Provincia</th>
+                                                                    <th scope="col">Distrito</th>
+                                                                    <th scope="col">Direccion</th>               
+                                                                     </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let item of  direccionDetalle; index as i">
+                                                                    <th scope="row"> {{i + 1}} </th>
+                                                                    <td>{{item.nombreDepartamento}}</td>
+                                                                    <td>{{item.nombreProvincia}}</td>
+                                                                    <td>{{item.nombreDistrito}}</td>
+                                                                    <td>{{item.direccion_medico_direccion}}</td>        
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+        
+                                            </form>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="d-flex justify-content-center">
+                                <div class="p-2 bd-highlight">
+                                    <button class="btn btn-success" (click)="saveUpdate_boticasFarmacias()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar </i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+ 
+
+           
+ 
+
+            </div>
+  
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> ALTA MASIVA MEDICOS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div *ngIf="flagImportar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form [formGroup]="formParamsFile">
+                                <div class="botonFile">
+                                    <input type="file" class="form-control-file btn" style="height: 40px  !important ; " formControlName="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onFileChange($event)" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="center-text ">
+                                <button id="btnVer" class="btn btn-sm btn-success disabledForm" (click)="subirArchivo()">  <i class="fas fa-eye"> Ver</i> </button>
+                                <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                <button class="btn btn-sm btn-primary ml-2" (click)="downloadFormat()">  <i class="fas fa-file-download"> Formato</i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div *ngFor="let fil of filesExcel; let i=index">
+                                <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                    <h5>Sistemas</h5>
+                                    <hr>
+                                    <p><small>{{fil.message}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" tableFixHead ">
+                    <table class="table table-hover table-sm">
+                        <thead class="theadTable">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">IDENTIFICADOR </th>
+                                <th scope="col">RUC</th>
+                                <th scope="col">RAZON SOCIAL</th>
+                                <th scope="col">CATEGORIA</th>
+                                <th scope="col">CORREO</th>
+                                <th scope="col">TELEFONO</th>
+                                <th scope="col">DEPARTAMENTO</th>
+                                <th scope="col">PROVINCIA</th>
+                                <th scope="col">DISTRITO</th>
+                                <th scope="col">DIRECCION</th>
+                                <th scope="col">TIPO VISITA </th>
+                                <th scope="col">MENSAJE </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of importacion; index as j" style="color: black;" [ngStyle]="{'color':getColorEstado(item.estado_importacion)}">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td>{{item.identificador}}</td>
+                                <td>{{item.ruc}}</td> 
+                                <td> 
+                                    <div style="width: 300px;">
+                                        {{item.razonSocial}}
+                                    </div>
+                                </td>
+                                <td>{{item.categoria}}</td>
+                                <td>{{item.correo}}</td>
+                                <td>{{item.telefono}}</td>
+                                <td>{{item.departamento}}</td>
+                                <td>{{item.provincia}}</td>
+                                <td>{{item.distrito}}</td>
+                                <td>
+                                    <div style="width: 350px;">
+                                        {{item.direccion}}
+                                    </div>
+                                </td>
+                                <td>{{item.tipoVisita}}</td>
+                                <td>
+                                    <div style="width: 250px;">
+                                        {{item.mensaje}}
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <!--  -->
+                <div class="text-center" *ngIf="importacion.length >0">
+                    <button id="btnGrabar" class="btn  btn-sm  btn-primary disabledForm" (click)="guardar_importacionBoticasFarmacias()" title="Grabar los medicos importadas">
+                        <i class="fas fa-save"></i> Grabar
+                    </button>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

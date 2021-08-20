@@ -72,6 +72,36 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 4)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idSolCab = Convert.ToInt32(parametros[0].ToString());
+
+                    SolicitudesCab_BL obj_negocios = new SolicitudesCab_BL();
+                    res.ok = true;
+                    res.data = obj_negocios.get_aprobacionSolicitud_boticasFarmacias_Detalle(idSolCab);
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
+                else if (opcion == 5)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int id_SolMedicodet = Convert.ToInt32(parametros[0].ToString());
+                    string descripcion = parametros[1].ToString();
+                    string proceso = parametros[2].ToString();
+                    int id_usuario = Convert.ToInt32(parametros[3].ToString());
+
+                    SolicitudesCab_BL obj_negocios = new SolicitudesCab_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.set_aprobarRechazar_boticasFarmacias(id_SolMedicodet, descripcion, proceso, id_usuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+ 
+
                 else
                 {
                     res.ok = false;

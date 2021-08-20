@@ -21,16 +21,8 @@ export class TargetService {
   ciclos :any[]=[]; 
   duracionActividades :any[]=[]; 
   estados :any[]=[]; 
+ 
 
-
-
-  // this.formParamsFiltro= new FormGroup({
-  //   idUsuario : new FormControl('0'),
-  //   categoria : new FormControl('0'),
-  //   especialidad : new FormControl('0'),
-  //   medico : new FormControl(''),
-  //   estado : new FormControl('0'),
-  //  }) 
 
   constructor(private http:HttpClient) { }  
 
@@ -134,8 +126,63 @@ export class TargetService {
   }
 
       
+  // BOTICAS Y FARMACIAS
+
+  get_mostrar_target_boticasFarmacias({idUsuario, categoria, especialidad, medico , estado }){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '12');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(categoria) + '|' + String(especialidad) + '|' + String(medico) + '|' + String(estado) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
 
 
+  get_mostrar_AltasBajasTarget_boticasFarmacias({idUsuario, estado },opcionTarget:string, fechaIni:string, fechaFin:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '14');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  set_insert_update_altasBajas_Target_boticasFarmacias( idTargetCab:number,  objTarget:string, opcionTarget:string, idUsuario:number ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '15');
+    parametros = parametros.append('filtro', String(idTargetCab)  + '|' + String(objTarget)  + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_buscarBoticasFarmacias({ rucRazonSocial, codigo_departamento, codigo_provincia, codigo_distrito },opcionTarget:string, idUsuario: number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '16');
+    parametros = parametros.append('filtro', String(rucRazonSocial)  + '|' + String(codigo_departamento) + '|' + String(codigo_provincia) + '|' +   String(codigo_distrito) + '|' +  String(opcionTarget) + '|' + String(idUsuario) );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_altasBajas_detalleTarget_boticasFarmacias(idTargetCab:number, opcionTarget:string, idUsuario:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '17');
+    parametros = parametros.append('filtro', String(idTargetCab) + '|' + String(opcionTarget) + '|' + String(idUsuario) );
+
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+  get_mostrar_AprobarRechazar_AB_Target_boticasFarmacias({idUsuario, estado },opcionTarget:string, fechaIni:string, fechaFin:string, idUser:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '18');
+    parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget)+ '|' + String(idUser)  );
+
+    return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
+
+
+  set_AprobarRechazar_AB_Target_boticasFarmacias(idTargetDet:number, nroContactos :number, opcionTarget:string, opcion:string, idUsuario:number, id_Target_cab : number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '19');
+    parametros = parametros.append('filtro', String(idTargetDet) + '|' + String(nroContactos)  + '|' + String(opcionTarget)+ '|' + String(opcion) + '|' + String(idUsuario) + '|' + String(id_Target_cab)   );
+   return this.http.get( this.URL + 'Target' , {params: parametros});
+  }
 
 
  

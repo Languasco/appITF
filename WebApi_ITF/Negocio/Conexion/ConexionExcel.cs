@@ -17,7 +17,15 @@ namespace Negocio.Conexion
             try
             {
                 //cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + rutaExcel + ";Extended Properties='Excel 12.0 Xml;HDR=Yes'";
-                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + rutaExcel + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+
+                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = " + rutaExcel + "; Extended Properties = Excel 8.0; HDR = Yes, IMEX = 1";
+
+                //cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + rutaExcel + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+  
+
+
                 cn.Open();
                 return cn;
             }

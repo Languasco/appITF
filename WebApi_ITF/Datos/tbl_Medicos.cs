@@ -15,7 +15,7 @@ namespace Datos
     public partial class tbl_Medicos
     {
         public int id_Medico { get; set; }
-        public Nullable<int> id_Identificador_Medico { get; set; }
+        public int id_Identificador_Medico { get; set; }
         public string cmp_medico { get; set; }
         public string nombres_medico { get; set; }
         public string apellido_paterno_medico { get; set; }

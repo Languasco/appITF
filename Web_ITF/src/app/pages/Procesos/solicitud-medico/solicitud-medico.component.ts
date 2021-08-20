@@ -6,12 +6,10 @@ import { FuncionesglobalesService } from '../../../services/funciones/funcionesg
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginService } from '../../../services/login/login.service';
 import Swal from 'sweetalert2';
-import { UploadService } from '../../../services/Upload/upload.service';
 import { combineLatest } from 'rxjs';
 import { CategoriaService } from '../../../services/Mantenimientos/categoria.service';
 import { EspecialidadService } from '../../../services/Mantenimientos/especialidad.service';
 import { MedicoService } from '../../../services/Mantenimientos/medico.service';
-import { InputFileI } from 'src/app/models/inputFile.models';
 import { ActividadService } from '../../../services/Mantenimientos/actividad.service';
 import { SolicitudMedicoService } from '../../../services/Procesos/solicitud-medico.service';
 
@@ -196,6 +194,7 @@ mostrarInformacion_solicitudCabecera(){
  cerrarModal(){
     setTimeout(()=>{ // 
       $('#modal_solicitudDetalle').modal('hide');  
+       this.cerrarModal_solicitud();
     },0); 
  }
 
@@ -254,9 +253,8 @@ mostrarInformacion_solicitudCabecera(){
     return 
   } 
 
- 
- 
-  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
+  const cmpMedico =  Number(this.formParams.value.cmp_medico);
+  this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal, "cmp_medico" :cmpMedico  }); 
 
   if ( this.flag_modoEdicion==false) { //// nuevo  
 
@@ -422,9 +420,8 @@ mostrarInformacion_solicitudCabecera(){
     return 
   } 
 
- 
-  
-   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal });
+   const cmpMedico =  Number(this.formParams.value.cmp_medico);  
+   this.formParams.patchValue({ "usuario_creacion" : this.idUserGlobal, "cmp_medico" :cmpMedico  });
  
    if ( this.flag_modoEdicion==false) { //// nuevo  
   
@@ -905,9 +902,6 @@ eliminarDireccion(item:any){
         })
       }
       if ( this.solicitudDetalle.length > 0) {
-
- 
-
         // this.alertasService.Swal_Question('Sistemas', 'Esta seguro de cerrar, todos los cambios se perderan .. ?')
         // .then((result)=>{
         //   if(result.value){   
@@ -921,7 +915,6 @@ eliminarDireccion(item:any){
         },0); 
 
       }else{
- 
         descartarSolicitud();
       }      
     }else{
@@ -1142,7 +1135,11 @@ keyPress(event: any) {
     event.preventDefault();
   }
 }
-  
+
+  keyPress2(event: any) {
+    this.funcionGlobalServices.verificar_soloNumeros(event)  ;
+  }
+    
   
 
 }

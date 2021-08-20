@@ -71,7 +71,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Solicitante</th>
                         <th scope="col">Fecha Solicitud</th>
-                        <!-- <th scope="col">Descripcion Solicitud</th> -->
+                        <th scope="col"> Medicos </th>
                         <th scope="col">Fecha Respuesta</th>
                         <th scope="col">Comentario Respuesta</th>
                         <th scope="col">Estado</th>
@@ -83,8 +83,7 @@
                         <th scope="row"> {{j + 1}} </th>
                         <td>{{item.solicitante}} </td>
                         <td>{{item.fechaSolicitudFormateado}} </td>
-                        <!-- <td>{{item.descripcionSolicitud}} </td> -->
-
+                        <td>{{item.medico}} </td>
                         <td>{{item.fechaRespuesta}} </td>
                         <td>{{item.comentarioRespuesta}} </td>
                         <td style="font-size: 13px;">{{item.descripcionEstado}}</td>
@@ -317,7 +316,7 @@
                                                                 <div class="col-md-4">
                                                                     <label for=""> CMP</label>
                                                                     <br>
-                                                                    <input type="text" class="form-control " maxlength="20" formControlName="cmp_medico">
+                                                                    <input type="text" class="form-control " (keypress)="keyPress($event)" maxlength="20" formControlName="cmp_medico">
                                                                 </div>
                                                             </div>
 
@@ -379,7 +378,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label> Telefono </label>
-                                                                    <input type="number" class="form-control " maxlength="100" formControlName="telefono_medico">
+                                                                    <input type="number" class="form-control " (keypress)="keyPress($event)" maxlength="100" formControlName="telefono_medico">
                                                                 </div>
                                                             </div>
 

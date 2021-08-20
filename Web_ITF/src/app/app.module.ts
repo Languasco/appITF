@@ -84,6 +84,15 @@ import * as Widgets from "fusioncharts/fusioncharts.widgets.js";
 import * as Gantt from "fusioncharts/fusioncharts.gantt.js";
 import { CumpleaniosComponent } from './pages/Reportes/cumpleanios/cumpleanios.component';
 import { VisitasPendientesComponent } from './pages/Reportes/visitas-pendientes/visitas-pendientes.component';
+import { BoticasFarmaciasComponent } from './pages/mantenimientos/boticas-farmacias/boticas-farmacias.component';
+import { SolicitudBoticasFarmaciasComponent } from './pages/Procesos/solicitud-boticas-farmacias/solicitud-boticas-farmacias.component';
+import { AprobarSolicitudBoticasFarmaciasComponent } from './pages/Procesos/aprobar-solicitud-boticas-farmacias/aprobar-solicitud-boticas-farmacias.component';
+import { TargetBoticasFarmaciasComponent } from './pages/procesos/target-boticas-farmacias/target-boticas-farmacias.component';
+import { AltasTargetBoticasFarmaciasComponent } from './pages/procesos/altas-target-boticas-farmacias/altas-target-boticas-farmacias.component';
+import { AprobarABTargetBoticasFarmaciasComponent } from './pages/procesos/aprobar-abtarget-boticas-farmacias/aprobar-abtarget-boticas-farmacias.component';
+import { ProgramacionBoticasFarmaciasComponent } from './pages/procesos/programacion-boticas-farmacias/programacion-boticas-farmacias.component';
+ 
+ 
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
@@ -124,7 +133,14 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
     AprobarSolicitudDireccionComponent,
     LoginComponent,
     CumpleaniosComponent,
-    VisitasPendientesComponent
+    VisitasPendientesComponent,
+    BoticasFarmaciasComponent,
+    SolicitudBoticasFarmaciasComponent,
+    AprobarSolicitudBoticasFarmaciasComponent,
+    TargetBoticasFarmaciasComponent,
+    AltasTargetBoticasFarmaciasComponent,
+    AprobarABTargetBoticasFarmaciasComponent,
+    ProgramacionBoticasFarmaciasComponent     
   ],
   imports: [
     BrowserModule,

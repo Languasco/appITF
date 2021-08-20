@@ -35,5 +35,6 @@ namespace Datos
         public Nullable<int> usuario_edicion { get; set; }
         public Nullable<System.DateTime> fecha_edicion { get; set; }
         public string tipo_interfaz_programacion_cab { get; set; }
+        public string comentarios { get; set; }
     }
 }

@@ -211,7 +211,57 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if(opcion == 14)
+                {
+                    string[] parametros = filtro.Split('|');
+                    string cmp = parametros[0].ToString();
+                    string medico = parametros[1].ToString();
+                    string email = parametros[2].ToString();
+                    int categoria = Convert.ToInt32(parametros[3].ToString());
+ 
+                    int profesional = Convert.ToInt32(parametros[4].ToString());
+                    int idEstado = Convert.ToInt32(parametros[5].ToString());
 
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+                    resul = obj_negocios.get_boticasFarmacias(cmp, medico, email, categoria, profesional, idEstado);
+                }
+                else if (opcion == 15)
+                {
+
+                    string[] parametros = filtro.Split('|');
+                    string nroRuc = parametros[0].ToString();
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_consultandoRuc(nroRuc);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 16) ///--- lcoales
+                {
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    string[] parametros = filtro.Split('|');
+                    string codDepartamento = parametros[0].ToString();
+                    string codProvincia = parametros[1].ToString();
+                    string codDistrito = parametros[2].ToString();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_locales(codDepartamento, codProvincia, codDistrito);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 17)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    Mantenimientos_BL obj_negocio = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_grabar_ImportacionBoticasFarmacias(idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
                 else
                 {
                     res.ok = false;

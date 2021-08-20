@@ -1,0 +1,703 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> PROGRAMACION Y REPORTE DE VISITAS DE BOTICAS Y FARMACIAS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+
+            <div class="row" style="margin-top: -10px;">
+
+                <div class="col-md-3">
+                    <label for=""> Ciclo</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idCiclo">
+                        <option value="0"> [ -- SELECCIONE-- ]</option>
+                        <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for=""> Ruc o Razón Social</label>
+                    <br>
+                    <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Nombres o Apellidos" maxlength="20" formControlName="medico">
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label for=""> Categoria</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="categoria">
+                        <option value="0"> [ --TODOS-- ]</option>
+                        <option [value]="tipo.id_Categoria" *ngFor="let tipo of categorias">{{tipo.descripcion_categoria}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for=""> Resultado Vsitas</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="resultado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="esp.id_Resultado_Visita" *ngFor="let esp of resultadosVisitas">{{esp.descripcion_resultado_visita}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <br>
+                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;" *ngIf="programacionCab.length > 0">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+
+        <div class=" tableFixHead">
+            <table class="table  table-hover table-sm">
+                <tbody>
+                    <tr *ngFor="let item of programacionCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>
+                            <div [class]="item.colorFondo" role="alert">
+                                <div class="row">
+                                    <div class="col-6 col-md-1" (click)="abrir_modalProgramacion(item)">
+                                        {{item.nroVisitas}}
+                                    </div>
+                                    <div class="col-6 col-md-3" (click)="abrir_modalProgramacion(item)">
+                                        {{item.datosMedico}}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> CAT : </b> {{item.categoria}}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> FP : </b> {{ item.fechaProgramacion == '1900-01-01T00:00:00'? '': item.fechaProgramacion | date:"dd/MM/yyyy" }}
+
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> HP : </b> {{item.horaProgramacion}}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> RESULTADO : </b> {{item.resultados}}
+                                    </div>
+    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6 col-md-1" (click)="abrir_modalProgramacion(item)">
+
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <span class="badge badge-pill badge-light" style="font-size: 12px; font-weight: 800;"> {{item.cmpMedico}} </span>
+                                    </div>
+                                    <div class="col-6 col-md-3" (click)="abrir_modalProgramacion(item)">
+                                        <b> DIREC : </b> {{item.direccion_medico_direccion}}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> FR : </b> {{ item.fechaReporte == '1900-01-01T00:00:00'? '': item.fechaReporte | date:"dd/MM/yyyy" }}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> HR : </b> {{item.horaReporte}}
+                                    </div>
+                                    <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
+                                        <b> ESTADO : </b> {{item.descripcionEstado}}
+                                    </div>
+ 
+                                </div>
+
+
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> INFORMACION DE VISITA DE BOTICAS Y FARMACIAS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <fieldset class="shadow-sm  ">
+                    <legend>INFORMACION DE VISITA</legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <form [formGroup]="formParams" style=" margin-top: -15px;">
+                                <div class="row " style=" margin-top: -10px;">
+                                    <div class="col-md-3">
+                                        <label> Ciclo</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="ciclo">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Nro visitas</label>
+                                        <input type="text" class="form-control disabledForm" maxlength="250" formControlName="visita">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Visitador</label>
+                                        <input type="text" class="form-control disabledForm" maxlength="250" formControlName="visitador">
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-3">
+                                        <label> CMP</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="cmp">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Medico</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="medico">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Categoría</label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="categoria">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label> Dirección</label>
+                                        <br>
+                                        <select class="form-control comboBox" formControlName="id_Medicos_Direccion">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="direc.id_Medicos_Direccion" *ngFor="let direc of direccionesMedicos">{{direc.direccion_medico_direccion}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Fecha Programacion </label>
+                                                <div class="pt-4">
+                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_programacion_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for=""> Hora Programacion </label>
+                                                <div style="margin-top: -2px;">
+                                                    <timepicker formControlName="hora_programacion_programacion_cab" [showMeridian]="ismeridian"></timepicker>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Fecha Reporte </label>
+                                                <div class="pt-4">
+                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_reporte_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for=""> Hora Reporte </label>
+                                                <div style="margin-top: -2px;">
+                                                    <timepicker formControlName="hora_reporte_programacion_cab" [showMeridian]="ismeridian"></timepicker>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for=""> Resultado Vsitas</label>
+                                        <br>
+                                        <select class="form-control comboBox" formControlName="id_resultado_visita">
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="esp.id_Resultado_Visita" *ngFor="let esp of resultadosVisitas">{{esp.descripcion_resultado_visita}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Visita Acompañado</label>
+                                        <select class="form-control comboBox" formControlName="visita_acompaniada_programacion_cab" (change)="onChange_visita($event.target.value)">
+                                            <option value="NO"> NO </option>
+                                            <option value="SI"> SI </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> Datos Acompañante</label>
+                                        <input type="text" id="txtAcompaniante" class="form-control  " maxlength="250" formControlName="datos_acompaniante_programacion_cab">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Comentarios </label>
+                                        <textarea class="form-control" maxlength="255" formControlName="comentarios" rows="2"></textarea>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <div class="d-flex justify-content-center" *ngIf="idEstado_Global == 22 || idEstado_Global == 23  ">
+                                <div class="p-2 bd-highlight">
+                                    <button class="btn btn-sm btn-success" title="Aprobar" (click)="saveUpdate_programacion()"> <i class="far fa-save">  </i> Guardar </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+ 
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="modal_producto" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog " style="border: solid #00b6ad;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> VISITA PRODUCTO </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_producto()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: #00b6ad;">
+
+                <form [formGroup]="formParamsProd" style=" margin-top: -15px;">
+
+                    <fieldset class="shadow-sm  ">
+                        <legend>INFORMACION DE VISITA</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+
+
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <label> Producto </label>
+                                        <select id="cboProducto" class="form-control comboBox selectSearch" style="width: 80%;" formControlName="idProducto" (change)="change_productos($event.target.value)"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="prod.id_Producto" *ngFor="let prod of productos">{{prod.codigo_producto}} : {{prod.descripcion_producto}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-8">
+                                        <label> Lote </label>
+                                        <select class="form-control comboBox" formControlName="lote" (change)="change_lote($event.target.value)"> 
+                                            <option value="0"> [ -- SELECCIONE-- ]</option>
+                                            <option [value]="stock.codigoLote" *ngFor="let stock of stocks">{{stock.codigoLote}}   </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Stock </label>
+                                        <input type="text" class="form-control disabledForm " maxlength="250" formControlName="stock">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Cantidad Entregada </label>
+                                        <input type="text" class="form-control  " (keypress)="keyPress($event)" formControlName="cantidad">
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label> Orden </label>
+                                        <input type="text" class="form-control  " (keypress)="keyPress($event)" formControlName="orden">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-success" title="Agregar" (click)="anadirProducto()"> <i class="fas fa-check-double">  </i> Añadir </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_informacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="    border-color: cyan;">
+            <div class="modal-header">
+                <h4 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important; font-weight: 600;">Información de Médicos</h4>
+                <button type="button" class="close" (click)="cerrarModalInfo()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="shadow-sm mt-2">
+                    <legend></legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Medico : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.medico}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Matricula : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.matricula}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Especialidad : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.especialidad}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for=""> Direccion : </label> <b style="font-family: 'Montserrat', sans-serif !important; font-size: 13px; color: #117a8b;"> {{ objectoPerfilMedicoCab.direccion}}  </b>
+                                    <br>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+                                <div class="p-2 bd-highlight"> </div>
+                                <div class="p-2 bd-highlight" style="width: 50%;">
+                                    <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+                                </div>
+                                <div class="p-2 bd-highlight"> </div>
+                            </div>
+
+
+                            <!-- <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr style="height: 40px !important;">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Mercado / Producto</th>
+                                        <th scope="col">12 ultimos meses</th>
+                                        <th scope="col">3 ultimos meses</th>
+                                        <th scope="col">ultimos mes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of perfilMedicoCab |  filter: filtrarCab ; index as j" (click)="abrir_modalInformacion_det(item)">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td>{{item.mercadoProducto}} </td>
+                                        <td class="text-right">{{item.doceUltimosMeses | number}} </td>
+                                        <td class="text-right">{{item.tresUltimosMeses | number }} </td>
+                                        <td class="text-right">{{item.utilmoMes | number}} </td>
+                                    </tr>
+                                </tbody>
+                            </table> -->
+
+                            <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr class="theadTable3">
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th class="text-right"><b> Total {{ totalColumna1 | number }} </b></th>
+                                        <th class="text-right">Total : {{ totalColumna2 | number }}</th>
+                                        <th class="text-right">Total : {{ totalColumna3 | number }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th *ngFor="let column of columnsMedicoCab"> {{column}} </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of perfilMedicoCab |  filter: filtrarCab ; index as j" (click)="abrir_modalInformacion_det(row)">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsMedicoCab  ">
+                                            {{row[column]}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_informacion_detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl  modal-dialog-centered  modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="    border-color: cyan;">
+            <div class="modal-header" style="background-color: beige;">
+                <h4 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important; font-weight: 600;">Información de Médicos Detallado</h4>
+                <button type="button" class="close" (click)="cerrarModalInfo_det()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body" style="background-color: beige;">
+
+                <fieldset class="shadow-sm mt-2">
+
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+                                <div class="p-2 bd-highlight"> </div>
+                                <div class="p-2 bd-highlight" style="width: 50%;">
+                                    <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarDet">
+                                </div>
+                                <div class="p-2 bd-highlight"> </div>
+                            </div>
+
+
+                            <!-- <table class="table  table-hover table-sm">
+                                <thead class="theadTable">
+
+                                    <tr style="height: 40px !important;">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Mercado / Producto</th>
+                                        <th scope="col">12 ultimos meses</th>
+                                        <th scope="col">3 ultimos meses</th>
+                                        <th scope="col">ultimos mes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of perfilMedicoDet |  filter: filtrarDet ; index as j">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td>{{item.mercadoProducto}} </td>
+                                        <td class="text-right">{{item.doceUltimosMeses | number}} </td>
+                                        <td class="text-right">{{item.tresUltimosMeses | number }} </td>
+                                        <td class="text-right">{{item.utilmoMes | number}} </td>
+                                    </tr>
+                                </tbody>
+                            </table> -->
+
+                            <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr class="theadTable3">
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th class="text-right"><b> Total {{ totalColumnaDet1 | number }} </b></th>
+                                        <th class="text-right">Total : {{ totalColumnaDet2 | number }}</th>
+                                        <th class="text-right">Total : {{ totalColumnaDet3 | number }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th *ngFor="let column of columnsMedicoDet"> {{column}} </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of perfilMedicoDet |  filter: filtrarDet ; index as j">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td [ngClass]="getAlineamiento(column)" *ngFor="let column of columnsMedicoDet  ">
+                                            {{row[column]}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> Importar Perfil Médico </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card border-info  mb-3">
+                            <div class="card-body text-info ">
+                                <h5 class="card-title headerTitleModal">PERFIL MÉDICO 1</h5>
+
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-sm btn-info " id="btnGrabarFormato1" style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="subir_primerFormato()">  <i class="fas fa-file-upload"> </i> CARGAR FORMATO 1 </button>
+                                    </div>
+
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-sm  btn-danger " style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="limpiarFormato(1)">  <i class="fas fa-trash-alt"> </i> Limpiar Formato 1 </button>
+
+                                        <button class="btn btn-sm  btn-warning ml-2" style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="downloadFormat(1)">  <i class="fas fa-file-download"> </i> Formato </button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <ul>
+                                    <li> 1. Es necesario subir primero el archivo en la carpeta del servidor con nombre FORMATO_DATA1.xlsx </li>
+                                    <li> 2. El contenido del excel, tiene que tener todos los bordes enmarcados. </li>
+                                    <li> 3. El nombre del Libro (Hoja) del excel, tiene que llamarse Importar. </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card border-success mb-3">
+                            <div class="card-body text-success">
+                                <h5 class="card-title headerTitleModal">PERFIL MÉDICO 2</h5>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-sm btn-success " id="btnGrabarFormato2" style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="subir_segundoFormato()">  <i class="fas fa-file-upload"> </i> CARGAR FORMATO 2 </button>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <button class="btn btn-sm  btn-danger " style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="limpiarFormato(2)">  <i class="fas fa-trash-alt"> </i> Limpiar Formato 2 </button>
+
+                                        <button class="btn btn-sm  btn-warning ml-2" style=" font-family: 'Montserrat', sans-serif !important; font-weight: 400; font-size: 12px;" (click)="downloadFormat(2)">  <i class="fas fa-file-download"> </i> Formato </button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <ul>
+                                    <li> 1. Es necesario subir primero el archivo en la carpeta del servidor con nombre FORMATO_DATA2.xlsx </li>
+                                    <li> 2. El contenido del excel, tiene que tener todos los bordes enmarcados. </li>
+                                    <li> 3. El nombre del Libro (Hoja) del excel, tiene que llamarse TAB_CLOSE_UP. </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" *ngIf="message.length > 0">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger text-center">
+                            <h5>Sistemas</h5>
+                            <hr>
+                            <p><small>{{message}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modal_reja" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="    border-color: cyan;">
+            <div class="modal-header">
+                <h4 style="color: #117a8b; font-family: 'Montserrat', sans-serif !important; font-weight: 600;">Información de Reja Promocional</h4>
+                <button type="button" class="close" (click)="cerrarModalReja()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="shadow-sm mt-2">
+                    <legend></legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+                            <table class="table  table-hover table-sm">
+                                <thead class="theadTable2">
+                                    <tr style="height: 40px !important;">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Especialidad</th>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Material</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of rejaPromocional |  filter: filtrarCab ; index as j" (click)="abrir_modalInformacion_det(item)">
+                                        <th scope="row"> {{j + 1}} </th>
+                                        <td>{{item.especialidad}} </td>
+                                        <td>{{item.producto}} </td>
+                                        <td>{{item.material}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+</div>

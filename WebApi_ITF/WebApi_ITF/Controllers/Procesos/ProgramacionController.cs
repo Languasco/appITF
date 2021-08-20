@@ -173,7 +173,32 @@ namespace WebApi_ITF.Controllers.Procesos
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 14)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int id_Programacion_cab = Convert.ToInt32(parametros[0].ToString());
+                    int idUser = Convert.ToInt32(parametros[1].ToString());
 
+                    res.ok = true;
+                    res.data = obj_negocios.set_resetearProgramacion(id_Programacion_cab, idUser);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if(opcion == 15)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    int idCiclo = Convert.ToInt32(parametros[1].ToString());
+                    string medico = parametros[2].ToString();
+
+                    int idCategoria = Convert.ToInt32(parametros[3].ToString());
+                    int idEspecialidad = Convert.ToInt32(parametros[4].ToString());
+                    int idResultado = Convert.ToInt32(parametros[5].ToString());
+                    int idEstado = Convert.ToInt32(parametros[6].ToString());
+
+                    resul = obj_negocios.get_mostrarProgramaciones_boticasFarmacias(idUsuario, idCiclo, medico, idCategoria, idEspecialidad, idResultado, idEstado);
+                }
                 else
                 {
                     res.ok = false;

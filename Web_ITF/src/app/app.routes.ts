@@ -30,6 +30,13 @@ import { SolicitudDireccionComponent } from './pages/Procesos/solicitud-direccio
 import { AprobarSolicitudDireccionComponent } from './pages/Procesos/aprobar-solicitud-direccion/aprobar-solicitud-direccion.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CumpleaniosComponent } from './pages/Reportes/cumpleanios/cumpleanios.component';
+import { BoticasFarmaciasComponent } from './pages/mantenimientos/boticas-farmacias/boticas-farmacias.component';
+import { SolicitudBoticasFarmaciasComponent } from './pages/Procesos/solicitud-boticas-farmacias/solicitud-boticas-farmacias.component';
+import { AprobarSolicitudBoticasFarmaciasComponent } from './pages/Procesos/aprobar-solicitud-boticas-farmacias/aprobar-solicitud-boticas-farmacias.component';
+import { TargetBoticasFarmaciasComponent } from './pages/procesos/target-boticas-farmacias/target-boticas-farmacias.component';
+import { AltasTargetBoticasFarmaciasComponent } from './pages/procesos/altas-target-boticas-farmacias/altas-target-boticas-farmacias.component';
+import { AprobarABTargetBoticasFarmaciasComponent } from './pages/procesos/aprobar-abtarget-boticas-farmacias/aprobar-abtarget-boticas-farmacias.component';
+import { ProgramacionBoticasFarmaciasComponent } from './pages/procesos/programacion-boticas-farmacias/programacion-boticas-farmacias.component';
  
   
 const APP_ROUTERS: Routes = [
@@ -73,6 +80,16 @@ const APP_ROUTERS: Routes = [
     { path: 'proceso-aprobar-solicitud-direccion', component: AprobarSolicitudDireccionComponent  , canActivate: [ AuthGuard]}, 
 
     { path: 'reporte-cumpleanios', component: CumpleaniosComponent , canActivate: [ AuthGuard]}, 
+
+    ///----- boticas y farmacias
+
+    { path: 'mantenimiento-byf', component: BoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-solicitud-byf', component: SolicitudBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-aprobar-solicitud-byf', component: AprobarSolicitudBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-target-byf', component: TargetBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-AB-target-byf/:opcionTarget', component: AltasTargetBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-aprobar-AB-target-byf/:opcionTarget', component: AprobarABTargetBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-programacion-visitas-byf', component: ProgramacionBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
 
     { path: '', pathMatch:'full', redirectTo:'home' },
     { path: '**', pathMatch:'full', redirectTo:'home' },

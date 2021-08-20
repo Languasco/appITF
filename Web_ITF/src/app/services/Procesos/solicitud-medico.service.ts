@@ -105,12 +105,47 @@ export class SolicitudMedicoService {
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '3');
     parametros = parametros.append('filtro', String(id_Sol_Medico_det)  + '|' + String(descripcion) + '|' + String(proceso)  + '|' + String(id_usuario)  );
-  
-    console.log(parametros)
-  
+ 
     return this.http.get( this.URL + 'tblSolMedico_Det' , {params: parametros});
   }
 
+// -------------- BOTICAS Y FARMACIAS **---
+
+ 
+
+  get_mostrar_solicitudBoticasFarmacias({ idUsuario,idEstado }, fechaIni :string,   fechaFin:string){
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '7');
+      parametros = parametros.append('filtro', String(idUsuario) + '|' + fechaIni  + '|' + fechaFin + '|' + idEstado  );
+  
+      return this.http.get( this.URL + 'tblSolMedico_Cab' , {params: parametros});
+  }
+
+
+
+  get_mostrar_AprobacionesSolicitudBoticasFarmacias({ idUsuario,idEstado }, fechaIni :string,   fechaFin:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '8');
+    parametros = parametros.append('filtro', String(idUsuario) + '|' + fechaIni  + '|' + fechaFin + '|' + idEstado  );
+
+    return this.http.get( this.URL + 'tblSolMedico_Cab' , {params: parametros});
+ }
+
+   get_solicitud_boticasFarmaciasDet(idSol_CabGlobal:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '4');
+    parametros = parametros.append('filtro', String(idSol_CabGlobal) );
+  
+   return this.http.get( this.URL + 'tblSolMedico_Det' , {params: parametros});
+  }
+
+  set_aprobarRechazar_boticasFarmacias( id_Sol_Medico_det :number, descripcion : string , proceso: string, id_usuario :number  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '5');
+    parametros = parametros.append('filtro', String(id_Sol_Medico_det)  + '|' + String(descripcion) + '|' + String(proceso)  + '|' + String(id_usuario)  );
+ 
+    return this.http.get( this.URL + 'tblSolMedico_Det' , {params: parametros});
+  }
 
 
 

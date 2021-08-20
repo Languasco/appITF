@@ -328,7 +328,6 @@ namespace Negocio.Procesos
             }
         }
 
-
         //public object get_informacionPerfilMedico_Cab(int idMedico)
         //{
         //    Resultado res = new Resultado();
@@ -425,7 +424,6 @@ namespace Negocio.Procesos
         //    }
         //    return res;
         //}
-
 
 
         public DataTable get_informacionPerfilMedico_Cab(int   idMedico)
@@ -569,6 +567,105 @@ namespace Negocio.Procesos
             {
                 throw;
             }
+        }
+
+        public string set_resetearProgramacion(int id_Programacion_cab, int idUser)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_D_PROGRAMACION_CAB", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@ID_PROGRAMACION_CAB", SqlDbType.Int).Value = id_Programacion_cab;
+                        cmd.Parameters.Add("@ID_USUARIO", SqlDbType.Int).Value = idUser;
+                        cmd.ExecuteNonQuery();
+
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+            }
+            return resultado;
+        }
+
+
+        public object get_mostrarProgramaciones_boticasFarmacias(int idUsuario, int idCiclo, string medico, int idCategoria, int idEspecialidad, int idResultado, int idEstado)
+        {
+            Resultado res = new Resultado();
+            List<ProgramacionCab_E> obj_List = new List<ProgramacionCab_E>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_CAB_BYF_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@idCiclo", SqlDbType.Int).Value = idCiclo;
+                        cmd.Parameters.Add("@medico", SqlDbType.VarChar).Value = medico;
+                        cmd.Parameters.Add("@idCategoria", SqlDbType.Int).Value = idCategoria;
+
+                        cmd.Parameters.Add("@idEspecialidad", SqlDbType.Int).Value = idEspecialidad;
+                        cmd.Parameters.Add("@idResultado", SqlDbType.Int).Value = idResultado;
+                        cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
+
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                ProgramacionCab_E Entidad = new ProgramacionCab_E();
+
+                                Entidad.id_Programacion_cab = Convert.ToInt32(dr["id_Programacion_cab"].ToString());
+                                Entidad.nroVisitas = dr["nroVisitas"].ToString();
+                                Entidad.id_Medico = dr["id_Medico"].ToString();
+                                Entidad.datosMedico = dr["datosMedico"].ToString();
+
+                                Entidad.categoria = dr["categoria"].ToString();
+                                Entidad.fechaProgramacion = Convert.ToDateTime(dr["fechaProgramacion"].ToString());
+                                Entidad.horaProgramacion = dr["horaProgramacion"].ToString();
+                                Entidad.resultados = dr["resultados"].ToString();
+
+                                Entidad.cmpMedico = dr["cmpMedico"].ToString();
+                                Entidad.idEspecialidad = dr["idEspecialidad"].ToString();
+                                Entidad.especialidad = dr["especialidad"].ToString();
+
+                                Entidad.fechaReporte = Convert.ToDateTime(dr["fechaReporte"].ToString());
+                                Entidad.horaReporte = dr["horaReporte"].ToString();
+                                Entidad.idEstado = dr["idEstado"].ToString();
+                                Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+                                Entidad.colorFondo = dr["colorFondo"].ToString();
+                                Entidad.direccion_medico_direccion = dr["direccion_medico_direccion"].ToString();
+
+                                obj_List.Add(Entidad);
+                            }
+
+                            res.ok = true;
+                            res.data = obj_List;
+                            res.totalpage = 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
         }
 
 

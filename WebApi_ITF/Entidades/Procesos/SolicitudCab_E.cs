@@ -14,11 +14,16 @@ namespace Entidades.Procesos
         public string fechaSolicitudFormateado { get; set; }
         public DateTime fechaSolicitud { get; set; }
         public string descripcionSolicitud { get; set; }
+        public string medico { get; set; }
 
         public string fechaRespuesta { get; set; }
         public string comentarioRespuesta { get; set; }
         public string id_estado { get; set; }
         public string descripcionEstado { get; set; }
+
+        public string razonSocial { get; set; }
+
+        public string direccion { get; set; }
 
     }
 }

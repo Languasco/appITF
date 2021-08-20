@@ -40,7 +40,8 @@ namespace Entidades.Procesos
 
         public string idEstado { get; set; }
         public string descripcionEstado { get; set; }
-        public string colorFondo { get; set; }      
+        public string colorFondo { get; set; }
+        public string direccion_medico_direccion { get; set; }
 
     }
 

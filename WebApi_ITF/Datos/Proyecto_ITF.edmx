@@ -177,8 +177,8 @@
             <PropertyRef Name="id_Medico" />
           </Key>
           <Property Name="id_Medico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_Identificador_Medico" Type="int" />
-          <Property Name="cmp_medico" Type="varchar" MaxLength="20" />
+          <Property Name="id_Identificador_Medico" Type="int" Nullable="false" />
+          <Property Name="cmp_medico" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="nombres_medico" Type="varchar" MaxLength="255" />
           <Property Name="apellido_paterno_medico" Type="varchar" MaxLength="255" />
           <Property Name="apellido_materno_medico" Type="varchar" MaxLength="255" />
@@ -305,6 +305,7 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
           <Property Name="tipo_interfaz_programacion_cab" Type="varchar" MaxLength="1" />
+          <Property Name="comentarios" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="tbl_Programacion_Det">
           <Key>
@@ -537,7 +538,6 @@
             <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
           </AssociationSet>
           <EntitySet Name="tbl_Medicos_Direccion" EntityType="ITF_PERUModel.tbl_Medicos_Direccion" />
-          <EntitySet Name="tbl_Programacion_Cab" EntityType="ITF_PERUModel.tbl_Programacion_Cab" />
           <EntitySet Name="tbl_Programacion_Det" EntityType="ITF_PERUModel.tbl_Programacion_Det" />
           <EntitySet Name="tbl_Sol_Medico_Direccion" EntityType="ITF_PERUModel.tbl_Sol_Medico_Direccion" />
           <EntitySet Name="tbl_Actividades" EntityType="ITF_PERUModel.tbl_Actividades" />
@@ -545,6 +545,7 @@
           <EntitySet Name="tbl_Perfil" EntityType="ITF_PERUModel.tbl_Perfil" />
           <EntitySet Name="tbl_Mes" EntityType="ITF_PERUModel.tbl_Mes" />
           <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
+          <EntitySet Name="tbl_Programacion_Cab" EntityType="ITF_PERUModel.tbl_Programacion_Cab" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -876,32 +877,6 @@
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="nombre_institucion_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="tbl_Programacion_Cab">
-          <Key>
-            <PropertyRef Name="id_Programacion_cab" />
-          </Key>
-          <Property Name="id_Programacion_cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Ciclo" Type="Int32" />
-          <Property Name="id_Usuario" Type="Int32" />
-          <Property Name="id_Medico" Type="Int32" />
-          <Property Name="id_Medicos_Direccion" Type="Int32" />
-          <Property Name="numero_visita_programacion_cab" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_programacion_programacion_cab" Type="DateTime" Precision="3" />
-          <Property Name="hora_programacion_programacion_cab" Type="DateTime" Precision="3" />
-          <Property Name="fecha_reporte_programacion_cab" Type="DateTime" Precision="3" />
-          <Property Name="hora_reporte_programacion_cab" Type="DateTime" Precision="3" />
-          <Property Name="id_resultado_visita" Type="Int32" />
-          <Property Name="visita_acompaniada_programacion_cab" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="datos_acompaniante_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="latitud_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="longitud_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="estado_programacion_cab" Type="Int32" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-          <Property Name="tipo_interfaz_programacion_cab" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="tbl_Programacion_Det">
           <Key>
             <PropertyRef Name="id_Programacion_det" />
@@ -990,8 +965,8 @@
             <PropertyRef Name="id_Medico" />
           </Key>
           <Property Name="id_Medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Identificador_Medico" Type="Int32" />
-          <Property Name="cmp_medico" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="id_Identificador_Medico" Type="Int32" Nullable="false" />
+          <Property Name="cmp_medico" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombres_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="apellido_paterno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="apellido_materno_medico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -1008,6 +983,33 @@
           <Property Name="usuario_edicion" Type="Int32" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="id_tipo_visita" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Programacion_Cab">
+          <Key>
+            <PropertyRef Name="id_Programacion_cab" />
+          </Key>
+          <Property Name="id_Programacion_cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Ciclo" Type="Int32" />
+          <Property Name="id_Usuario" Type="Int32" />
+          <Property Name="id_Medico" Type="Int32" />
+          <Property Name="id_Medicos_Direccion" Type="Int32" />
+          <Property Name="numero_visita_programacion_cab" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_programacion_programacion_cab" Type="DateTime" Precision="3" />
+          <Property Name="hora_programacion_programacion_cab" Type="DateTime" Precision="3" />
+          <Property Name="fecha_reporte_programacion_cab" Type="DateTime" Precision="3" />
+          <Property Name="hora_reporte_programacion_cab" Type="DateTime" Precision="3" />
+          <Property Name="id_resultado_visita" Type="Int32" />
+          <Property Name="visita_acompaniada_programacion_cab" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="datos_acompaniante_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="latitud_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="longitud_programacion_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estado_programacion_cab" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="tipo_interfaz_programacion_cab" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="comentarios" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1338,33 +1340,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Programacion_Cab">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Programacion_Cab">
-              <MappingFragment StoreEntitySet="tbl_Programacion_Cab">
-                <ScalarProperty Name="tipo_interfaz_programacion_cab" ColumnName="tipo_interfaz_programacion_cab" />
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado_programacion_cab" ColumnName="estado_programacion_cab" />
-                <ScalarProperty Name="longitud_programacion_cab" ColumnName="longitud_programacion_cab" />
-                <ScalarProperty Name="latitud_programacion_cab" ColumnName="latitud_programacion_cab" />
-                <ScalarProperty Name="datos_acompaniante_programacion_cab" ColumnName="datos_acompaniante_programacion_cab" />
-                <ScalarProperty Name="visita_acompaniada_programacion_cab" ColumnName="visita_acompaniada_programacion_cab" />
-                <ScalarProperty Name="id_resultado_visita" ColumnName="id_resultado_visita" />
-                <ScalarProperty Name="hora_reporte_programacion_cab" ColumnName="hora_reporte_programacion_cab" />
-                <ScalarProperty Name="fecha_reporte_programacion_cab" ColumnName="fecha_reporte_programacion_cab" />
-                <ScalarProperty Name="hora_programacion_programacion_cab" ColumnName="hora_programacion_programacion_cab" />
-                <ScalarProperty Name="fecha_programacion_programacion_cab" ColumnName="fecha_programacion_programacion_cab" />
-                <ScalarProperty Name="numero_visita_programacion_cab" ColumnName="numero_visita_programacion_cab" />
-                <ScalarProperty Name="id_Medicos_Direccion" ColumnName="id_Medicos_Direccion" />
-                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
-                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
-                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
-                <ScalarProperty Name="id_Programacion_cab" ColumnName="id_Programacion_cab" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Programacion_Det">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Programacion_Det">
               <MappingFragment StoreEntitySet="tbl_Programacion_Det">
@@ -1476,6 +1451,34 @@
                 <ScalarProperty Name="cmp_medico" ColumnName="cmp_medico" />
                 <ScalarProperty Name="id_Identificador_Medico" ColumnName="id_Identificador_Medico" />
                 <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Programacion_Cab">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Programacion_Cab">
+              <MappingFragment StoreEntitySet="tbl_Programacion_Cab">
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+                <ScalarProperty Name="tipo_interfaz_programacion_cab" ColumnName="tipo_interfaz_programacion_cab" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado_programacion_cab" ColumnName="estado_programacion_cab" />
+                <ScalarProperty Name="longitud_programacion_cab" ColumnName="longitud_programacion_cab" />
+                <ScalarProperty Name="latitud_programacion_cab" ColumnName="latitud_programacion_cab" />
+                <ScalarProperty Name="datos_acompaniante_programacion_cab" ColumnName="datos_acompaniante_programacion_cab" />
+                <ScalarProperty Name="visita_acompaniada_programacion_cab" ColumnName="visita_acompaniada_programacion_cab" />
+                <ScalarProperty Name="id_resultado_visita" ColumnName="id_resultado_visita" />
+                <ScalarProperty Name="hora_reporte_programacion_cab" ColumnName="hora_reporte_programacion_cab" />
+                <ScalarProperty Name="fecha_reporte_programacion_cab" ColumnName="fecha_reporte_programacion_cab" />
+                <ScalarProperty Name="hora_programacion_programacion_cab" ColumnName="hora_programacion_programacion_cab" />
+                <ScalarProperty Name="fecha_programacion_programacion_cab" ColumnName="fecha_programacion_programacion_cab" />
+                <ScalarProperty Name="numero_visita_programacion_cab" ColumnName="numero_visita_programacion_cab" />
+                <ScalarProperty Name="id_Medicos_Direccion" ColumnName="id_Medicos_Direccion" />
+                <ScalarProperty Name="id_Medico" ColumnName="id_Medico" />
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
+                <ScalarProperty Name="id_Programacion_cab" ColumnName="id_Programacion_cab" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

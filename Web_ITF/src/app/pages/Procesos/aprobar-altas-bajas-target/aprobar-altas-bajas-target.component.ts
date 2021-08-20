@@ -326,24 +326,7 @@ async aprobarRechazar_altasBajas_target(opcion:string,objTarget:any ){
 
 } 
 
-// abrir_modalInformacion(objTarget:any){
-//   Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
-//   Swal.showLoading();
-//   this.targetService.get_informacionMedico_Target(objTarget.id_Medico)
-//       .subscribe((res:RespuestaServer)=>{  
-//         Swal.close();    
-//           if (res.ok==true) {        
-//               this.detalleInformacion = res.data; 
-//               setTimeout(()=>{ // 
-//                 $('#modal_informacion').modal('show');  
-//               },0);
-//           }else{
-//             this.alertasService.Swal_alert('error', JSON.stringify(res.data));
-//             alert(JSON.stringify(res.data));
-//           }
-//   })
-// }
-
+ 
 
   abrir_modalInformacion(objTarget:any){
   

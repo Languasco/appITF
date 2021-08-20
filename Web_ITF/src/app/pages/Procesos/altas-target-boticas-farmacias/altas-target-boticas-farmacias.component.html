@@ -1,0 +1,307 @@
+
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> {{this.tituloTarget}} </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label for=""> Usuarios</label>
+                    <br>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label"> Rango Fecha </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="estado">
+                        <option value="0"> [ -- TODOS-- ]</option>
+                        <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
+                        <br>
+                        <div class="btn-group btn-block ">
+                            <button type="button" class="btn btn-dark dropdown-toggle" style="font-family: 'Montserrat', sans-serif;font-size: 15px;font-weight: 600;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ACCIONES   </button>
+                            <div class="dropdown-menu text-center ">
+                                <div class="p-2">
+                                    <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
+                                </div>
+                                <div class="p-2">
+                                    <button class="btn btn-warning btn-block  " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">USUARIO </th>
+                        <th scope="col">FECHA SOL </th>
+                        <!-- <th scope="col">TEXTO SOL</th> -->
+
+                        <th scope="col">APROBADOR RECHAZADOR</th>
+                        <th scope="col">FECHA RPTA</th>
+                        <th scope="col">TEXTO RPTA</th>
+                        <th scope="col">ESTADO</th>
+                        <th class="text-center">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of targetCab |  filter: filtrarMantenimiento  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+
+                        <td>{{item.usuario}}</td>
+                        <td>{{item.fechaSol}}</td>
+                        <!-- <td>{{item.textoSol}}</td> -->
+                        <td>{{item.aprobadorRechazador}}</td>
+                        <td>
+                            {{ item.fechaRespuesta == '1900-01-01T00:00:00'? '': item.fechaRespuesta | date:"dd/MM/yyyy" }}
+                        </td>
+                        <td>{{item.textoRespuesta}}</td>
+                        <td>{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero btn-block" *ngIf="(item.idEstado == 16 ) " style="padding: 5px;font-size: 9px;" (click)="editar_target(item)">  Editar </span>
+                            <span class="badge badge-dark puntero btn-block" *ngIf="( item.idEstado == 17 || item.idEstado == 18 ) " style="padding: 5px;font-size: 9px;" (click)="editar_target(item)">  Visualizar </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> {{tituloTarget}} </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="p-2 bd-highlight"> </div>
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight">
+                        <div class="card border-warning " *ngIf="idEstadoCabGlobal==15 ">
+                            <div class="card-body text-warning" style="    margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-info " *ngIf="idEstadoCabGlobal ==16">
+                            <div class="card-body text-info" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-share-square"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+
+                        <div class="card border-danger " *ngIf="idEstadoCabGlobal ==17">
+                            <div class="card-body text-danger" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-window-close"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                        <div class="card border-success " *ngIf="idEstadoCabGlobal ==18">
+                            <div class="card-body text-success" style=" margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="far fa-check-circle"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <form [formGroup]="formParams" style=" margin-top: -15px;">
+                    <fieldset class="shadow-sm  ">
+                        <legend>TARGET</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+                                        <div class="row ">
+                                            <div class="col-md-8">
+                                                <label> Usuario </label>
+                                                <input type="text" class="form-control disabledForm " maxlength="250" formControlName="solicitante">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Fecha Solicitud </label>
+                                                <input class="form-control disabledForm" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaSolicitud" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                    <div class="row" style="margin-top: 10px;margin-bottom: -6px;">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-sm btn-success" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 " title="Guardar la informacion" (click)="saveUpdate_target()"> <i class="fas fa-save fa-1x"> Grabar </i></button>
+                        </div>
+                    </div>
+
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE DE TARGET</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+
+                                <form [formGroup]="formParamsDirection" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 ">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-md-11  ">                                               
+                                                <label for=""> Ruc - Razón Social</label>
+                                                <br>
+                                                <input type="text" class="form-control form-control-sm  " placeholder="Buscar por Ruc o Razon Social" maxlength="200" formControlName="rucRazonSocial">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <label for=""> Departamento</label>
+                                                <br>
+                                                <select class="form-control comboBox" formControlName="codigo_departamento" (change)="changeDepartamento($event)">
+                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                    <option [value]="item.CODDPTO" *ngFor="let item of departamentos">{{item.NOMBRE}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for=""> Provincia</label>
+                                                <br>
+                                                <select class="form-control comboBox" formControlName="codigo_provincia" (change)="changeProvincia($event)">
+                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                    <option [value]="prov.CODPROV" *ngFor="let prov of provincias">{{prov.NOMBRE}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for=""> Distrito</label>
+                                                <br>
+                                                <select class="form-control comboBox" formControlName="codigo_distrito"  >
+                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                    <option [value]="dist.CODDIS" *ngFor="let dist of distritos">{{dist.NOMBRE}}</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 text-center">                                               
+                                                <br>
+                                                <button class="btn btn-dark btn-block  " style="font-size: 13px;" (click)="get_buscarBoticasFarmacias()">  <i class="fas fa-search"> Buscar </i> </button>
+                                            </div>
+                                        </div>
+   
+                                    </div>
+                                </form>
+                               <br> 
+
+                                <div class="d-flex justify-content-between " style=" margin-top: -15px !important;" *ngIf="medicosDet.length > 0 && idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 ">
+                                    <div class="">
+ 
+                                    </div>
+                                    <div class="" style="width:50%">
+                                        <div class="p-2 bd-highlight">
+                                            <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarMedicos">
+                                        </div>
+                                    </div>
+                                    <div class="">
+                
+                                    </div>
+                                </div>
+                                
+                                <div class="search-results tableFixHead tableFixHead2">
+                                    <table class="table  table-hover table-sm">
+                                        <thead class="theadTable2">
+                                            <tr style="height: 40px !important;">
+                                                <th scope="col">#</th>
+                                                <th scope="col" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 "  >CHECK</th>
+                                                <th scope="col">Ruc</th>
+                                                <th scope="col">Razón Social</th>
+                                                <th scope="col">Categoria</th>
+                                                <th scope="col">Direccion</th>
+                                                <th class="text-center">Visitado Por</th>
+                                                <th class="text-center">Nro Contactos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of medicosDet |  filter: filtrarMedicos  ; index as j" [ngStyle]="item.estado == 17 && {'color': 'red'}" >
+                                                <th scope="row"> {{j + 1}} </th>
+                                                <td class="text-center" *ngIf="idEstadoCabGlobal == 15 || idEstadoCabGlobal == 16 " >
+                                                    <div class="custom-control custom-checkbox custom-control-inline  ">
+                                                        <input type="checkbox" [id]="item.id_Medico" [(ngModel)]="item.checkeado" (change)="clearCheckeado(item)"  class="custom-control-input">
+                                                        <label class="custom-control-label" [for]="item.id_Medico"> </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{item.cmp_medico}} </td>
+                                                <td>
+                                                    <div style="width: 250px;">
+                                                        {{item.nombres_medico}}  
+                                                    </div>
+                                                </td>
+                                                <td>{{item.codigo_categoria}} </td>
+                                                <td>
+                                                    <div style="width: 350px;">
+                                                        {{item.direccion}}
+                                                    </div>
+                
+                                                </td>
+                                                <td class="text-center">{{item.visitadoPor}} </td>
+                                                <td class="text-center">
+                                                    <input type="number" min="1" (keypress)="keyPress($event)" class="form-control form-control-sm  text-right " style=" background-color: beige; font-size: 13px;color: black; font-weight: 800; " maxlength="20" [(ngModel)]="item.nro_contactos">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

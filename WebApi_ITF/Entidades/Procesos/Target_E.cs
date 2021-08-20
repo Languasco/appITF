@@ -21,6 +21,8 @@ namespace Entidades.Procesos
     public class AltasBajasTarget_E
     {
         public int id_Target_cab { get; set; }
+        public int id_Target_Det { get; set; }
+
         public string usuario { get; set; }
         public string fechaSol { get; set; }
         public string textoSol { get; set; }
@@ -30,6 +32,11 @@ namespace Entidades.Procesos
         public string textoRespuesta { get; set; }
         public string idEstado { get; set; }
         public string descripcionEstado { get; set; }
+
+        public string ruc { get; set; }
+        public string razon_social { get; set; }
+        public string direccion { get; set; }
+        public string numero_contactos_target_det { get; set; }
 
     }
 

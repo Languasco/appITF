@@ -118,6 +118,30 @@ namespace WebApi_ITF.Controllers.Procesos
                     resul = res;
 
                 }
+                else if (opcion == 7)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+
+                    SolicitudesCab_BL obj_negocios = new SolicitudesCab_BL();
+                    resul = obj_negocios.get_solicitudesBoticasFarmacias_cab(idUsuario, fechaIni, fechaFin, idEstado);
+                }
+                else if (opcion == 8)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    int idEstado = Convert.ToInt32(parametros[3].ToString());
+
+                    SolicitudesCab_BL obj_negocios = new SolicitudesCab_BL();
+                    resul = obj_negocios.get_aprobarSolicitudesBoticasFarmacias_cab(idUsuario, fechaIni, fechaFin, idEstado);
+                }
                 else
                 {
                     res.ok = false;

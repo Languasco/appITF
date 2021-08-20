@@ -31,6 +31,8 @@ export class ProgramacionComponent implements OnInit {
   formParamsProd: FormGroup;
 
   idUserGlobal :number = 0;
+  idPerfilGlobal :number = 0;
+
   idUsuarioElegido_Global :number = 0;
   idProgramacionCab_Global :number = 0;
   idEstado_Global :number = 0;
@@ -81,6 +83,7 @@ export class ProgramacionComponent implements OnInit {
 
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private actividadService : ActividadService, private categoriaService : CategoriaService, private programacionService : ProgramacionService, private especialidadService : EspecialidadService, private uploadService : UploadService) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
+    this.idPerfilGlobal = this.loginService.get_idPerfil();
   }
  
  ngOnInit(): void {
@@ -97,7 +100,6 @@ export class ProgramacionComponent implements OnInit {
       medico: new FormControl(''),
       categoria : new FormControl('0'),
       especialidad : new FormControl('0'),
-
       resultado : new FormControl('0'),
       idEstado : new FormControl('0')
      }) 
@@ -107,10 +109,7 @@ export class ProgramacionComponent implements OnInit {
 
   let timeProg= this.horalFormat(24,0);
   let timeReport = this.horalFormat(23,59);
-
-
     this.formParams= new FormGroup({
-
       id_Programacion_cab: new FormControl('0'),
       ciclo: new FormControl(''),
       visita: new FormControl(''),
@@ -132,6 +131,7 @@ export class ProgramacionComponent implements OnInit {
       datos_acompaniante_programacion_cab : new FormControl(''),
       estado_programacion_cab : new FormControl('22'),
       usuario_creacion: new FormControl('0'),
+      comentarios : new FormControl(''),
     }) 
  }
  
@@ -222,7 +222,7 @@ export class ProgramacionComponent implements OnInit {
           if (res.ok==true) {                
 
             let datosCab : any  = res.data[0];
-            const { id_Ciclo, ciclo, visita, idVisitador, visitador, cmp, id_Medico, medico, categoria, especialidad, id_Medicos_Direccion, fecha_programacion_programacion_cab, hora_programacion_programacion_cab, fecha_reporte_programacion_cab, hora_reporte_programacion_cab, id_resultado_visita, visita_acompaniada_programacion_cab, datos_acompaniante_programacion_cab } = datosCab;
+            const { comentarios, id_Ciclo, ciclo, visita, idVisitador, visitador, cmp, id_Medico, medico, categoria, especialidad, id_Medicos_Direccion, fecha_programacion_programacion_cab, hora_programacion_programacion_cab, fecha_reporte_programacion_cab, hora_reporte_programacion_cab, id_resultado_visita, visita_acompaniada_programacion_cab, datos_acompaniante_programacion_cab } = datosCab;
 
             this.idCiclo_Global = id_Ciclo;
             this.idVisitador_Global = idVisitador;
@@ -247,7 +247,8 @@ export class ProgramacionComponent implements OnInit {
               "hora_reporte_programacion_cab" : (hora_reporte_programacion_cab == '1900-01-01T00:00:00'  || hora_reporte_programacion_cab == null) ? null : new Date(hora_reporte_programacion_cab) ,
               "id_resultado_visita" : (id_resultado_visita == '0') ? 13 : id_resultado_visita  ,
               "visita_acompaniada_programacion_cab" : (visita_acompaniada_programacion_cab == '') ? 'NO' : 'SI'  ,
-              "datos_acompaniante_programacion_cab" : datos_acompaniante_programacion_cab            
+              "datos_acompaniante_programacion_cab" : datos_acompaniante_programacion_cab   ,
+              "comentarios" : comentarios  ,           
             });
 
             this.obteniendoDireccionesMedico( id_Medico );
@@ -335,7 +336,7 @@ export class ProgramacionComponent implements OnInit {
     } 
   }
 
-  if ( this.formParams.value.id_resultado_visita == '13' || this.formParams.value.id_resultado_visita == 13 ) {
+  if ( this.formParams.value.id_resultado_visita == '13' || this.formParams.value.id_resultado_visita == 13  || this.formParams.value.id_resultado_visita == '15' || this.formParams.value.id_resultado_visita == 15) {
        if (this.programacionDet.length ==0   ) {
         this.alertasService.Swal_alert('error', 'Por favor ingrese al menos un producto');
         return;
@@ -877,13 +878,31 @@ export class ProgramacionComponent implements OnInit {
          
       }
     }) 
+  }
 
-
-
+  resetearProgramacion(obj :any){
+      this.alertasService.Swal_Question('Sistemas', 'Esta seguro de resetear el ítem elegido ?')
+      .then((result)=>{
+        if(result.value){
+   
+            Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+            Swal.showLoading();
+            this.programacionService.get_resetearProgramacion( obj.id_Programacion_cab , this.idUserGlobal  ).subscribe((res:RespuestaServer)=>{
+              Swal.close();        
+              if (res.ok ==true) { 
+                this.alertasService.Swal_Success('Proceso realizado correctamente..'); 
+                this.mostrarInformacion();
+              }else{
+                this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+                alert(JSON.stringify(res.data));
+              }
+            })
+           
+        }
+      }) 
 
 
   }
-
   
   
   
