@@ -31,6 +31,7 @@ export class TargetBoticasFarmaciasComponent implements OnInit {
   formParamsFile: FormGroup;
 
   idUserGlobal :number = 0;
+  idPerfilGlobal :number = 0;
   flag_modoEdicion :boolean =false;
 
   asignacionProductosCab :any[]=[]; 
@@ -52,6 +53,7 @@ export class TargetBoticasFarmaciasComponent implements OnInit {
 
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private targetService : TargetService, private uploadService : UploadService, private categoriaService :CategoriaService, private  especialidadService :EspecialidadService, private actividadService :ActividadService ) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
+    this.idPerfilGlobal = this.loginService.get_idPerfil();
   }
  
  ngOnInit(): void {
@@ -217,7 +219,7 @@ export class TargetBoticasFarmaciasComponent implements OnInit {
   } 
   
   downloadFormat(){
-    window.open('./assets/format/FORMATO_TARGET.xlsx');    
+    window.open('./assets/format/FORMATO_TARGET_BYF.xlsx');    
   }
   
   getColorEstado(estado:number){ 

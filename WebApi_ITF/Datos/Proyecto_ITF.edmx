@@ -109,6 +109,16 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
         </EntityType>
+        <EntityType Name="tbl_Empresa">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+          </Key>
+          <Property Name="correo" Type="varchar" MaxLength="100" />
+          <Property Name="password" Type="varchar" MaxLength="100" />
+          <Property Name="nro_contactos_byf" Type="bigint" />
+          <Property Name="nro_contactos_medicos" Type="bigint" />
+          <Property Name="id_empresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="tbl_Especialidades">
           <Key>
             <PropertyRef Name="id_Especialidad" />
@@ -195,6 +205,7 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
           <Property Name="id_tipo_visita" Type="int" />
+          <Property Name="codigo_local" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="tbl_Medicos_Direccion">
           <Key>
@@ -213,6 +224,7 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
           <Property Name="nombre_institucion_direccion" Type="varchar" MaxLength="255" />
+          <Property Name="codigo_local" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="tbl_Mes">
           <Key>
@@ -473,6 +485,7 @@
           <EntitySet Name="tbl_Control_Stock" EntityType="Self.tbl_Control_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Definicion_Opciones" EntityType="Self.tbl_Definicion_Opciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Duracion_Actividades" EntityType="Self.tbl_Duracion_Actividades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Empresa" EntityType="Self.tbl_Empresa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Especialidades" EntityType="Self.tbl_Especialidades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Estados" EntityType="Self.tbl_Estados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Evento" EntityType="Self.tbl_Evento" Schema="dbo" store:Type="Tables" />
@@ -546,6 +559,7 @@
           <EntitySet Name="tbl_Mes" EntityType="ITF_PERUModel.tbl_Mes" />
           <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
           <EntitySet Name="tbl_Programacion_Cab" EntityType="ITF_PERUModel.tbl_Programacion_Cab" />
+          <EntitySet Name="tbl_Empresa" EntityType="ITF_PERUModel.tbl_Empresa" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -876,6 +890,7 @@
           <Property Name="usuario_edicion" Type="Int32" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="nombre_institucion_direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_local" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Programacion_Det">
           <Key>
@@ -983,6 +998,7 @@
           <Property Name="usuario_edicion" Type="Int32" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="id_tipo_visita" Type="Int32" />
+          <Property Name="codigo_local" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Programacion_Cab">
           <Key>
@@ -1010,6 +1026,16 @@
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="tipo_interfaz_programacion_cab" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="comentarios" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Empresa">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+          </Key>
+          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nro_contactos_byf" Type="Int64" />
+          <Property Name="nro_contactos_medicos" Type="Int64" />
+          <Property Name="id_empresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1324,6 +1350,7 @@
           <EntitySetMapping Name="tbl_Medicos_Direccion">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos_Direccion">
               <MappingFragment StoreEntitySet="tbl_Medicos_Direccion">
+                <ScalarProperty Name="codigo_local" ColumnName="codigo_local" />
                 <ScalarProperty Name="nombre_institucion_direccion" ColumnName="nombre_institucion_direccion" />
                 <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
                 <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
@@ -1432,6 +1459,7 @@
           <EntitySetMapping Name="tbl_Medicos">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos">
               <MappingFragment StoreEntitySet="tbl_Medicos">
+                <ScalarProperty Name="codigo_local" ColumnName="codigo_local" />
                 <ScalarProperty Name="id_tipo_visita" ColumnName="id_tipo_visita" />
                 <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
                 <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
@@ -1479,6 +1507,17 @@
                 <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
                 <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
                 <ScalarProperty Name="id_Programacion_cab" ColumnName="id_Programacion_cab" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Empresa">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Empresa">
+              <MappingFragment StoreEntitySet="tbl_Empresa">
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="nro_contactos_medicos" ColumnName="nro_contactos_medicos" />
+                <ScalarProperty Name="nro_contactos_byf" ColumnName="nro_contactos_byf" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

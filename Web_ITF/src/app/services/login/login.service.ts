@@ -45,7 +45,8 @@ export class LoginService {
                         id_perfil:res.data.id_perfil,
                         menu_permisos : res.data.menuPermisos,
                         menu_eventos : res.data.menuEventos,
-                        es_supervisor:res.data.es_supervisor,
+                        es_supervisor: res.data.es_supervisor,
+                        obj_empresa: res.data.obj_empresa,
                       }                      
                       this.guardarSesion(infoUser);
 
@@ -164,6 +165,34 @@ export class LoginService {
       return 0;
     }
   }
+
+// ---BOTICAS Y farmacias
+  get_reporteResumen_rrmm_ByF(idCiclo : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '5');
+    parametros = parametros.append('filtro',  String(idCiclo)  + '|' +   String(id_usuario)   );
+  
+    return this.http.get( this.URL + 'login' , {params: parametros});
+  }
+
+  get_reporteResumenDiario_rrmm_ByF(idCiclo : number , id_usuario : number ){ 
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '6');
+    parametros = parametros.append('filtro',  String(idCiclo)  + '|' +   String(id_usuario)   );
+
+    return this.http.get( this.URL + 'login' , {params: parametros});
+  }
+
+  
+  get_parametrosEmpresa():any{
+    if (localStorage.getItem('data_ITF_usuario')) { 
+       this.dataLogeado =  JSON.parse(localStorage.getItem("data_ITF_usuario"));
+       return this.dataLogeado['obj_empresa'];
+    }else{
+      return 0;
+    }
+  }
+
 
 
 }

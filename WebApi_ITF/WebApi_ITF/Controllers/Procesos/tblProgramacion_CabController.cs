@@ -58,6 +58,7 @@ namespace WebApi_ITF.Controllers.Procesos
             objReemplazar.datos_acompaniante_programacion_cab = tbl_Programacion_Cab.datos_acompaniante_programacion_cab;
 
             objReemplazar.estado_programacion_cab = tbl_Programacion_Cab.estado_programacion_cab;
+            objReemplazar.comentarios = tbl_Programacion_Cab.comentarios;
 
             objReemplazar.usuario_edicion = tbl_Programacion_Cab.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;

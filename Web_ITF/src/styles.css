@@ -305,3 +305,9 @@
      overflow-y: auto !important;
      height: 600px !important;
  }
+
+  .nav-tabs.customClass .nav-item.show .nav-link,
+ .nav-tabs .nav-link.active {
+     background-color: rgb(142, 97, 158);
+     color: white;
+ }

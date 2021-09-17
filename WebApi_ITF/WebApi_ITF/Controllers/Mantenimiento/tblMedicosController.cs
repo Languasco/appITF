@@ -245,9 +245,10 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     string codDepartamento = parametros[0].ToString();
                     string codProvincia = parametros[1].ToString();
                     string codDistrito = parametros[2].ToString();
+                    string nroRuc = parametros[3].ToString();
 
                     res.ok = true;
-                    res.data = obj_negocios.get_locales(codDepartamento, codProvincia, codDistrito);
+                    res.data = obj_negocios.get_locales(codDepartamento, codProvincia, codDistrito, nroRuc);
                     res.totalpage = 0;
                     resul = res;
                 }
@@ -259,6 +260,18 @@ namespace WebApi_ITF.Controllers.Mantenimiento
 
                     res.ok = true;
                     res.data = obj_negocio.set_grabar_ImportacionBoticasFarmacias(idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 18)
+                {
+
+                    string[] parametros = filtro.Split('|');
+                    string filtroBusqueda = parametros[0].ToString();
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_consultandoInstituciones(filtroBusqueda);
                     res.totalpage = 0;
                     resul = res;
                 }

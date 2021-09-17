@@ -65,6 +65,7 @@
 
                         <th scope="col">APROBADOR RECHAZADOR</th>
                         <th scope="col">FECHA RPTA</th> 
+                        <th scope="col">MENSAJE RPTA</th> 
                         <th scope="col">ESTADO</th>
                         <th class="text-center" >Aprobar</th>
                         <th class="text-center" >Rechazar</th>
@@ -74,7 +75,11 @@
                     <tr *ngFor="let item of targetCab |  filter: filtrarMantenimiento  ; index as j">
                         <th scope="row"> {{j + 1}} </th>
 
-                        <td>{{item.usuario}}</td>
+                        <td> 
+                            <div style= "width:150px">
+                                {{item.usuario}}
+                            </div>
+                        </td>
                         <td>{{item.fechaSol}}</td>
 
                         <td>{{item.ruc}}</td>
@@ -90,9 +95,18 @@
                         </td>
                         <td class="text-center" >{{item.numero_contactos_target_det}}</td>
 
-                        <td>{{item.aprobadorRechazador}}</td>
+                        <td> 
+                            <div style= "width:150px">
+                                {{item.aprobadorRechazador}}
+                            </div>
+                        </td>
                         <td>
                             {{ item.fechaRespuesta == '1900-01-01T00:00:00'? '': item.fechaRespuesta | date:"dd/MM/yyyy" }}
+                        </td>
+                        <td>
+                            <div style= "width:150px">
+                                {{item.textoRespuesta}}
+                            </div>
                         </td>
                         <td>{{item.descripcionEstado}}</td>
                         <td class="text-center" >

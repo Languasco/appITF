@@ -26,6 +26,7 @@ export class UsuariosComponent implements OnInit {
   formParamsFile: FormGroup;
 
   idUserGlobal :number = 0;
+  idPerfilGlobal:number = 0;
   flag_modoEdicion :boolean =false;
 
   empresas :any[]=[];
@@ -40,9 +41,12 @@ export class UsuariosComponent implements OnInit {
   filtrarMantenimiento = "";
   areasSeleccionadas :any[]=[];
   imgProducto= './assets/img/sinImagen.jpg';
+
+  datosGeneralesEmpresa :any;
  
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService,private funcionGlobalServices : FuncionesglobalesService, private funcionesglobalesService : FuncionesglobalesService, private usuariosService : UsuariosService, private uploadService : UploadService) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
+    this.idPerfilGlobal = this.loginService.get_idPerfil();
   }
  
  ngOnInit(): void {
@@ -77,26 +81,34 @@ export class UsuariosComponent implements OnInit {
       fecha_nacimiento_usuario: new FormControl(new Date()),  
       sexo_usuario: new FormControl('0'),  
       id_supervisor: new FormControl('0'),  
-      es_supervisor: new FormControl(false)
+      es_supervisor: new FormControl(false),
+
+      nro_contactos_medicos: new FormControl(''),  
+      nro_contactos_byf: new FormControl(''),  
     }) 
  }
 
  getCargarCombos(){ 
     this.spinner.show();
-    combineLatest([  this.usuariosService.get_perfil(), this.usuariosService.get_supervisores() ]).subscribe( ([ _perfiles, _supervisores ])=>{
+    combineLatest([  this.usuariosService.get_perfil(), this.usuariosService.get_supervisores() , this.usuariosService.get_datosGeneralesEmpresa(false) ]).subscribe( ([ _perfiles, _supervisores , _datosGeneralesEmpresa])=>{
       this.perfiles = _perfiles;
       this.supervisores = _supervisores;
+      this.datosGeneralesEmpresa = _datosGeneralesEmpresa;
       this.spinner.hide(); 
     })
-
  }
 
- mostrarInformacion(){
-  
+ getDatosEmpresa(){ 
+  combineLatest([  this.usuariosService.get_datosGeneralesEmpresa(true) ]).subscribe( ([   _datosGeneralesEmpresa])=>{
+    this.datosGeneralesEmpresa = _datosGeneralesEmpresa; 
+  })
+}
+
+ mostrarInformacion(){  
       this.spinner.show();
       this.usuariosService.get_mostrarUsuario_general(this.formParamsFiltro.value.idEstado,this.formParamsFiltro.value.idRol )
           .subscribe((res:RespuestaServer)=>{     
-              console.log(res)       
+     
               this.spinner.hide();
               if (res.ok==true) {        
                   this.usuarios = res.data; 
@@ -116,11 +128,14 @@ export class UsuariosComponent implements OnInit {
  nuevo(){
     this.flag_modoEdicion = false;
     this.inicializarFormulario();  
+    const { nro_contactos_byf, nro_contactos_medicos} =  this.datosGeneralesEmpresa[0];
 
     setTimeout(()=>{ // 
       $('#modal_mantenimiento').modal('show');  
       $('#cbo_supervisor').removeClass('disabledForm');
       this.imgProducto= './assets/img/sinImagen.jpg';
+      this.formParams.patchValue({ "nro_contactos_byf" : nro_contactos_byf , "nro_contactos_medicos" : nro_contactos_medicos });
+
     },0); 
 
  } 
@@ -186,6 +201,31 @@ export class UsuariosComponent implements OnInit {
   // const fechaNaci = this.funcionGlobalServices.formatoFecha(this.formParams.value.fecha_nacimiento_usuario);
 
 
+  if ( this.idPerfilGlobal == 1) {
+
+    const { nro_contactos_byf, nro_contactos_medicos} =  this.datosGeneralesEmpresa[0];
+    const nrocontactos_byf = this.formParams.value.nro_contactos_byf;
+    const nrocontactos_medicos = this.formParams.value.nro_contactos_medicos;
+  
+    let flagEdit = false;
+    if (nro_contactos_byf != nrocontactos_byf) {
+      flagEdit=true;
+    }
+    if (flagEdit == false) {
+      if (nro_contactos_medicos != nrocontactos_medicos) {
+        flagEdit=true;
+      }
+    }
+  
+    if (flagEdit) {
+      this.spinner.show();
+      console.log('entroo')
+      const  datosEmpresa  = await this.usuariosService.get_actualizar_datosEmpresa( nrocontactos_byf, nrocontactos_medicos);
+      this.getDatosEmpresa();
+      this.spinner.hide();
+    }
+  }
+
   if ( this.flag_modoEdicion==false) { //// nuevo  
 
      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
@@ -217,6 +257,8 @@ export class UsuariosComponent implements OnInit {
         this.usuarios.push(res.data[0])
 
         this.alertasService.Swal_Success('Se agrego correctamente..');
+
+
        }else{
          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
          alert(JSON.stringify(res.data));
@@ -273,9 +315,11 @@ export class UsuariosComponent implements OnInit {
  editar({ id_Usuario, nrodoc_usuario, email_usuario, id_Perfil, fotourl, login_usuario, contrasenia_usuario, estado, apellido_paterno_usuario, apellido_materno_usuario, nombres_usuario, celular_usuario, fecha_nacimiento_usuario, sexo_usuario, id_supervisor, es_supervisor }){
 
    this.flag_modoEdicion=true;
+   const { nro_contactos_byf, nro_contactos_medicos} =  this.datosGeneralesEmpresa[0];
 
    this.formParams.patchValue({ "id_Usuario" : id_Usuario,  "nrodoc_usuario" : nrodoc_usuario ,"email_usuario" : email_usuario, "id_Perfil" : id_Perfil , "login_usuario" : login_usuario, "contrasenia_usuario" : contrasenia_usuario, "estado" : estado, "usuario_creacion" : this.idUserGlobal, "apellido_paterno_usuario" : apellido_paterno_usuario, "apellido_materno_usuario" : apellido_materno_usuario,"nombres_usuario" : nombres_usuario , "fecha_nacimiento_usuario" : new Date(fecha_nacimiento_usuario), "sexo_usuario" : sexo_usuario, "id_supervisor" : id_supervisor, "es_supervisor" : es_supervisor }
    );
+   this.formParams.patchValue({ "nro_contactos_byf" : nro_contactos_byf , "nro_contactos_medicos" : nro_contactos_medicos  });
 
    this.imgProducto = (!fotourl)? './assets/img/sinImagen.jpg' : fotourl;
  

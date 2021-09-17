@@ -64,12 +64,13 @@ export class AltasTargetBoticasFarmaciasComponent implements OnInit {
   departamentos :any[]=[]; 
   provincias :any[]=[]; 
   distritos :any[]=[];
+  datosEmpresa: any;
  
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private targetService : TargetService, private uploadService : UploadService, private categoriaService :CategoriaService, private  especialidadService :EspecialidadService, private actividadService :ActividadService, private activatedRoute:ActivatedRoute , private medicoService :  MedicoService ) {     
 
     this.idUserGlobal = this.loginService.get_idUsuario();
     this.UsuarioLoggeadoGlobal = this.loginService.getSessionNombre();
-
+    this.datosEmpresa = this.loginService.get_parametrosEmpresa();
     //---obtener el parametro que viene por la url
     this.activatedRoute.params.subscribe(params=>{
       this.opcionTarget = params['opcionTarget'];      
@@ -315,6 +316,7 @@ validacionCheckMarcado(){
     }
 
     const mediMarc = this.medicosDet.filter((med)=> med.checkeado);
+    const { nro_contactos_byf } = this.datosEmpresa;
   
     if (!mediMarc) {
       return;
@@ -328,6 +330,12 @@ validacionCheckMarcado(){
           }
           if ( Number(med.nro_contactos) <=0 ) {
             this.alertasService.Swal_alert('error','Tiene que ingresar un valor positivo');
+            flagCantNull =true;
+            break;
+          }
+
+          if ( Number(med.nro_contactos) > Number(nro_contactos_byf) ) {
+            this.alertasService.Swal_alert('error',`El numero de Contacto no puede ser mayor a  ${nro_contactos_byf}` );
             flagCantNull =true;
             break;
           }

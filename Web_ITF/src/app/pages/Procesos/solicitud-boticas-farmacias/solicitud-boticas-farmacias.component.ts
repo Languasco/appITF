@@ -110,6 +110,7 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
     nombre_institucion_direccion: new FormControl(''),
     estado: new FormControl('1'),
     usuario_creacion: new FormControl('0'),
+    codigo_local: new FormControl(''),
    }) 
 }
 
@@ -189,10 +190,10 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
        return 
      }   
   }
-  if (this.formParams.value.id_Identificador_Medico == '' || this.formParams.value.id_Identificador_Medico == 0) {
-    this.alertasService.Swal_alert('error','Por favor seleccione el Identificador Medico');
-    return 
-  }
+  // if (this.formParams.value.id_Identificador_Medico == '' || this.formParams.value.id_Identificador_Medico == 0) {
+  //   this.alertasService.Swal_alert('error','Por favor seleccione el Identificador Medico');
+  //   return 
+  // }
   if (this.formParams.value.cmp_medico == '' || this.formParams.value.cmp_medico == null) {
     this.alertasService.Swal_alert('error','Por favor ingrese el Nro de colegio Medico');
     return 
@@ -394,7 +395,7 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
   }
   
 
-  modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
+  modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,codigo_local  }){    
   
     
     if (codigo_departamento =='0') {
@@ -404,8 +405,8 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
       setTimeout(() => {
         this.formParamsDirection.patchValue({
           "id_Medicos_Direccion"  : id_Medicos_Direccion ,
-          "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-          "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion 
+          "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,"direccion_medico_direccion"  : direccion_medico_direccion ,
+          "referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion , "codigo_local" : codigo_local
         }); 
       }, 0); 
   
@@ -423,7 +424,7 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
                 "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                 "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
                 "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
-                "estado"  : 1 ,
+                "estado"  : 1 , "codigo_local" : codigo_local
               }); 
             }, 0);  
   
@@ -443,7 +444,7 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
                   "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                   "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
                   "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
-                  "estado"  : 1 ,
+                  "estado"  : 1 , "codigo_local" : codigo_local
                 }); 
               }, 0);          
   
@@ -467,6 +468,9 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
     this.medicoService.get_mostrar_direccionMedicos(this.id_MedicoGlobal).subscribe((res:RespuestaServer)=>{
      if (res.ok) {          
       //  this.direccionDetalle = res.data; 
+
+      console.log(res);
+
        setTimeout(()=>{ // 
         this.modificarDireccion(res.data[0])
       },0); 
@@ -495,7 +499,12 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
 
   buscarRuc(){ 
 
-   const nroRuc =  this.formParams.value.cmp_medico;
+    const nroRuc =  this.formParams.value.cmp_medico;
+
+    if (nroRuc == '') {
+      return
+    }
+    
     Swal.fire({
       icon: 'info', allowOutsideClick: false,allowEscapeKey: false,text: 'Espere por favor'
     })
@@ -531,17 +540,17 @@ export class SolicitudBoticasFarmaciasComponent implements OnInit {
   }
 
   changeDistritos(e:any){
-    this.get_localesBoticasFarmacias( this.formParamsDirection.value.codigo_departamento, this.formParamsDirection.value.codigo_provincia, this.formParamsDirection.value.codigo_distrito );
+    this.get_localesBoticasFarmacias( this.formParamsDirection.value.codigo_departamento, this.formParamsDirection.value.codigo_provincia, this.formParamsDirection.value.codigo_distrito , this.formParams.value.cmp_medico );
   }
 
-  get_localesBoticasFarmacias(codigo_departamento:string, codigo_provincia:string, codigo_distrito:string  ){
+  get_localesBoticasFarmacias(codigo_departamento:string, codigo_provincia:string, codigo_distrito:string , nroRuc:string ){
   
     if (codigo_distrito=='0') {
       this.direccionDetalle = [];
     }else{
       Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Cargando Locales, Espere por favor'  })
       Swal.showLoading();
-      this.medicoService.get_localesBoticasFarmacias( codigo_departamento, codigo_provincia, codigo_distrito ).subscribe((res:RespuestaServer)=>{
+      this.medicoService.get_localesBoticasFarmacias( codigo_departamento, codigo_provincia, codigo_distrito, nroRuc ).subscribe((res:RespuestaServer)=>{
         Swal.close();      
         if (res.ok==true) {         
           this.direccionDetalle = res.data;

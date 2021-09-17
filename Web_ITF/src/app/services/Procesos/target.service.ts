@@ -169,6 +169,7 @@ export class TargetService {
   }
 
   get_mostrar_AprobarRechazar_AB_Target_boticasFarmacias({idUsuario, estado },opcionTarget:string, fechaIni:string, fechaFin:string, idUser:number){
+
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '18');
     parametros = parametros.append('filtro', String(idUsuario)  + '|' + String(fechaIni) + '|' + String(fechaFin) + '|' + String(estado) + '|' + String(opcionTarget)+ '|' + String(idUser)  );
@@ -177,11 +178,11 @@ export class TargetService {
   }
 
 
-  set_AprobarRechazar_AB_Target_boticasFarmacias(idTargetDet:number, nroContactos :number, opcionTarget:string, opcion:string, idUsuario:number, id_Target_cab : number){
+  set_AprobarRechazar_AB_Target_boticasFarmacias(idTargetDet:number, nroContactos :number, opcionTarget:string, opcion:string, idUsuario:number, id_Target_cab : number, observacion : string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '19');
-    parametros = parametros.append('filtro', String(idTargetDet) + '|' + String(nroContactos)  + '|' + String(opcionTarget)+ '|' + String(opcion) + '|' + String(idUsuario) + '|' + String(id_Target_cab)   );
-   return this.http.get( this.URL + 'Target' , {params: parametros});
+    parametros = parametros.append('filtro', String(idTargetDet) + '|' + String(nroContactos)  + '|' + String(opcionTarget)+ '|' + String(opcion) + '|' + String(idUsuario) + '|' + String(id_Target_cab)  + '|' + String(observacion)  );
+    return this.http.get( this.URL + 'Target' , {params: parametros});
   }
 
 

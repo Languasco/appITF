@@ -369,7 +369,48 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 21)  
+                {
 
+                    res.ok = true;
+                    res.data = (from a in db.tbl_Empresa
+                                select new
+                                {
+                                    a.id_empresa,
+                                    a.nro_contactos_byf,
+                                    a.nro_contactos_medicos
+                                }).ToList();
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 22)
+                {
+                    string[] parametros = filtro.Split('|');
+                    string nro_contactos_byf = parametros[0].ToString();
+                    string nro_contactos_medicos = parametros[1].ToString();
+
+                    tbl_Empresa objReemplazar;
+                    objReemplazar = db.tbl_Empresa.Where(u => u.id_empresa == 1).FirstOrDefault<tbl_Empresa>();
+                    objReemplazar.nro_contactos_byf = Convert.ToInt32(nro_contactos_byf);
+                    objReemplazar.nro_contactos_medicos = Convert.ToInt32(nro_contactos_medicos);
+                    db.Entry(objReemplazar).State = EntityState.Modified;
+
+                    try
+                    {
+                        db.SaveChanges();
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        res.ok = false;
+                        res.data = ex.InnerException.Message;
+                        res.totalpage = 0;
+                    }
+
+                    return res;
+                }
 
                 else
                 {

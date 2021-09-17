@@ -103,6 +103,14 @@ export class UploadService {
     parametros = parametros.append('filtro', opcionTarget  + '|' + idusuario) ;
     return this.http.get( this.URL + 'Target' , {params: parametros});
   }
+
+  get_verificar_codigoRol(codRol:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '3');
+    parametros = parametros.append('filtro', codRol);
+
+    return this.http.get( this.URL + 'tblActividades' , {params: parametros}).toPromise();
+  }
  
 
 }

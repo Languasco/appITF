@@ -278,11 +278,12 @@ namespace WebApi_ITF.Controllers.Procesos
                     string opcionEstado = parametros[3].ToString();
                     int idUsuario = Convert.ToInt32(parametros[4].ToString());
                     int idTargetCab = Convert.ToInt32(parametros[5].ToString());
+                    string observacion = parametros[6].ToString();
 
                     Target_BL obj_negocio = new Target_BL();
 
                     res.ok = true;
-                    res.data = obj_negocio.set_aprobarRechazar_AB_target_boticasFarmacias(idTargetDet, nroContactos, opcionTarget, opcionEstado, idUsuario, idTargetCab);
+                    res.data = obj_negocio.set_aprobarRechazar_AB_target_boticasFarmacias(idTargetDet, nroContactos, opcionTarget, opcionEstado, idUsuario, idTargetCab, observacion);
                     res.totalpage = 0;
                     resul = res;
                 }

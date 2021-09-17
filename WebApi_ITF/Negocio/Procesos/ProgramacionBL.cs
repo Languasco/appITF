@@ -64,6 +64,10 @@ namespace Negocio.Procesos
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
                                 Entidad.colorFondo = dr["colorFondo"].ToString();
 
+                                Entidad.desde_ciclo = Convert.ToDateTime(dr["desde_ciclo"].ToString());
+                                Entidad.hasta_ciclo = Convert.ToDateTime(dr["hasta_ciclo"].ToString());
+                                Entidad.nombre_ciclo = dr["nombre_ciclo"].ToString();                               
+
                                 obj_List.Add(Entidad);
                             }
 
@@ -648,6 +652,13 @@ namespace Negocio.Procesos
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
                                 Entidad.colorFondo = dr["colorFondo"].ToString();
                                 Entidad.direccion_medico_direccion = dr["direccion_medico_direccion"].ToString();
+
+                                Entidad.nombre_ciclo = dr["nombre_ciclo"].ToString();
+                                Entidad.id_Ciclo = dr["id_Ciclo"].ToString();
+
+                                Entidad.desde_ciclo = Convert.ToDateTime(dr["desde_ciclo"].ToString());
+                                Entidad.hasta_ciclo = Convert.ToDateTime(dr["hasta_ciclo"].ToString());
+
 
                                 obj_List.Add(Entidad);
                             }

@@ -470,9 +470,13 @@
 
 
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-9">
                                                             <label> Nombre de institución </label>
                                                             <input type="text" class="form-control " maxlength="250" formControlName="nombre_institucion_direccion">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <br>
+                                                            <button class="btn btn-info  ml-1"   style="font-size: 13px;" (click)="buscarInstituciones()">   <i class="fa fa-plus-search"> Buscar</i> </button> 
                                                         </div>
                                                     </div>
 
@@ -553,6 +557,55 @@
             <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="cerrarModal()"> Regresar</button>
             </div> -->
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modal_instituciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="    border-color: red;">
+            <div class="modal-header">
+                    <h3 class="modal-title float-left text-success" style="text-decoration: underline;"> INSTITUCIONES </h3> 
+                    <button type="button" class="close" (click)="cerrarModalInstituciones()" aria-label="Close">  <span aria-hidden="true">&times;</span>  </button>
+            </div>
+            <div class="modal-body">
+ 
+                    <fieldset class="shadow-sm mt-2">
+                        <legend>DETALLE</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style=" margin-top: -10px;">
+                                    <div class="col-md-12">
+
+                                        <div class="search-results tableFixHead">
+                                            <table class="table  table-hover table-sm">
+                                                <thead class="theadTable">                                
+                                                    <tr style="height: 40px !important;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">INSTITUCION</th> 
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of instituciones ; index as j" >
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.NOMBRE_INSTITUCION}} </td>                   
+                                                        <td class="text-center">
+                                                            <span class="badge badge-info puntero btn-block"  style=" font-size: 13px;" title="Seleccionar"  (click)="elegirInstituciones(item)">  <i class="fas fa-check-circle"></i> </span>                                                            
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </fieldset>       
+ 
+            </div>
         </div>
     </div>
 </div>

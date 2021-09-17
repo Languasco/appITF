@@ -245,9 +245,32 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+
+
                                 </div>
                             </div>
                         </fieldset>
+                        <br>
+
+                        <form [formGroup]="formParams" style=" margin-top: -15px;" *ngIf="idPerfilGlobal == 1" >
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <label> Nro. Max de contactos Médicos </label>
+                                    <input type="text" class="form-control "  style="width: 200px;" (keypress)="keyPress($event)"  maxlength="250" formControlName="nro_contactos_medicos">
+                                </div>
+                             </div>
+
+                             <div class="row">
+                                <div class="col-md-12 ">
+                                    <label> Nro. Max de contactos ByF </label>
+                                    <input type="text" class="form-control " style="width: 200px;"  (keypress)="keyPress($event)"  maxlength="250" formControlName="nro_contactos_byf">
+                                </div>
+                             </div>
+                        </form>
+
                     </div>
                 </div>
 

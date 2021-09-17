@@ -36,6 +36,7 @@
         <EntityTypeShape EntityType="ITF_PERUModel.tbl_Mes" Width="1.5" PointX="17.375" PointY="7.75" />
         <EntityTypeShape EntityType="ITF_PERUModel.tbl_Medicos" Width="1.5" PointX="7.375" PointY="17.75" />
         <EntityTypeShape EntityType="ITF_PERUModel.tbl_Programacion_Cab" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ITF_PERUModel.tbl_Empresa" Width="1.5" PointX="11.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

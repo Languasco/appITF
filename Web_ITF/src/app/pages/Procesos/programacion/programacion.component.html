@@ -12,7 +12,6 @@
                     <label for=""> Ciclo</label>
                     <br>
                     <select class="form-control comboBox " formControlName="idCiclo">
-                        <option value="0"> [ -- SELECCIONE-- ]</option>
                         <option [value]="ciclo.id_Ciclo" *ngFor="let ciclo of ciclos">{{ciclo.nombre_ciclo}}</option>
                     </select>
                 </div>
@@ -108,7 +107,7 @@
                             <div [class]="item.colorFondo" role="alert">
                                 <div class="row">
                                     <div class="col-6 col-md-1" (click)="abrir_modalProgramacion(item)">
-                                        {{item.nroVisitas}}
+                                        {{item.nombre_ciclo}}
                                     </div>
                                     <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
                                         {{item.datosMedico}}
@@ -134,7 +133,7 @@
 
                                 <div class="row">
                                     <div class="col-6 col-md-1" (click)="abrir_modalProgramacion(item)">
-
+                                        {{item.nroVisitas}}
                                     </div>
                                     <div class="col-6 col-md-2" (click)="abrir_modalProgramacion(item)">
                                         <span class="badge badge-pill badge-light" style="font-size: 12px; font-weight: 800;"> {{item.cmpMedico}} </span>
@@ -245,7 +244,7 @@
                                             <div class="col-md-6">
                                                 <label> Fecha Programacion </label>
                                                 <div class="pt-4">
-                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_programacion_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                    <input class="form-control" [minDate]="minDate" [maxDate]="maxDate"  #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_programacion_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -261,7 +260,7 @@
                                             <div class="col-md-6">
                                                 <label> Fecha Reporte </label>
                                                 <div class="pt-4">
-                                                    <input class="form-control  " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_reporte_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                    <input class="form-control  " [minDate]="minDate" [maxDate]="maxDate"   #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_reporte_programacion_cab" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

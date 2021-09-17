@@ -61,6 +61,7 @@ export class SolicitudMedicoComponent implements OnInit {
   usuarios :any[]=[]; 
   estados :any[]=[]; 
   tipoVisitas :any[]=[]; 
+  instituciones :any[]=[]; 
 
   descripcionEstadoGlobal = '';
   titulo = '';
@@ -156,9 +157,8 @@ export class SolicitudMedicoComponent implements OnInit {
 
   combineLatest([ this.especialidadService.get_especialidades() , this.medicoService.get_profesiones() , this.medicoService.get_departamentos()])
   .subscribe( ([_especialidades, _profesiones, _departamentos  ])=>{
-
     this.especialidades = _especialidades;
-    this.profesiones = _profesiones;
+    this.profesiones = _profesiones.filter( (p)=> p.id_Identificador_Medico !=5 && p.id_Identificador_Medico !=6  );
     this.departamentos = _departamentos;
   })
 }
@@ -1139,7 +1139,41 @@ keyPress(event: any) {
   keyPress2(event: any) {
     this.funcionGlobalServices.verificar_soloNumeros(event)  ;
   }
+
+  cerrarModalInstituciones(){
+    setTimeout(()=>{ // 
+      $('#modal_instituciones').modal('hide');  
+    },0); 
+  }
     
-  
+  buscarInstituciones(){ 
+
+    const filtroBusqueda =  this.formParamsDirection.value.nombre_institucion_direccion;
+    this.instituciones = [];
+ 
+     Swal.fire({
+       icon: 'info', allowOutsideClick: false,allowEscapeKey: false,text: 'Espere por favor'
+     })
+     Swal.showLoading();
+      this.medicoService.get_consultandoInstituciones(filtroBusqueda).subscribe((res:RespuestaServer)=>{
+       Swal.close();
+       if (res.ok) { 
+              this.instituciones = res.data;
+              setTimeout(()=>{ // 
+                $('#modal_instituciones').modal('show');  
+              },0); 
+       }else{
+         this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+         alert(JSON.stringify(res.data));
+       }
+     })
+
+   }
+
+   elegirInstituciones({NOMBRE_INSTITUCION}){
+    this.formParamsDirection.patchValue({ "nombre_institucion_direccion" : NOMBRE_INSTITUCION });  
+    this.cerrarModalInstituciones()
+   }
+
 
 }

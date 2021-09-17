@@ -153,7 +153,6 @@ inicializarFormularioSolicitud_Det(){
 }
 
  mostrarInformacion_solicitud(){ 
-
   if (this.formParamsFiltro.value.fecha_ini == '' || this.formParamsFiltro.value.fecha_ini == null ) {
     this.alertasService.Swal_alert('error','Por favor seleccione la fecha inicial');
     return 
@@ -521,6 +520,10 @@ inicializarFormularioSolicitud_Det(){
   buscarRuc(){ 
 
    const nroRuc =  this.formParams.value.cmp_medico;
+   if (nroRuc == '') {
+    return
+  }
+  
     Swal.fire({
       icon: 'info', allowOutsideClick: false,allowEscapeKey: false,text: 'Espere por favor'
     })
@@ -556,17 +559,17 @@ inicializarFormularioSolicitud_Det(){
   }
 
   changeDistritos(e:any){
-    this.get_localesBoticasFarmacias( this.formParamsDirection.value.codigo_departamento, this.formParamsDirection.value.codigo_provincia, this.formParamsDirection.value.codigo_distrito );
+    this.get_localesBoticasFarmacias( this.formParamsDirection.value.codigo_departamento, this.formParamsDirection.value.codigo_provincia, this.formParamsDirection.value.codigo_distrito, this.formParams.value.cmp_medico  );
   }
 
-  get_localesBoticasFarmacias(codigo_departamento:string, codigo_provincia:string, codigo_distrito:string  ){
+  get_localesBoticasFarmacias(codigo_departamento:string, codigo_provincia:string, codigo_distrito:string , nroRuc:string ){
   
     if (codigo_distrito=='0') {
       this.direccionDetalle = [];
     }else{
       Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Cargando Locales, Espere por favor'  })
       Swal.showLoading();
-      this.medicoService.get_localesBoticasFarmacias( codigo_departamento, codigo_provincia, codigo_distrito ).subscribe((res:RespuestaServer)=>{
+      this.medicoService.get_localesBoticasFarmacias( codigo_departamento, codigo_provincia, codigo_distrito, nroRuc ).subscribe((res:RespuestaServer)=>{
         Swal.close();      
         if (res.ok==true) {         
           this.direccionDetalle = res.data;

@@ -32,6 +32,7 @@ export class MedicoComponent implements OnInit {
 
   idUserGlobal :number = 0;
   id_MedicoGlobal :number = 0;
+  idPerfilGlobal:number = 0;
 
   flag_modoEdicion :boolean =false;
   flagModo_EdicionDet :boolean =false;
@@ -62,6 +63,7 @@ export class MedicoComponent implements OnInit {
  
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService,private funcionGlobalServices : FuncionesglobalesService, private medicoService : MedicoService , private uploadService : UploadService, private categoriaService : CategoriaService, private especialidadService: EspecialidadService , private solicitudMedicoService : SolicitudMedicoService) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
+    this.idPerfilGlobal = this.loginService.get_idPerfil();
   }
  
  ngOnInit(): void {

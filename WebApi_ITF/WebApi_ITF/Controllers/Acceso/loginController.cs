@@ -42,6 +42,7 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                     {
                         var Parents = new string[] { "1" };
                         tbl_Usuarios objUsuario = db.tbl_Usuarios.Where(p => p.login_usuario == login && p.contrasenia_usuario == contra).SingleOrDefault();
+                        tbl_Empresa objEmpresa = db.tbl_Empresa.Where(p => p.id_empresa == 1).SingleOrDefault();
 
                         Menu listamenu = new Menu();
                         List<MenuPermisos> listaAccesos = new List<MenuPermisos>();
@@ -94,7 +95,8 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                         listamenu.nombre_usuario = objUsuario.apellido_paterno_usuario + " " + objUsuario.apellido_materno_usuario + " " + objUsuario.nombres_usuario;
                         listamenu.id_perfil = objUsuario.id_Perfil;
                         listamenu.es_supervisor =Convert.ToInt32( objUsuario.es_supervisor );
-                         
+                        listamenu.obj_empresa = objEmpresa;
+
                         res.ok = true;
                         res.data = listamenu;
                         res.totalpage = 0;
@@ -184,6 +186,46 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                     else
                     {
                         resul = obj_negocios.generarResumenDiario_normal(idCiclo, idUsuario);
+                    }
+
+                }
+                else if (opcion == 5)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idCiclo = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    Login_BL obj_negocios = new Login_BL();
+
+                    tbl_Usuarios objUsuario = db.tbl_Usuarios.Where(p => p.id_Usuario == idUsuario).SingleOrDefault();
+                    if (objUsuario.es_supervisor == 1)
+                    {
+                        resul = obj_negocios.generarResumenGeneral_supervisor_ByF(idCiclo, idUsuario);
+                    }
+                    else
+                    {
+                        resul = obj_negocios.generarResumenGeneral_normal_ByF(idCiclo, idUsuario);
+                    }
+                }
+                else if (opcion == 6)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    int idCiclo = Convert.ToInt32(parametros[0].ToString());
+                    int idUsuario = Convert.ToInt32(parametros[1].ToString());
+
+                    Login_BL obj_negocios = new Login_BL();
+
+
+                    tbl_Usuarios objUsuario = db.tbl_Usuarios.Where(p => p.id_Usuario == idUsuario).SingleOrDefault();
+                    if (objUsuario.es_supervisor == 1)
+                    {
+                        resul = obj_negocios.generarResumenDiario_supervisor_ByF(idCiclo, idUsuario);
+                    }
+                    else
+                    {
+                        resul = obj_negocios.generarResumenDiario_normal_ByF(idCiclo, idUsuario);
                     }
 
                 }

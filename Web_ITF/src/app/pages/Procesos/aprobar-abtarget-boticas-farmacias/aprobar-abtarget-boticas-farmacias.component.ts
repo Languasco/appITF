@@ -126,10 +126,7 @@ export class AprobarABTargetBoticasFarmaciasComponent implements OnInit {
    }  
    
    async aprobarRechazar_altasBajas_target(opcion:string,objTarget:any ){ 
-
-    console.log(objTarget);
  
-
     let nroContact =0;
     if(opcion =='A'){
   
@@ -148,37 +145,49 @@ export class AprobarABTargetBoticasFarmaciasComponent implements OnInit {
       nroContact = objTarget.numero_contactos_target_det;
     } 
   
-    let mens = (opcion =='A') ? 'Esta seguro de Aprobar ?' : 'Esta seguro de Rechazar ?';
+    let mens = (opcion =='A') ? 'Seguro de Aprobar ?' : 'Seguro de Rechazar ?';
     let mensAlert = (opcion =='A') ? 'Aprobado correctamente ..' : 'Rechazado correctamente ..';
   
-    this.alertasService.Swal_Question('Sistemas', mens)
+    this.alertasService.Swall_question_input(mens, 'Si desea ingrese una Observación ')
     .then((result)=>{
-      if(result.value){
-        Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Actualizando, espere por favor'  })
-        Swal.showLoading();
-        this.targetService.set_AprobarRechazar_AB_Target_boticasFarmacias(objTarget.id_Target_Det, nroContact, this.opcionTarget, opcion, this.idUserGlobal , objTarget.id_Target_cab ).subscribe((res:RespuestaServer)=>{
-          Swal.close(); 
-          if (res.ok ==true) {   
-  
-            this.alertasService.Swal_alert('success',mensAlert);
-            
-            for (const target of this.targetDet) {
-               if (target.id_Target_Det == objTarget.id_Target_Det ) {
-                  if (opcion =='A') {
-                    target.idEstado = 18;
-                    target.descripcionEstado = 'Aprobada';
-                  }else{
-                    target.idEstado = 17;
-                    target.descripcionEstado = 'Rechazada';
-                  }             
-               }
-            }         
-          }else{
-            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
-            alert(JSON.stringify(res.data));
-          }
-        })
-      }
+ 
+        const enviarBaseDatos = (observacion:string='')=>{
+          Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Actualizando, espere por favor'  })
+          Swal.showLoading();
+          this.targetService.set_AprobarRechazar_AB_Target_boticasFarmacias(objTarget.id_Target_Det, nroContact, this.opcionTarget, opcion, this.idUserGlobal , objTarget.id_Target_cab, observacion ).subscribe((res:RespuestaServer)=>{
+            Swal.close(); 
+            if (res.ok ==true) {   
+    
+              this.alertasService.Swal_alert('success',mensAlert);
+              
+              for (const target of this.targetDet) {
+                 if (target.id_Target_Det == objTarget.id_Target_Det ) {
+                    if (opcion =='A') {
+                      target.idEstado = 18;
+                      target.descripcionEstado = 'Aprobada';
+                    }else{
+                      target.idEstado = 17;
+                      target.descripcionEstado = 'Rechazada';
+                    }             
+                 }
+              }         
+            }else{
+              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+              alert(JSON.stringify(res.data));
+            }
+          })
+
+        }
+
+        if(result.value == ''){
+          const { value : observacion } = result;   
+          enviarBaseDatos(observacion);
+        }
+        if(result.value){
+          const { value : observacion } = result;
+          enviarBaseDatos(observacion);  
+        } 
+
     })
   
   } 

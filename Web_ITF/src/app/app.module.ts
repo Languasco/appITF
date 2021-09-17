@@ -91,6 +91,8 @@ import { TargetBoticasFarmaciasComponent } from './pages/procesos/target-boticas
 import { AltasTargetBoticasFarmaciasComponent } from './pages/procesos/altas-target-boticas-farmacias/altas-target-boticas-farmacias.component';
 import { AprobarABTargetBoticasFarmaciasComponent } from './pages/procesos/aprobar-abtarget-boticas-farmacias/aprobar-abtarget-boticas-farmacias.component';
 import { ProgramacionBoticasFarmaciasComponent } from './pages/procesos/programacion-boticas-farmacias/programacion-boticas-farmacias.component';
+
+import { TabsModule } from 'ngx-bootstrap/tabs';
  
  
 
@@ -156,6 +158,7 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
     Ng2SearchPipeModule,
     TreeviewModule.forRoot(),
     TimepickerModule.forRoot(),
+    TabsModule.forRoot(),
     FusionChartsModule
   ],
   providers: [],

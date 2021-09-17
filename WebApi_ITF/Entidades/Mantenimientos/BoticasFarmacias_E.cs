@@ -23,6 +23,7 @@ namespace Entidades.Mantenimientos
         public string codigo_provincia { get; set; }
         public string codigo_distrito { get; set; }
         public string direccion_medico_direccion { get; set; }
+                public string codigo_local { get; set; }
 
     }
 
@@ -44,6 +45,8 @@ namespace Entidades.Mantenimientos
         public string codigo_provincia { get; set; }
         public string codigo_distrito { get; set; }
         public string direccion_medico_direccion { get; set; }
+
+        public string codigo_local { get; set; }
 
     }
 

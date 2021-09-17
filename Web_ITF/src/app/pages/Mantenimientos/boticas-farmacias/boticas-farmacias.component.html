@@ -12,7 +12,7 @@
                 <input type="text" class="form-control form-control-sm  " maxlength="20" formControlName="cmp">
             </div>
             <div class="col-md-4">
-                <label for=""> Razon Social</label>
+                <label for=""> Razón Social</label>
                 <br>
                 <input type="text" class="form-control form-control-sm  " maxlength="250" formControlName="medico">
             </div>
@@ -56,8 +56,8 @@
             <div class="col-md-6 text-center">    
                 <br>             
                 <button class="btn btn-primary   " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button> 
-                <button class="btn btn-warning  ml-1" style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nuevo</i> </button> 
-                <button class="btn btn-info ml-1 " style="font-size: 13px;" (click)="open_modalImportacion()">   <i class="fas fa-file-upload"> Carga Masiva</i> </button>
+                <button class="btn btn-warning  ml-1" *ngIf="idPerfilGlobal == 1"  style="font-size: 13px;" (click)="nuevo()">   <i class="fa fa-plus-circle"> Nuevo</i> </button> 
+                <button class="btn btn-info ml-1 " *ngIf="idPerfilGlobal == 1"  style="font-size: 13px;" (click)="open_modalImportacion()">   <i class="fas fa-file-upload"> Carga Masiva</i> </button>
             </div>
         </div>
     </form>
@@ -77,15 +77,15 @@
                 <tr style="height: 40px !important;">
                     <th scope="col">#</th>
                     <th scope="col">IDENTIFICADOR</th>
-                    <th scope="col">CMP</th>
+                    <th scope="col">RUC</th>
 
-                    <th scope="col">NOMBRES Y APELLIDOS </th>
-                    <th scope="col">Email</th>
+                    <th scope="col">RAZÓN SOCIAL </th>
+                    <th scope="col">Dirección</th>
                     <th scope="col">Categoria</th>
 
                     <th scope="col">Estado</th>
                     <th class="text-center">Editar</th>
-                    <th class="text-center">Anular</th>
+                    <th class="text-center" *ngIf="idPerfilGlobal == 1" >Anular</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,13 +95,13 @@
                     <td>{{item.cmp_medico}} </td>
 
                     <td>{{item.nombres_medico}} {{item.apellido_paterno_medico}} {{item.apellido_materno_medico}} </td>
-                    <td>{{item.email_medico}} </td>
+                    <td>{{item.direccion}} </td>
                     <td>{{item.codigo_categoria}} </td>
                     <td>{{item.descripcion_estado}}</td>
                     <td class="text-center">
                         <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" *ngIf="idPerfilGlobal == 1" >
                         <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="anular(item)">  Anular </span>
                     </td>
                 </tr>
@@ -140,21 +140,25 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label> Código Médico </label>
+                                                    <label> Código ByF </label>
                                                     <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for=""> Identificador</label>
                                                     <br>
                                                     <select class="form-control comboBox" formControlName="id_Identificador_Medico">
-                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option value="0"> [ -- TODOS-- ]</option>
                                                         <option [value]="prof.id_Identificador_Medico" *ngFor="let prof of profesiones">{{prof.descripcion_identificador_medico}}</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for=""> Ruc</label>
                                                     <br>
-                                                    <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="buscarRuc()"  maxlength="20" formControlName="cmp_medico">
+                                                    <input type="text" class="form-control " (keypress)="keyPress($event)"   maxlength="20" formControlName="cmp_medico">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <br>
+                                                    <button class="btn btn-info  ml-1"   style="font-size: 13px;" (click)="buscarRuc()">   <i class="fa fa-plus-search"> Buscar ByF</i> </button> 
                                                 </div>
                                             </div>
         
@@ -245,14 +249,18 @@
                                                     </div>
                                                 
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-9">
                                                             <label> Dirección </label>
                                                             <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label> Cod. Local </label>
+                                                            <input type="text" class="form-control " maxlength="250" formControlName="codigo_local">
                                                         </div>
                                                     </div>
             
   
-                                                    <div class=" tableFixHead ">
+                                                    <div class=" tableFixHead  mt-2">
                                                         <table class="table table-hover table-sm">
                                                             <thead class="theadTable">
                                                                 <tr>
@@ -313,7 +321,7 @@
                         <div class=" bd-highlight">
                         </div>
                         <div class=" bd-highlight">
-                            <h5 class="headerTitleModal"> ALTA MASIVA MEDICOS </h5>
+                            <h5 class="headerTitleModal"> ALTA MASIVA BOTICAS Y FARMACIAS </h5>
                         </div>
                         <div class=" bd-highlight">
                             <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_importacion()">  </i>

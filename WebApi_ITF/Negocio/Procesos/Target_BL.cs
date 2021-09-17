@@ -665,6 +665,7 @@ namespace Negocio.Procesos
                                 Entidad.especialidad = dr["especialidad"].ToString();
                                 Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
                                 Entidad.descripcion_tipo_visita = dr["descripcion_tipo_visita"].ToString();
+                                Entidad.direccion = dr["direccion"].ToString();
 
                                 obj_List.Add(Entidad);
                             }
@@ -825,9 +826,9 @@ namespace Negocio.Procesos
 
                         cmd.Parameters.Add("@medico", SqlDbType.VarChar).Value = rucRazonSocial;
 
-                        cmd.Parameters.Add("@cod_dpto", SqlDbType.Int).Value = codigo_departamento;
-                        cmd.Parameters.Add("@cod_prov", SqlDbType.Int).Value = codigo_provincia;
-                        cmd.Parameters.Add("@cod_dis", SqlDbType.Int).Value = codigo_distrito;
+                        cmd.Parameters.Add("@cod_dpto", SqlDbType.VarChar).Value = codigo_departamento;
+                        cmd.Parameters.Add("@cod_prov", SqlDbType.VarChar).Value = codigo_provincia;
+                        cmd.Parameters.Add("@cod_dis", SqlDbType.VarChar).Value = codigo_distrito;
                         cmd.Parameters.Add("@opcionTarget", SqlDbType.VarChar).Value = opcionTarget;
                         cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
 
@@ -1049,7 +1050,7 @@ namespace Negocio.Procesos
             return res;
         }
 
-        public string set_aprobarRechazar_AB_target_boticasFarmacias(int idTargetDet, int nroContactos, string opcionTarget, string opcionEstado, int idUsuario, int idTargetCab)
+        public string set_aprobarRechazar_AB_target_boticasFarmacias(int idTargetDet, int nroContactos, string opcionTarget, string opcionEstado, int idUsuario, int idTargetCab , string observacion)
         {
             string resultado = "";
             try
@@ -1057,7 +1058,7 @@ namespace Negocio.Procesos
                 using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_APROBAR_RECHAZAR_ALTA_BAJA_TARGET", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_APROBAR_RECHAZAR_ALTA_BAJA_TARGET_BYF", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1066,6 +1067,7 @@ namespace Negocio.Procesos
                         cmd.Parameters.Add("@opcionTarget", SqlDbType.VarChar).Value = opcionTarget;
                         cmd.Parameters.Add("@opcionEstado", SqlDbType.VarChar).Value = opcionEstado;
                         cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@observacion", SqlDbType.VarChar).Value = observacion;
 
                         cmd.ExecuteNonQuery();
 

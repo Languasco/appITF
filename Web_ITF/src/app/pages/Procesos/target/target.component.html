@@ -56,10 +56,10 @@
                                 <div class="p-2">
                                     <button class="btn btn-primary btn-block  " style="font-size: 13px;" (click)="mostrarInformacion()">  <i class="fas fa-search"> Mostrar </i> </button>
                                 </div>
-                                <div class="p-2">
+                                <div class="p-2" *ngIf="idPerfilGlobal == 1">
                                     <button class="btn btn-success btn-block  " style="font-size: 13px;" (click)="open_modalImportacion('A')">   <i class="fas fa-file-upload"> Alta Masiva</i> </button>
                                 </div>
-                                <div class="p-2">
+                                <div class="p-2" *ngIf="idPerfilGlobal == 1">
                                     <button class="btn btn-danger btn-block  " style="font-size: 13px;" (click)="open_modalImportacion('B')">   <i class="fas fa-file-download"> Baja Masiva</i> </button>
                                 </div>
                                 <div class="p-2">

@@ -79,6 +79,28 @@ export class AlertasService {
  
     }
 
+    Swall_question_input(titulo:string, mensaje: string){
+
+      const question =   Swal.fire({
+        title: titulo,
+        text: mensaje,
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        cancelButtonText : 'Cancelar',
+        confirmButtonText: 'Aceptar',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      }) 
+
+      return  question;
+    }
+
 
   
 

@@ -88,6 +88,9 @@
     <Compile Include="tbl_Duracion_Actividades.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Empresa.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Especialidades.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>

@@ -194,10 +194,10 @@ export class MedicoService {
     return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
   }
 
-  get_localesBoticasFarmacias(codDepartamento:string, codProvincia:string, codigo_distrito : string){
+  get_localesBoticasFarmacias(codDepartamento:string, codProvincia:string, codigo_distrito : string, nroRuc : string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '16');
-    parametros = parametros.append('filtro', codDepartamento + '|' + codProvincia + '|' + codigo_distrito  ) ;  
+    parametros = parametros.append('filtro', codDepartamento + '|' + codProvincia + '|' + codigo_distrito  + '|' + nroRuc ) ;  
     return this.http.get( this.URL + 'tblMedicos' , {params: parametros})
   }
 
@@ -218,6 +218,7 @@ export class MedicoService {
       "codigo_provincia": objMantenimientoDireccion.codigo_provincia,
       "codigo_distrito": objMantenimientoDireccion.codigo_distrito,
       "direccion_medico_direccion": objMantenimientoDireccion.direccion_medico_direccion,
+      "codigo_local" : objMantenimientoDireccion.codigo_local
     }
 
     console.log( JSON.stringify(boticasFarmacia)) 
@@ -242,10 +243,18 @@ export class MedicoService {
       "codigo_provincia": objMantenimientoDireccion.codigo_provincia,
       "codigo_distrito": objMantenimientoDireccion.codigo_distrito,
       "direccion_medico_direccion": objMantenimientoDireccion.direccion_medico_direccion,
+      "codigo_local" : objMantenimientoDireccion.codigo_local
     }
 
     console.log( JSON.stringify(boticasFarmacia)) 
     return this.http.post(this.URL + 'BoticasFarmacias/PostSolicitudBoticasFarmacia', JSON.stringify(boticasFarmacia), httpOptions);
+  }
+
+  get_consultandoInstituciones(filtroBusqueda:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '18');
+    parametros = parametros.append('filtro', String(filtroBusqueda=='')? null : filtroBusqueda.trim());
+    return this.http.get( this.URL + 'tblMedicos' , {params: parametros});
   }
 
 

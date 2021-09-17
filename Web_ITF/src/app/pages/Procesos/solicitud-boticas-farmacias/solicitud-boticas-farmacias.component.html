@@ -53,10 +53,10 @@
 
                     <tr style="height: 40px !important;">
                         <th scope="col">#</th>
-                        <th scope="col">NRO</th>
+                        <!-- <th scope="col">NRO</th> -->
                         <th scope="col">Solicitante</th>
                         <th scope="col">Fecha Solicitud</th>
-                        <th scope="col">Razon Social</th>
+                        <th scope="col">Razón Social</th>
                         <th scope="col">Direccion</th>
                         <th scope="col">Fecha Respuesta</th>
                         <th scope="col">Comentario Respuesta</th>
@@ -67,7 +67,7 @@
                 <tbody>
                     <tr *ngFor="let item of solicitudCab |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.id_estado == 12 && {'color': 'red'}">
                         <th scope="row"> {{j + 1}} </th>
-                        <td>{{item.id_Sol_Medico_cab}} </td>
+                        <!-- <td>{{item.id_Sol_Medico_cab}} </td> -->
                         <td>{{item.solicitante}} </td>
                         <td>{{item.fechaSolicitudFormateado}} </td>
                         <td> 
@@ -162,21 +162,25 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <label> Código Médico </label>
+                                                    <label> Código ByF </label>
                                                     <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Medico">
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for=""> Identificador</label>
                                                     <br>
                                                     <select class="form-control comboBox" formControlName="id_Identificador_Medico">
-                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option value="0"> [ -- TODOS-- ]</option>
                                                         <option [value]="prof.id_Identificador_Medico" *ngFor="let prof of profesiones">{{prof.descripcion_identificador_medico}}</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for=""> Ruc</label>
                                                     <br>
-                                                    <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="buscarRuc()"  maxlength="20" formControlName="cmp_medico">
+                                                    <input type="text" class="form-control " (keypress)="keyPress($event)"   maxlength="20" formControlName="cmp_medico">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <br>
+                                                    <button class="btn btn-info  ml-1"   style="font-size: 13px;" (click)="buscarRuc()">   <i class="fa fa-plus-search"> Buscar ByF</i> </button> 
                                                 </div>
                                             </div>
         
@@ -215,18 +219,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                           <!--         
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label> Estado</label>
-                                                    <br>
-                                                    <select id="cboEstado" class="form-control comboBox" formControlName="estado">
-                                                        <option value="-1"> [ --SELECCIONE-- ]</option>
-                                                        <option value="1"> Activo </option>
-                                                        <option value="0"> Anulado </option>
-                                                    </select>
-                                                </div>
-                                            </div> -->
                                         </div>
                                     </form>
                                 </div>
@@ -265,13 +257,19 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                
+                                                                                                                                                   
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-9">
                                                             <label> Dirección </label>
                                                             <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
                                                         </div>
+                                                        <div class="col-md-3">
+                                                            <label> Cod. Local </label>
+                                                            <input type="text" class="form-control " maxlength="250" formControlName="codigo_local">
+                                                        </div>
                                                     </div>
+
+
                                                     <br>
   
                                                     <div class=" tableFixHead ">

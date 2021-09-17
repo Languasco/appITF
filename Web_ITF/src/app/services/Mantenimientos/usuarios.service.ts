@@ -21,6 +21,7 @@ export class UsuariosService {
   estados:any[] = [];
   perfiles :any[] = [];
   supervisores :any[] = [];
+  datosGeneralesEmpresa :any[] = [];
 
   constructor(private http:HttpClient) { }
 
@@ -271,6 +272,36 @@ export class UsuariosService {
       return this.http.get( this.URL + 'tblUsuarios' , {params: parametros});
     }
 
+
+    get_datosGeneralesEmpresa(refresh:boolean){
+
+      const peticionBD = ()=>{
+        let parametros = new HttpParams();
+        parametros = parametros.append('opcion', '21');
+        parametros = parametros.append('filtro', '');
+    
+        return this.http.get( this.URL + 'tblUsuarios' , {params: parametros})
+                   .pipe(map((res:any)=>{
+                          this.datosGeneralesEmpresa = res.data;
+                         return res.data;
+                    }) );
+      }
+
+      if (refresh== false) {
+       return peticionBD();
+      }else{
+        return peticionBD()
+      }
+
+    }
+
+    get_actualizar_datosEmpresa(nrocontactos_byf:string, nrocontactos_medicos:string){
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '22');
+      parametros = parametros.append('filtro', nrocontactos_byf + '|' + nrocontactos_medicos);
+  
+      return this.http.get( this.URL + 'tblUsuarios' , {params: parametros}).toPromise();
+    } 
 
 
 

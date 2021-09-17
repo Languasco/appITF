@@ -112,7 +112,7 @@
 
                         <th scope="col">Estado</th>
                         <th class="text-center">Editar</th>
-                        <th class="text-center">Anular</th>
+                        <th class="text-center" *ngIf="idPerfilGlobal == 1" >Anular</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,7 +135,7 @@
                         <td class="text-center">
                             <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" *ngIf="idPerfilGlobal == 1" >
                             <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="anular(item)">  Anular </span>
                         </td>
                     </tr>

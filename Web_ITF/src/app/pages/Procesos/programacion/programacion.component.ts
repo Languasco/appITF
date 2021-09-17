@@ -81,6 +81,9 @@ export class ProgramacionComponent implements OnInit {
 
   rejaPromocional :any[]=[]; 
 
+  minDate: Date;
+  maxDate: Date;
+
   constructor(private alertasService : AlertasService, private spinner: NgxSpinnerService, private loginService: LoginService, private funcionesglobalesService : FuncionesglobalesService, private actividadService : ActividadService, private categoriaService : CategoriaService, private programacionService : ProgramacionService, private especialidadService : EspecialidadService, private uploadService : UploadService) {         
     this.idUserGlobal = this.loginService.get_idUsuario();
     this.idPerfilGlobal = this.loginService.get_idPerfil();
@@ -154,7 +157,7 @@ export class ProgramacionComponent implements OnInit {
 
  getCargarCombos(){ 
   this.spinner.show();
-  combineLatest([  this.actividadService.get_usuarios_programacion(this.idUserGlobal), this.actividadService.get_ciclos() , this.actividadService.get_duracionActividades(),this.actividadService.get_estados(),
+  combineLatest([  this.actividadService.get_usuarios_programacion(this.idUserGlobal), this.actividadService.get_ciclos_Usuario(this.idUserGlobal) , this.actividadService.get_duracionActividades(),this.actividadService.get_estados(),
     this.categoriaService.get_categorias(), this.especialidadService.get_especialidades(),  this.programacionService.get_resultadosVisitas()])
   .subscribe( ([ _usuarios, _ciclos, _duracionActividades,_estados, _categorias, _especialidades, _resultadosVisitas ])=>{
 
@@ -166,16 +169,18 @@ export class ProgramacionComponent implements OnInit {
     this.resultadosVisitas = _resultadosVisitas;
 
     this.formParamsFiltro.patchValue({ "idUsuario" : _usuarios[0].id_Usuario });  
+    this.formParamsFiltro.patchValue({ "idCiclo" : _ciclos[0].id_Ciclo });
+
     this.spinner.hide(); 
   })
 }
 
 
  mostrarInformacion(){
-    if (this.formParamsFiltro.value.idCiclo == '' || this.formParamsFiltro.value.idCiclo == 0) {
-      this.alertasService.Swal_alert('error','Por favor seleccione el ciclo');
-      return 
-    }
+    // if (this.formParamsFiltro.value.idCiclo == '' || this.formParamsFiltro.value.idCiclo == 0) {
+    //   this.alertasService.Swal_alert('error','Por favor seleccione el ciclo');
+    //   return 
+    // }
     if (this.formParamsFiltro.value.idUsuario == '' || this.formParamsFiltro.value.idUsuario == 0) {
       this.alertasService.Swal_alert('error','Por favor seleccione el usuario');
       return 
@@ -201,6 +206,11 @@ export class ProgramacionComponent implements OnInit {
   
   this.filtrarCab = '';
   this.filtrarDet = '';
+
+    
+  ///----- minimo y maximo de un calendario -------
+  this.minDate = (objProgramacion.desde_ciclo == '1900-01-01T00:00:00' || objProgramacion.desde_ciclo == null ) ? null :new Date(objProgramacion.desde_ciclo) ;
+  this.maxDate = (objProgramacion.hasta_ciclo == '1900-01-01T00:00:00' || objProgramacion.hasta_ciclo == null ) ? null :new Date(objProgramacion.hasta_ciclo) ;
 
   this.obteniendoDatosProgramacionCab();
   this.obteniendoDatosProgramacionDet();

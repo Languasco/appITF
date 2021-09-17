@@ -54,5 +54,6 @@ namespace Datos
         public virtual DbSet<tbl_Mes> tbl_Mes { get; set; }
         public virtual DbSet<tbl_Medicos> tbl_Medicos { get; set; }
         public virtual DbSet<tbl_Programacion_Cab> tbl_Programacion_Cab { get; set; }
+        public virtual DbSet<tbl_Empresa> tbl_Empresa { get; set; }
     }
 }

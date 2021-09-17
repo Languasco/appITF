@@ -123,6 +123,24 @@ export class ActividadService {
     }
   }
 
+  get_ciclos_Usuario(id_usuario : number){
+    if (this.ciclos.length > 0) {
+      return of( this.ciclos )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '11');
+      parametros = parametros.append('filtro', String(id_usuario));
+  
+      return this.http.get( this.URL + 'tblActividades' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                        this.ciclos = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
+
+
+
   get_mostrar_actividad(idUsuario:number, idCiclo :number, idEstado:number){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '1');

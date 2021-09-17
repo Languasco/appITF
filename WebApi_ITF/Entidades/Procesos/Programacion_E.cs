@@ -43,6 +43,13 @@ namespace Entidades.Procesos
         public string colorFondo { get; set; }
         public string direccion_medico_direccion { get; set; }
 
+        public string id_Ciclo { get; set; }
+        public string nombre_ciclo { get; set; }
+
+        public DateTime desde_ciclo { get; set; }
+
+        public DateTime hasta_ciclo { get; set; }
+
     }
 
 

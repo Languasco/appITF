@@ -30,7 +30,7 @@ namespace Entidades.Mantenimientos
         public string descripcion_estado { get; set; }
         public string id_tipo_visita { get; set; }
 
-
+        public string direccion { get; set; }
 
 
     }

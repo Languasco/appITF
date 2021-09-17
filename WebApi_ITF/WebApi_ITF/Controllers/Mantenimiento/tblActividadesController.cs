@@ -181,6 +181,19 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                     resul = res;
 
                 }
+                else if (opcion == 11)  ///----- usuaarios 
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idUsuario = Convert.ToInt32(parametros[0].ToString());
+
+                    Mantenimientos_BL obj_negocios = new Mantenimientos_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocios.get_ciclos_usuarios(idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+
+                }
                 else
                 {
                     res.ok = false;

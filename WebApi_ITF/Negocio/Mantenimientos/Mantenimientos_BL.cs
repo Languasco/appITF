@@ -944,6 +944,10 @@ namespace Negocio.Mantenimientos
                                 Entidad.estado = dr["estado"].ToString();
                                 Entidad.descripcion_estado = dr["descripcion_estado"].ToString();
                                 Entidad.id_tipo_visita = dr["id_tipo_visita"].ToString();
+                                Entidad.direccion = dr["direccion"].ToString();
+
+                                
+
                                 obj_List.Add(Entidad);
                             }
 
@@ -992,7 +996,7 @@ namespace Negocio.Mantenimientos
             }
         }
 
-        public DataTable get_locales(string codDepartamento, string codProvincia, string codDistrito)
+        public DataTable get_locales(string codDepartamento, string codProvincia, string codDistrito, string nroRuc)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -1007,6 +1011,8 @@ namespace Negocio.Mantenimientos
                         cmd.Parameters.Add("@CODIGO_DEPARTAMENTO", SqlDbType.VarChar).Value = codDepartamento;
                         cmd.Parameters.Add("@CODIGO_PROVINCIA", SqlDbType.VarChar).Value = codProvincia;
                         cmd.Parameters.Add("@CODIGO_DISTRITO", SqlDbType.VarChar).Value = codDistrito;
+                        cmd.Parameters.Add("@RUC", SqlDbType.VarChar).Value = nroRuc;
+
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -1054,6 +1060,7 @@ namespace Negocio.Mantenimientos
                         cmd.Parameters.Add("@codigo_provincia", SqlDbType.VarChar).Value = objMantenimiento.codigo_provincia;
                         cmd.Parameters.Add("@codigo_distrito", SqlDbType.VarChar).Value = objMantenimiento.codigo_distrito;
                         cmd.Parameters.Add("@direccion_medico_direccion", SqlDbType.VarChar).Value = objMantenimiento.direccion_medico_direccion;
+                        cmd.Parameters.Add("@codigo_local", SqlDbType.VarChar).Value = objMantenimiento.codigo_local;                                              
 
                         cmd.ExecuteNonQuery();
                         resultado = "OK";
@@ -1208,6 +1215,7 @@ namespace Negocio.Mantenimientos
                         cmd.Parameters.Add("@codigo_provincia", SqlDbType.VarChar).Value = objMantenimiento.codigo_provincia;
                         cmd.Parameters.Add("@codigo_distrito", SqlDbType.VarChar).Value = objMantenimiento.codigo_distrito;
                         cmd.Parameters.Add("@direccion_medico_direccion", SqlDbType.VarChar).Value = objMantenimiento.direccion_medico_direccion;
+                        cmd.Parameters.Add("@codigo_local", SqlDbType.VarChar).Value = objMantenimiento.codigo_local;
 
                         cmd.ExecuteNonQuery();
                         resultado = "OK";
@@ -1228,8 +1236,61 @@ namespace Negocio.Mantenimientos
             return resultado;
         }
 
+        public DataTable get_ciclos_usuarios(int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_PROGRAMACION_CAB_BYF_COMBO_CICLOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUsuario;
 
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
+        public DataTable get_consultandoInstituciones(string filtroBusqueda)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_LISTA_INSTITUCIONES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@TEXTO", SqlDbType.VarChar).Value = (filtroBusqueda==null)?"" : filtroBusqueda;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
 
