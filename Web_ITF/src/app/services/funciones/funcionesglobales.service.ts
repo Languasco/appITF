@@ -7,6 +7,15 @@ export class FuncionesglobalesService {
 
   constructor() { }
 
+
+  formatoFechaHoraSistema(date:Date) {
+    var hoy = new Date(date)
+    var fecha = hoy.getFullYear() + '-' + ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' + ('0' + hoy.getDate()).slice(-2) ;
+    var hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);    
+    return fecha +'T'+ hora; 
+  }
+
+
   formatoFecha(fecha : any) {
 
     var date = new Date(fecha); 

@@ -1,0 +1,405 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> EXAMEN PARA REPRESENTANTE MEDICO </h5>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-md-3">
+                    <label class="control-label"> Rango Fecha </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for=""> Estado</label>
+                    <br>
+                    <select class="form-control comboBox " formControlName="idEstado">
+                        <option value="0"> [-- TODOS -- ] </option>
+                        <option value="32"> Activo </option>
+                        <option value="33"> Cerrado </option>
+                    </select>
+                </div>
+                <div class="col-md-6 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                        <button class="btn btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <th class="text-center">Activar</th>
+                        <th class="text-center">Cerrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of examenes |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.idEstado == 33 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.descripcion}} </td>
+                        <td>{{item.fecha}} </td>
+                        <td>{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)" title="Editar" >   <i class="fas fa-pen"></i> </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-success puntero" *ngIf="item.idEstado == 33" style="padding: 5px;" title="Activar" (click)="activarExamen(item)">  <i class="far fa-check-circle"></i> </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-danger puntero" *ngIf="item.idEstado == 32" style="padding: 5px;" title="Cerrar" (click)="cerrarExamen(item)">  <i class="fas fa-power-off"></i> </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"  >
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> Generación de Examen para Representante Médico </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="p-2 bd-highlight"> </div>
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight">
+                        <div class="card border-danger " *ngIf="idEstadoGlobal == 33">
+                            <div class="card-body text-danger" style="margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="fas fa-share-square"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div> 
+                        <div class="card border-success " *ngIf="idEstadoGlobal == 32 ">
+                            <div class="card-body text-success" style=" margin-bottom: -15px; margin-top: -15px; width: 300px; text-align: center;">
+                                <i class="far fa-check-circle"></i>
+                                <strong style="font-size: 15px; margin-bottom: 0px; font-weight: 700;"> {{this.descripcionEstadoGlobal | uppercase}} </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="contenedorExamen"  > 
+                    <fieldset class="shadow-sm" >
+                        <legend>EXAMEN RM</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <form [formGroup]="formParams" style=" margin-top: -15px;">                
+                                            <div class="panel-body">            
+                                                <div class="row ">
+                                                    <div class="col-sm-6 col-md-4 col-4">
+                                                        <label> Descripción Examen </label>
+                                                        <input type="text"   class="form-control form-control-sm "  formControlName="nombre_examen_rm_cab">
+                                                    </div>
+                                                    <div class="col-sm-6  col-md-2 col-2">
+                                                        <label> Fecha </label>                        
+                                                        <input class="form-control disabledForm " #datepickerYMD="bsDatepicker"   bsDatepicker formControlName="fecha_examen" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                    </div>
+                                                    <div class="col-sm-6  col-md-3 col-3">
+                                                        <label> Duración (Minutos) </label>
+                                                        <input type="text"  (keypress)="keyPress($event)"  class="form-control form-control-sm  " maxlength="4"  formControlName="tiempo_examen_rm"  >
+                                                    </div>
+                                                    <div class="col-sm-6  col-md-3 col-3">
+                                                        <label> Fecha Hora Inicio (24 horas) </label>
+                                                        <input type="datetime-local"  class="form-control comboBox "   name="meeting-time" formControlName="fecha_hora_inicio" >
+                                                    </div>
+                                                </div> 
+
+                                                <div class="row ">
+                                                    <div class="col-12 text-center mt-1">
+                                                        <button class="btn btn-success" (click)="saveUpdate()" *ngIf="idEstadoGlobal == 32 && flag_cerrar == false" title="Agregar Detalle "> <i class="fas fa-save"> Grabar </i></button>
+                                                        <button class="btn btn-danger" (click)="cerrandoExamen()" *ngIf="flag_cerrar " title="Cerrar Examen "> <i class="fas fa-power-off"> Cerrar </i></button>
+                                                    </div>
+                                                </div> 
+
+                                            </div>
+                
+                                        </form>
+                                    </div>
+                
+                                </div>     
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset class="shadow-sm" *ngIf="id_ExamenCab_global > 0">
+                        <legend>DETALLE EXAMEN RM</legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row" style="margin-top: -10px;">
+                                    <div class="col-md-5">
+                                        
+                                        <div class="row" *ngIf="idEstadoGlobal == 32" >
+                                            <div class="col-md-8">
+                                                <label for=""> Usuario </label>
+                                                <br>
+                                                <select id="cboUsuarioExamen" class="form-control comboBox select2FiltroN "  >
+                                                    <option value="0"> [ -- SELECCIONE-- ]</option>
+                                                    <option [value]="item.id" *ngFor="let item of usuarios">{{ item.descripcion }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="mt-4">
+                                                    <button class="btn btn-outline-info "  (click)="agregarUsuariosExamen()" style="font-size: 13px;">  <i class="fa fa-plus-circle"></i> Usuario </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="search-results tableFixHead">
+                                            <table class="table  table-hover table-sm">
+                                                <thead class="theadTable">
+                                                    <tr style="height: 40px !important;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Nombres y Apellidos</th>
+                                                        <th class="text-center" *ngIf="idEstadoGlobal == 32" >Quitar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of examenes_usuarios; index as j ">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.descripcion_usuario}}</td>
+                                                        <td class="text-center" *ngIf="idEstadoGlobal == 32" >
+                                                            <span class="badge badge-danger puntero"   style="padding: 5px;" (click)="eliminarUsuariosExamen(item)">  <i class="far fa-trash-alt"></i> </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div> 
+                                    </div>         
+                                    <div class="col-md-7">
+                                        
+                                        <div class="row"  *ngIf="idEstadoGlobal == 32"  >
+                                            <div class="col-md-12 text-center mt-3">
+                                                <button class="btn btn-outline-warning " (click)="abrirModal_preguntas()" style="font-size: 13px;">  <i class="fa fa-plus-circle"></i> Preguntas </button>
+                                            </div>
+                                        </div>               
+
+                                        <hr/>
+                                        <div class="search-results tableFixHead">
+                                            <table class="table  table-hover table-sm">
+                                                <thead class="theadTable">
+                                                    <tr style="height: 40px !important;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Pregunta</th>
+                                                        <th scope="col">Puntaje</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of examenes_preguntas; index as j ">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.descripcion_pregunta}}</td>
+                                                        <td class="text-right" >{{item.puntaje_pregunta}}</td>
+                                                        <td class="text-center">
+                                                            <span class="badge badge-primary puntero" title="Editar"   style="padding: 5px;" (click)="editarPreguntaExamen(item)">  <i class="fas fa-pen"></i>   </span>                                             
+                                                            <span class="badge badge-danger puntero ml-1" title="Quitar" *ngIf="idEstadoGlobal == 32"  style="padding: 5px;" (click)="eliminarPreguntaExamen(item)">  <i class="far fa-trash-alt"></i> </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>      
+                                </div>     
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+ 
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="modal fade " id="modal_preguntas" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-examen" role="document">
+            <div class="modal-content ">
+ 
+                <div class="modal-body">
+
+                    <div class="p-3 card ">
+                        <div class="d-flex justify-content-between flotante">
+                            <div class=" bd-highlight">
+    
+                            </div>
+                            <div class=" bd-highlight">
+                                <h5 class="headerTitleModal"> PREGUNTA </h5>
+                            </div>
+                            <div class=" bd-highlight">
+                                <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_preguntas()">  </i>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="preguntas">
+                        <fieldset class="shadow-sm">
+                            <legend>Pregunta <i class="fa fa-2x fa-plus-circle  puntero" title="Agregar Nueva Pregunta" (click)="generarNuevaPregunta()" *ngIf="idEstadoGlobal == 32"  ></i> </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">                 
+                                    <!-- <div id="contenedorAlternativa" class="disabledForm"> -->
+                                        <form [formGroup]="formParamsPreguntas">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <textarea rows="2" class="form-control form-control-sm" formControlName="pregunta"></textarea>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="mt-2">
+                                                        <input type="number" class="form-control form-control-sm text-center puntajePregunta " title="Puntaje" formControlName="puntaje" placeholder="Puntaje">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>    
+
+                                    <div id="contenedorAlternativa" class="disabledForm">
+                                        <fieldset class="shadow-sm">
+                                            <legend>Tipo de Pregunta </legend>
+                                            <div class="panel panel-default ">
+                                                <div class="panel-body">                 
+                                                    <div id="contenedorAlternativa"  >                     
+                                                        <div class="row" style="margin-top: -15px; margin-bottom: -10px;">
+                                                            <div class="col-md-6">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" value="1" name="tipoPregunta" id="rbMarcar" (change)="changeTipoPregunta($event.target.value)" >
+                                                                    <label class="form-check-label" for="rbMarcar" > Para marcar  </label>
+                                                                </div>  
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" value="2" name="tipoPregunta" id="rbEscribir" (change)="changeTipoPregunta($event.target.value)" >
+                                                                    <label class="form-check-label" for="rbEscribir" > Para escribir  </label>
+                                                                </div>  
+                                                            </div>
+                                                        </div>  
+
+                                                    </div>                                 
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div *ngIf="formParamsPreguntas.value.tipo_pregunta == 2">
+                                            <div class="text-center  mt-1">
+                                                <button class="btn btn-success" (click)="agregarPreguntaAlternativaEscribir()" *ngIf="idEstadoGlobal == 32"
+                                                    title="Guardar la informacion"> <i class="fas fa-save"></i>
+                                                </button>
+                                            </div>
+                                        </div>                                         
+                                    </div>                                
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div *ngIf="formParamsPreguntas.value.tipo_pregunta == 1">
+                        <fieldset class="shadow-sm">
+                            <legend>Alternativas</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="respuestas">
+                                                <form [formGroup]="formParamsPreguntas">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control form-control-sm  "
+                                                                formControlName="alternativa">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="mt-1">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="chkrespuesta"
+                                                                        formControlName="es_correcta">
+                                                                    <label class="form-check-label" for="chkrespuesta">es
+                                                                        Respuesta</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="mt-1">
+                                                                <button class="btn btn-success" (click)="agregarPreguntaAlternativa()" *ngIf="idEstadoGlobal == 32"
+                                                                    title="Guardar la informacion"> <i class="fas fa-save"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <hr>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Alternativa</th>
+                                                        <th class="text-center"> Respuesta</th>
+                                                        <th class="text-center" *ngIf="idEstadoGlobal == 32"  > Eliminar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of alternativas  ; index as j"
+                                                        [ngStyle]="item.es_respuesta == 1 && {'color': 'green'}">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.descripcion_alternativa}} </td>
+                                                        <td class="text-center">
+                                                            <i class="fas fa-check-circle" *ngIf="item.es_respuesta == 1"></i>
+                                                        </td>
+                                                        <td class="text-center" *ngIf="idEstadoGlobal == 32"  >
+                                                            <span class="badge badge-danger puntero  " title="Quitar"    style="padding: 5px;" (click)="eliminarAlternativa(item)">  <i class="far fa-trash-alt"></i> </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>  
+                    </div>
+
+       
+
+                </div>
+            
+            </div>
+    </div>
+  </div>

@@ -157,6 +157,70 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
         </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Cab">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Cab" />
+          </Key>
+          <Property Name="id_Examen_Rm_Cab" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_examen_rm_cab" Type="varchar" MaxLength="255" />
+          <Property Name="tiempo_examen_rm" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="fecha_hora_inicio" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Det_Preguntas">
+          <Key>
+            <PropertyRef Name="id_Examen_RM_Det_Preguntas" />
+          </Key>
+          <Property Name="id_Examen_RM_Det_Preguntas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Examen_Rm_Cab" Type="int" />
+          <Property Name="item_pregunta" Type="int" />
+          <Property Name="descripcion_pregunta" Type="varchar" MaxLength="255" />
+          <Property Name="puntaje_pregunta" Type="numeric" Precision="12" Scale="6" />
+          <Property Name="item_alternativa" Type="int" />
+          <Property Name="descripcion_alternativa" Type="varchar" MaxLength="255" />
+          <Property Name="es_respuesta" Type="int" />
+          <Property Name="tipo_pregunta" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Det_Usuarios">
+          <Key>
+            <PropertyRef Name="id_Examen_RM_Det_Usuarios" />
+          </Key>
+          <Property Name="id_Examen_RM_Det_Usuarios" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Examen_Rm_Cab" Type="int" />
+          <Property Name="id_Usuario" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Cab' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="tbl_Examen_Rm_Resolucion_Cab">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Resolucion_Cab" />
+          </Key>
+          <Property Name="id_Examen_Rm_Resolucion_Cab" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Examen_Rm_Cab" Type="int" />
+          <Property Name="calificacion" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="smalldatetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="smalldatetime" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="tbl_Examen_Rm_Resolucion_Det">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Resolucion_Det" />
+          </Key>
+          <Property Name="id_Examen_Rm_Resolucion_Det" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Examen_Rm_Resolucion_Cab" Type="int" />
+          <Property Name="id_Examen_RM_Det_Preguntas" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="smalldatetime" />
+          <Property Name="texto_respuesta" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="tbl_Feriados">
           <Key>
             <PropertyRef Name="id_Feriado" />
@@ -489,6 +553,9 @@
           <EntitySet Name="tbl_Especialidades" EntityType="Self.tbl_Especialidades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Estados" EntityType="Self.tbl_Estados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Evento" EntityType="Self.tbl_Evento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Examen_Rm_Cab" EntityType="Self.tbl_Examen_Rm_Cab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Examen_Rm_Det_Preguntas" EntityType="Self.tbl_Examen_Rm_Det_Preguntas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Examen_Rm_Det_Usuarios" EntityType="Self.tbl_Examen_Rm_Det_Usuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Feriados" EntityType="Self.tbl_Feriados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Identificador_Medico" EntityType="Self.tbl_Identificador_Medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Medicos" EntityType="Self.tbl_Medicos" Schema="dbo" store:Type="Tables" />
@@ -508,6 +575,28 @@
           <EntitySet Name="tbl_Tipos_Productos" EntityType="Self.tbl_Tipos_Productos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Ubigeo" EntityType="Self.tbl_Ubigeo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Usuarios" EntityType="Self.tbl_Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Examen_Rm_Resolucion_Cab" EntityType="Self.tbl_Examen_Rm_Resolucion_Cab" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_Examen_Rm_Resolucion_Cab].[id_Examen_Rm_Resolucion_Cab] AS [id_Examen_Rm_Resolucion_Cab], 
+    [tbl_Examen_Rm_Resolucion_Cab].[id_Examen_Rm_Cab] AS [id_Examen_Rm_Cab], 
+    [tbl_Examen_Rm_Resolucion_Cab].[calificacion] AS [calificacion], 
+    [tbl_Examen_Rm_Resolucion_Cab].[estado] AS [estado], 
+    [tbl_Examen_Rm_Resolucion_Cab].[usuario_creacion] AS [usuario_creacion], 
+    [tbl_Examen_Rm_Resolucion_Cab].[fecha_creacion] AS [fecha_creacion], 
+    [tbl_Examen_Rm_Resolucion_Cab].[usuario_edicion] AS [usuario_edicion], 
+    [tbl_Examen_Rm_Resolucion_Cab].[fecha_edicion] AS [fecha_edicion]
+    FROM [dbo].[tbl_Examen_Rm_Resolucion_Cab] AS [tbl_Examen_Rm_Resolucion_Cab]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_Examen_Rm_Resolucion_Det" EntityType="Self.tbl_Examen_Rm_Resolucion_Det" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_Examen_Rm_Resolucion_Det].[id_Examen_Rm_Resolucion_Det] AS [id_Examen_Rm_Resolucion_Det], 
+    [tbl_Examen_Rm_Resolucion_Det].[id_Examen_Rm_Resolucion_Cab] AS [id_Examen_Rm_Resolucion_Cab], 
+    [tbl_Examen_Rm_Resolucion_Det].[id_Examen_RM_Det_Preguntas] AS [id_Examen_RM_Det_Preguntas], 
+    [tbl_Examen_Rm_Resolucion_Det].[usuario_creacion] AS [usuario_creacion], 
+    [tbl_Examen_Rm_Resolucion_Det].[fecha_creacion] AS [fecha_creacion], 
+    [tbl_Examen_Rm_Resolucion_Det].[texto_respuesta] AS [texto_respuesta]
+    FROM [dbo].[tbl_Examen_Rm_Resolucion_Det] AS [tbl_Examen_Rm_Resolucion_Det]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_tbl_Aceesid_Op_3C69FB99" Association="Self.FK_tbl_Aceesid_Op_3C69FB99">
             <End Role="tbl_Definicion_Opciones" EntitySet="tbl_Definicion_Opciones" />
             <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
@@ -560,6 +649,11 @@
           <EntitySet Name="tbl_Medicos" EntityType="ITF_PERUModel.tbl_Medicos" />
           <EntitySet Name="tbl_Programacion_Cab" EntityType="ITF_PERUModel.tbl_Programacion_Cab" />
           <EntitySet Name="tbl_Empresa" EntityType="ITF_PERUModel.tbl_Empresa" />
+          <EntitySet Name="tbl_Examen_Rm_Resolucion_Cab" EntityType="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Cab" />
+          <EntitySet Name="tbl_Examen_Rm_Resolucion_Det" EntityType="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Det" />
+          <EntitySet Name="tbl_Examen_Rm_Det_Preguntas" EntityType="ITF_PERUModel.tbl_Examen_Rm_Det_Preguntas" />
+          <EntitySet Name="tbl_Examen_Rm_Det_Usuarios" EntityType="ITF_PERUModel.tbl_Examen_Rm_Det_Usuarios" />
+          <EntitySet Name="tbl_Examen_Rm_Cab" EntityType="ITF_PERUModel.tbl_Examen_Rm_Cab" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -1036,6 +1130,66 @@
           <Property Name="nro_contactos_byf" Type="Int64" />
           <Property Name="nro_contactos_medicos" Type="Int64" />
           <Property Name="id_empresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Resolucion_Cab">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Resolucion_Cab" />
+          </Key>
+          <Property Name="id_Examen_Rm_Resolucion_Cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Examen_Rm_Cab" Type="Int32" />
+          <Property Name="calificacion" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="0" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Resolucion_Det">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Resolucion_Det" />
+          </Key>
+          <Property Name="id_Examen_Rm_Resolucion_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Examen_Rm_Resolucion_Cab" Type="Int32" />
+          <Property Name="id_Examen_RM_Det_Preguntas" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="0" />
+          <Property Name="texto_respuesta" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Det_Preguntas">
+          <Key>
+            <PropertyRef Name="id_Examen_RM_Det_Preguntas" />
+          </Key>
+          <Property Name="id_Examen_RM_Det_Preguntas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Examen_Rm_Cab" Type="Int32" />
+          <Property Name="item_pregunta" Type="Int32" />
+          <Property Name="descripcion_pregunta" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="puntaje_pregunta" Type="Decimal" Precision="12" Scale="6" />
+          <Property Name="item_alternativa" Type="Int32" />
+          <Property Name="descripcion_alternativa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="es_respuesta" Type="Int32" />
+          <Property Name="tipo_pregunta" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Det_Usuarios">
+          <Key>
+            <PropertyRef Name="id_Examen_RM_Det_Usuarios" />
+          </Key>
+          <Property Name="id_Examen_RM_Det_Usuarios" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Examen_Rm_Cab" Type="Int32" />
+          <Property Name="id_Usuario" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Examen_Rm_Cab">
+          <Key>
+            <PropertyRef Name="id_Examen_Rm_Cab" />
+          </Key>
+          <Property Name="id_Examen_Rm_Cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_examen_rm_cab" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tiempo_examen_rm" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="fecha_hora_inicio" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1518,6 +1672,71 @@
                 <ScalarProperty Name="nro_contactos_byf" ColumnName="nro_contactos_byf" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="correo" ColumnName="correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Examen_Rm_Resolucion_Cab">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Cab">
+              <MappingFragment StoreEntitySet="tbl_Examen_Rm_Resolucion_Cab">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="calificacion" ColumnName="calificacion" />
+                <ScalarProperty Name="id_Examen_Rm_Cab" ColumnName="id_Examen_Rm_Cab" />
+                <ScalarProperty Name="id_Examen_Rm_Resolucion_Cab" ColumnName="id_Examen_Rm_Resolucion_Cab" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Examen_Rm_Resolucion_Det">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Det">
+              <MappingFragment StoreEntitySet="tbl_Examen_Rm_Resolucion_Det">
+                <ScalarProperty Name="texto_respuesta" ColumnName="texto_respuesta" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="id_Examen_RM_Det_Preguntas" ColumnName="id_Examen_RM_Det_Preguntas" />
+                <ScalarProperty Name="id_Examen_Rm_Resolucion_Cab" ColumnName="id_Examen_Rm_Resolucion_Cab" />
+                <ScalarProperty Name="id_Examen_Rm_Resolucion_Det" ColumnName="id_Examen_Rm_Resolucion_Det" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Examen_Rm_Det_Preguntas">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Det_Preguntas">
+              <MappingFragment StoreEntitySet="tbl_Examen_Rm_Det_Preguntas">
+                <ScalarProperty Name="tipo_pregunta" ColumnName="tipo_pregunta" />
+                <ScalarProperty Name="es_respuesta" ColumnName="es_respuesta" />
+                <ScalarProperty Name="descripcion_alternativa" ColumnName="descripcion_alternativa" />
+                <ScalarProperty Name="item_alternativa" ColumnName="item_alternativa" />
+                <ScalarProperty Name="puntaje_pregunta" ColumnName="puntaje_pregunta" />
+                <ScalarProperty Name="descripcion_pregunta" ColumnName="descripcion_pregunta" />
+                <ScalarProperty Name="item_pregunta" ColumnName="item_pregunta" />
+                <ScalarProperty Name="id_Examen_Rm_Cab" ColumnName="id_Examen_Rm_Cab" />
+                <ScalarProperty Name="id_Examen_RM_Det_Preguntas" ColumnName="id_Examen_RM_Det_Preguntas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Examen_Rm_Det_Usuarios">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Det_Usuarios">
+              <MappingFragment StoreEntitySet="tbl_Examen_Rm_Det_Usuarios">
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+                <ScalarProperty Name="id_Examen_Rm_Cab" ColumnName="id_Examen_Rm_Cab" />
+                <ScalarProperty Name="id_Examen_RM_Det_Usuarios" ColumnName="id_Examen_RM_Det_Usuarios" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Examen_Rm_Cab">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Cab">
+              <MappingFragment StoreEntitySet="tbl_Examen_Rm_Cab">
+                <ScalarProperty Name="fecha_hora_inicio" ColumnName="fecha_hora_inicio" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tiempo_examen_rm" ColumnName="tiempo_examen_rm" />
+                <ScalarProperty Name="nombre_examen_rm_cab" ColumnName="nombre_examen_rm_cab" />
+                <ScalarProperty Name="id_Examen_Rm_Cab" ColumnName="id_Examen_Rm_Cab" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

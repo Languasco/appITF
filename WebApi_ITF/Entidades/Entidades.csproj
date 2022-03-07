@@ -53,6 +53,7 @@
     <Compile Include="Acceso\Login.cs" />
     <Compile Include="Mantenimientos\Actividades_E.cs" />
     <Compile Include="Mantenimientos\BoticasFarmacias_E.cs" />
+    <Compile Include="Mantenimientos\Examen_E.cs" />
     <Compile Include="Mantenimientos\Medicos_E.cs" />
     <Compile Include="Mantenimientos\Productos_E.cs" />
     <Compile Include="Procesos\AsignacionProducto_E.cs" />

@@ -1292,6 +1292,399 @@ namespace Negocio.Mantenimientos
             }
         }
 
+        public object get_examenes(string fechaInicio, string fechaFin, int idEstado)
+        {
+            Resultado res = new Resultado();
+            List<Examen_E> obj_List = new List<Examen_E>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_CAB_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fecha_inicio", SqlDbType.VarChar).Value = fechaInicio;
+                        cmd.Parameters.Add("@fecha_fin", SqlDbType.VarChar).Value = fechaFin;
+                        cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                Examen_E Entidad = new Examen_E();
+ 
+                                Entidad.id_Examen_Rm_Cab = Convert.ToInt32( dr["id_Examen_Rm_Cab"].ToString());
+                                Entidad.descripcion = dr["descripcion"].ToString();
+                                Entidad.fecha = dr["fecha"].ToString();
+                                Entidad.idEstado = dr["idEstado"].ToString();
+                                Entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+                                Entidad.tiempo_examen_rm = dr["tiempo_examen_rm"].ToString();
+                                Entidad.fecha_hora_inicio = Convert.ToDateTime(dr["fecha_hora_inicio"].ToString());
+
+                                obj_List.Add(Entidad);
+                            }
+
+                            res.ok = true;
+                            res.data = obj_List;
+                            res.totalpage = 0;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        public DataTable get_usuarios_examen()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_COMBO_USUARIOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_preguntas_examen(int idExamenCab)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_PREGUNTAS_EXAMEN", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idExamenCab", SqlDbType.Int).Value = idExamenCab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string set_eliminarPregunta(int idExamenCab, int item)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_ELIMINAR_PREGUNTAS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idExamenCab", SqlDbType.Int).Value = idExamenCab;
+                        cmd.Parameters.Add("@item", SqlDbType.Int).Value = item;
+                        cmd.ExecuteNonQuery();
+ 
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
+        public string set_cerrandoExamen(int idExamenCab, int idUsuario)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_CERRAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idExamenCab", SqlDbType.Int).Value = idExamenCab;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
+        public DataTable get_preguntasExamen(int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_EJECUTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_iniciarExamen(int id_Examen_Rm_Resolucion_Cab, int id_Examen_Rm_Cab,int calificacion , int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_SAVE_EXAMEN_RM_RESOLUCION_CAB", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Examen_Rm_Resolucion_Cab", SqlDbType.Int).Value = id_Examen_Rm_Resolucion_Cab;
+                        cmd.Parameters.Add("@id_Examen_Rm_Cab", SqlDbType.Int).Value = id_Examen_Rm_Cab;
+                        cmd.Parameters.Add("@calificacion", SqlDbType.Int).Value = calificacion;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.Int).Value = id_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string set_grabando_respuesExamen(int id_Examen_Rm_Resolucion_Det , int id_Examen_Rm_Resolucion_Cab  , int id_Examen_RM_Det_Preguntas , int idUsuario, string texto_respuesta)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_SAVE_EXAMEN_RM_RESOLUCION_DET", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Examen_Rm_Resolucion_Det", SqlDbType.Int).Value = id_Examen_Rm_Resolucion_Det;
+                        cmd.Parameters.Add("@id_Examen_Rm_Resolucion_Cab", SqlDbType.Int).Value = id_Examen_Rm_Resolucion_Cab;
+                        cmd.Parameters.Add("@id_Examen_RM_Det_Preguntas", SqlDbType.Int).Value = id_Examen_RM_Det_Preguntas;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@texto_respuesta", SqlDbType.VarChar).Value = texto_respuesta;
+                        cmd.ExecuteNonQuery();
+
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
+
+        public string set_tiempoConcluidoExamen( int id_Resolucion_Cab, int idUsuario)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_RESOLUCION_TIEMPO_CONCLUIDO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Resolucion_Cab", SqlDbType.Int).Value = id_Resolucion_Cab;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
+        public string set_activandoExamen(int idExamenCab, int idUsuario)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_EXAMEN_RM_ACTIVAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idExamenCab", SqlDbType.Int).Value = idExamenCab;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+
+        public DataTable get_listado_examenes(int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_IMPRIMIR_EXAMEN_RM_COMBO_EXAMEN", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_listado_representanteMedico(int id_ExamenCab, int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_IMPRIMIR_EXAMEN_RM_COMBO_REPRESENTANTE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_ExamenCab", SqlDbType.Int).Value = id_ExamenCab;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_preguntasExamen_imprimir(int idExamen, int  idRepresentanteMedico, int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_IMPRIMIR_EXAMEN_RM_CAB", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idExamen", SqlDbType.Int).Value = idExamen;
+                        cmd.Parameters.Add("@idRepresentanteMedico", SqlDbType.Int).Value = idRepresentanteMedico;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
 
     }

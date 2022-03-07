@@ -1,0 +1,121 @@
+.text-warning {
+    font-weight: 600;
+}
+
+.containerDetalle {
+    overflow-y: auto;
+    height: 500px;
+}
+
+
+/* configuracion de tabla con cabecera estatica */
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 400px;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+}
+
+
+/** tab control*/
+
+.nav {
+    padding: 5px;
+    font-family: Montserrat;
+    font-size: 15px;
+}
+
+.TabControl {
+    cursor: pointer;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff !important;
+    background-color: gray !important;
+}
+
+
+/** fin de tab control*/
+
+fieldset {
+    border: 1px solid #00b6ad!important;
+    margin: 0;
+    min-width: 0;
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+    /* background-color:#f5f5f5; */
+    padding-left: 10px!important;
+}
+
+legend {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0px;
+    width: 60%;
+    /* border: 0.5px solid #ddd; */
+    border-radius: 4px;
+    padding: 5px 5px 5px 10px;
+    background-color: #ffffff;
+    color: #00b6ad !important;
+}
+
+.fa-times-circle {
+    color: gray;
+}
+
+.fa-arrow-circle-left {
+    color: gray;
+}
+
+ 
+.contenidoResumen .card-title {
+    font-size: 15px !important;
+    font-family: 'Montserrat';
+    /* color: #495057 !important; */
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.text-primary {
+    color: #007bff!important;
+}
+
+.text-danger {
+    color: #dc3545!important;
+}
+
+.text-info {
+    color: #17a2b8!important;
+}
+.text-success {
+    color: #28a745!important;
+}
+.contenidoResumen li.list-group-item.d-flex.justify-content-between.align-items-center {
+    font-size: 13px;
+    font-family: 'Montserrat';
+    padding: 4px;
+}
+
+
+.contenidoResumen .form-check-inline .form-check-input {
+    height: 20px;
+}
+
+.contenidoResumen li.list-group-item.d-flex.justify-content-between.align-items-center.animate__animated.animate__fadeIn.ng-star-inserted {
+    font-size: 13px;
+    font-family: 'Montserrat';
+    padding: 4px;
+}
+
+.contenidoResumen li.list-group-item.d-flex.justify-content-between.align-items-center label {
+    color: #007bff!important;
+}
+
+ 

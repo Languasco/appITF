@@ -100,6 +100,21 @@
     <Compile Include="tbl_Evento.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Examen_Rm_Cab.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Examen_Rm_Det_Preguntas.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Examen_Rm_Det_Usuarios.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Examen_Rm_Resolucion_Cab.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Examen_Rm_Resolucion_Det.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Feriados.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>

@@ -37,6 +37,10 @@ import { TargetBoticasFarmaciasComponent } from './pages/procesos/target-boticas
 import { AltasTargetBoticasFarmaciasComponent } from './pages/procesos/altas-target-boticas-farmacias/altas-target-boticas-farmacias.component';
 import { AprobarABTargetBoticasFarmaciasComponent } from './pages/procesos/aprobar-abtarget-boticas-farmacias/aprobar-abtarget-boticas-farmacias.component';
 import { ProgramacionBoticasFarmaciasComponent } from './pages/procesos/programacion-boticas-farmacias/programacion-boticas-farmacias.component';
+import { ExamenComponent } from './pages/mantenimientos/examen/examen.component';
+import { RendirExamenComponent } from './pages/procesos/rendir-examen/rendir-examen.component';
+import { ImprimirExamenComponent } from './pages/procesos/imprimir-examen/imprimir-examen.component';
+ 
  
   
 const APP_ROUTERS: Routes = [
@@ -90,6 +94,11 @@ const APP_ROUTERS: Routes = [
     { path: 'proceso-AB-target-byf/:opcionTarget', component: AltasTargetBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
     { path: 'proceso-aprobar-AB-target-byf/:opcionTarget', component: AprobarABTargetBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
     { path: 'proceso-programacion-visitas-byf', component: ProgramacionBoticasFarmaciasComponent , canActivate: [ AuthGuard]}, 
+
+    
+    { path: 'mant-examen', component: ExamenComponent , canActivate: [ AuthGuard]}, 
+    { path: 'proceso-rendir-examen', component: RendirExamenComponent , canActivate: [ AuthGuard]}, 
+    { path: 'reporte-imprimir-examen', component: ImprimirExamenComponent , canActivate: [ AuthGuard]}, 
 
     { path: '', pathMatch:'full', redirectTo:'home' },
     { path: '**', pathMatch:'full', redirectTo:'home' },

@@ -1,0 +1,118 @@
+<div id="formExamenCabecera" class="contenedorExamen container">
+
+  <div class="alert alert-warning mt-3"  role="alert" *ngIf="flagDarExamen==false?true:false" >
+    {{nombreExamen}}
+  </div>
+
+  <div class="card border-info mb-3"  *ngIf="flagDarExamen==true?true:false"  > 
+        <div class="card-body text-info">
+            <h2 class="card-title text-center"> {{nombreExamen}}</h2>
+                <hr>   
+                <div class="row">
+                    <div class="col-md-4">
+                        <label> Duración  (Minutos) </label>
+                        <input type="text"   class="form-control form-control-sm  "  readonly [value]="tiempoExamen" > 
+                    </div>
+                    <div class="col-md-4">
+                        <label> Calificación </label>
+                        <input type="text"   class="form-control form-control-sm  text-center " readonly [value]="calificacionExamen"  >
+                    </div>
+                    <div class="col-md-4" *ngIf="id_Resolucion_Cab_Global == 0"  >
+                        <div class="mb-1 text-center">
+                            <button class="btn btn-info" title="Iniciar Examen" (click)="iniciarExamen()" > <i class="far fa-3x fa-play-circle"></i> INICIAR EXAMEN </button>
+                        </div>
+                    </div>
+                 </div>  
+                 <div class="row">
+                        <div class="col-md-12">
+                            <textarea rows="2" class="form-control form-control-sm" style="font-size: 15px;text-transform: uppercase;" readonly [value]="recomendacionExamen"  ></textarea>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <div class="countdown-container2">
+                                <div class="number">
+                                    {{preguntaResueltaExamen}}
+                                </div>
+                                <div class="concept">
+                                    Preguntas Resueltas
+                                </div>
+                            </div>
+                        </div> -->
+                 </div>  
+        </div>
+  </div>
+
+  <div class="sticky-top" *ngIf="flagDarExamen==true?true:false"  >
+    <div class="row text-center">
+      <div class=" col-3">
+          <div class="countdown-container">
+              <div class="number">
+                  {{hours}}
+              </div>
+              <div class="concept">
+                  Horas
+              </div>
+
+          </div>
+      </div>
+      <div class=" col-3">
+          <div class="countdown-container">
+              <div class="number">
+                  {{minutes}}
+              </div>
+              <div class="concept">
+                  Minutos
+              </div>
+          </div>
+      </div>
+      <div class=" col-3">
+          <div class="countdown-container">
+              <div class="number">
+                  {{seconds}}
+              </div>
+              <div class="concept">
+                  Segundos
+              </div>
+          </div>
+      </div>
+      <div class=" col-3">
+        <div class="countdown-container2">
+            <div class="number">
+                {{preguntaResueltaExamen}}
+            </div>
+            <div class="concept">
+                Preguntas Resueltas
+            </div>  
+        </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="contenidoResumen" id="formExamen" *ngIf="id_Resolucion_Cab_Global > 0" >
+        <div class="card border-primary mb-3" *ngFor="let pregunta of examen" >
+          <div class="card-body text-primary" [ngClass]="pregunta.respondida ? 'disabledForm' : ''" >
+            <h5 class="card-title text-primary "  > {{pregunta.pregunta}} ? </h5>
+            <ul class="list-group list-group-flush ">
+              <li *ngFor="let item of pregunta.alternativas"
+                class="list-group-item d-flex justify-content-between align-items-center animate__animated animate__fadeIn">
+
+
+                <div *ngIf="item.tipo_pregunta == 1 ; else preguntaEscribir">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [value]="item.id_Examen_RM_Det_Preguntas" [checked]="item.eligio" [name]="pregunta.pregunta"  
+                                                                    [id]="item.id_Examen_RM_Det_Preguntas" (change)="changeAlternativa($event.target.value, item)" >
+                        <label class="form-check-label" [for]="item.id_Examen_RM_Det_Preguntas" > {{item.descripcion_alternativa}} </label>
+                    </div>   
+                </div>              
+                <ng-template #preguntaEscribir>
+                    <input type="text" class="form-control form-control-sm" maxlength="200" [(ngModel)]="item.texto_respuesta"  [value]="item.texto_respuesta" > 
+                </ng-template>              
+              </li>
+            </ul>
+            <div class="text-center mt-2 ">
+              <button class="btn btn-success " title="Registrar pregunta" (click)="registrarPregunta(pregunta)" > <i class="far fa-save"></i> Registrar Respuesta </button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+

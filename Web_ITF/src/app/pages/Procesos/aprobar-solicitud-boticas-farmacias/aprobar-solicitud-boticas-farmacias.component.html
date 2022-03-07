@@ -392,13 +392,18 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                
+                                                              
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-9">
                                                             <label> Dirección </label>
                                                             <input type="text" class="form-control " maxlength="250" formControlName="direccion_medico_direccion">
                                                         </div>
+                                                        <div class="col-md-3">
+                                                            <label> Cod. Local </label>
+                                                            <input type="text" class="form-control " maxlength="250" formControlName="codigo_local">
+                                                        </div>
                                                     </div>
+                                                    
                                                     <br>
   
                                                     <div class=" tableFixHead " *ngIf="idEstadoSolicitudGlobal == 11 || idEstadoSolicitudGlobal == 14 "  >

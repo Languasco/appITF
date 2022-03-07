@@ -132,6 +132,7 @@ inicializarFormularioSolicitud_Det(){
     nombre_institucion_direccion: new FormControl(''),
     estado: new FormControl('1'),
     usuario_creacion: new FormControl('0'),
+    codigo_local: new FormControl(''),
    }) 
 }
 
@@ -418,7 +419,7 @@ inicializarFormularioSolicitud_Det(){
   }
   
 
-  modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,  }){    
+  modificarDireccion({id_Medicos_Direccion, id_Medico, codigo_departamento, codigo_provincia, codigo_distrito, direccion_medico_direccion, referencia_medico_direccion, nombre_institucion_direccion, estado,codigo_local  }){    
   
     
     if (codigo_departamento =='0') {
@@ -429,7 +430,7 @@ inicializarFormularioSolicitud_Det(){
         this.formParamsDirection.patchValue({
           "id_Medicos_Direccion"  : id_Medicos_Direccion ,
           "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
-          "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion 
+          "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "estado"  : 1 , "nombre_institucion_direccion"  : nombre_institucion_direccion , "codigo_local" : codigo_local
         }); 
       }, 0); 
   
@@ -447,7 +448,7 @@ inicializarFormularioSolicitud_Det(){
                 "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                 "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
                 "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
-                "estado"  : 1 ,
+                "estado"  : 1 , "codigo_local" : codigo_local
               }); 
             }, 0);  
   
@@ -467,7 +468,7 @@ inicializarFormularioSolicitud_Det(){
                   "id_Medicos_Direccion"  : id_Medicos_Direccion ,
                   "id_Medico"  : this.id_MedicoGlobal, "codigo_departamento":codigo_departamento, "codigo_provincia":codigo_provincia , "codigo_distrito":codigo_distrito,
                   "direccion_medico_direccion"  : direccion_medico_direccion ,"referencia_medico_direccion"  : referencia_medico_direccion , "nombre_institucion_direccion"  : nombre_institucion_direccion,
-                  "estado"  : 1 ,
+                  "estado"  : 1 , "codigo_local" : codigo_local
                 }); 
               }, 0);          
   

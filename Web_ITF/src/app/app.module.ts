@@ -93,6 +93,9 @@ import { AprobarABTargetBoticasFarmaciasComponent } from './pages/procesos/aprob
 import { ProgramacionBoticasFarmaciasComponent } from './pages/procesos/programacion-boticas-farmacias/programacion-boticas-farmacias.component';
 
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ExamenComponent } from './pages/mantenimientos/examen/examen.component';
+import { RendirExamenComponent } from './pages/procesos/rendir-examen/rendir-examen.component';
+import { ImprimirExamenComponent } from './pages/procesos/imprimir-examen/imprimir-examen.component';
  
  
 
@@ -142,7 +145,10 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
     TargetBoticasFarmaciasComponent,
     AltasTargetBoticasFarmaciasComponent,
     AprobarABTargetBoticasFarmaciasComponent,
-    ProgramacionBoticasFarmaciasComponent     
+    ProgramacionBoticasFarmaciasComponent,
+    ExamenComponent,
+    RendirExamenComponent,
+    ImprimirExamenComponent     
   ],
   imports: [
     BrowserModule,
