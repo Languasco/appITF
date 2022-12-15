@@ -231,5 +231,33 @@ namespace Negocio.Mantenimientos
             return resultado;
         }
 
+        public string Set_Actualizar_imagenGasto(int idGasto, string nombreFileServer)
+        {
+            string resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_SAVE_VOUCHER", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idGasto", SqlDbType.Int).Value = idGasto;
+                        cmd.Parameters.Add("@nombreFoto", SqlDbType.VarChar).Value = nombreFileServer;
+
+                        cmd.ExecuteNonQuery();
+                        resultado = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+            }
+            return resultado;
+        }
+
+
     }
 }

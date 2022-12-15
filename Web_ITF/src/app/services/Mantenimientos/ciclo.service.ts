@@ -53,4 +53,30 @@ export class CicloService {
     return this.http.get( this.URL + 'tblCiclos' , {params: parametros});
   }
 
+
+  get_mostrar_cicloGasto(idEstado:number){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '5');
+    parametros = parametros.append('filtro', String(idEstado));
+
+    return this.http.get( this.URL + 'tblCiclos' , {params: parametros});
+  }
+
+  set_save_cicloGasto(objMantenimiento:any){
+    return this.http.post(this.URL + 'tblCiclos_Gastos', JSON.stringify(objMantenimiento), httpOptions);
+  }
+
+  set_edit_cicloGasto(objMantenimiento:any, id_Ciclo :number){
+    return this.http.put(this.URL + 'tblCiclos_Gastos/' + id_Ciclo , JSON.stringify(objMantenimiento), httpOptions);
+  }
+
+  get_verificar_estadoProcesoGasto(idEstado:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '6');
+    parametros = parametros.append('filtro', idEstado);
+
+    return this.http.get( this.URL + 'tblCiclos' , {params: parametros}).toPromise();
+  }
+
+
 }

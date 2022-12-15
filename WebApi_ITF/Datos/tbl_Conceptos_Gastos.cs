@@ -12,14 +12,16 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Examen_Rm_Resolucion_Det
+    public partial class tbl_Conceptos_Gastos
     {
-        public int id_Examen_Rm_Resolucion_Det { get; set; }
-        public Nullable<int> id_Examen_Rm_Resolucion_Cab { get; set; }
-        public Nullable<int> id_Examen_RM_Det_Preguntas { get; set; }
+        public int id_conceptos_gastos { get; set; }
+        public string descripcion_conceptos_gastos { get; set; }
+        public string cuenta_contable { get; set; }
+        public Nullable<int> requiere_imagen { get; set; }
+        public Nullable<int> estado { get; set; }
         public Nullable<int> usuario_creacion { get; set; }
         public Nullable<System.DateTime> fecha_creacion { get; set; }
-        public string texto_respuesta { get; set; }
-        public string tipo_interfaz { get; set; }
+        public Nullable<int> usuario_edicion { get; set; }
+        public Nullable<System.DateTime> fecha_edicion { get; set; }
     }
 }

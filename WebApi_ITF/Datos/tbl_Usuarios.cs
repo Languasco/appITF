@@ -40,6 +40,8 @@ namespace Datos
         public string sexo_usuario { get; set; }
         public Nullable<int> id_supervisor { get; set; }
         public Nullable<int> es_supervisor { get; set; }
+        public string centro_costos { get; set; }
+        public Nullable<double> pres_movilidad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_Accesos_Evento> tbl_Accesos_Evento { get; set; }

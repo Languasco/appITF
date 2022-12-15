@@ -111,6 +111,13 @@ export class UploadService {
 
     return this.http.get( this.URL + 'tblActividades' , {params: parametros}).toPromise();
   }
+
+  upload_imagen_gastos(file:any, idGasto :number, idusuarioLogin : any) {   
+    const formData = new FormData();   
+    formData.append('file', file);
+    const filtro =  idGasto + '|' + idusuarioLogin;
+    return this.http.post(this.URL + 'Uploads/post_imagenGasto?filtros=' + filtro, formData);    
+  }
  
 
 }

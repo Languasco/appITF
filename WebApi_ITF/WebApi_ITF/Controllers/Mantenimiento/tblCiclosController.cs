@@ -131,7 +131,59 @@ namespace WebApi_ITF.Controllers.Mantenimiento
                 }
                 else if (opcion == 5)
                 {
- 
+                    string[] parametros = filtro.Split('|');
+                    int idEstado = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+
+                    if (idEstado == 0)
+                    {
+                        res.data = (from a in db.tbl_Ciclos_Gastos
+                                    join b in db.tbl_Estados on a.estado equals b.id_Estado
+                                    select new
+                                    {
+                                        a.id_Ciclo,
+                                        a.nombre_ciclo,
+                                        a.desde_ciclo,
+                                        a.hasta_ciclo,
+                                        a.estado,
+                                        b.descripcion_estado,
+                                        a.usuario_creacion,
+                                    }).ToList();
+                    }
+                    else
+                    {
+                        res.data = (from a in db.tbl_Ciclos_Gastos
+                                    join b in db.tbl_Estados on a.estado equals b.id_Estado
+                                    where a.estado == idEstado
+                                    select new
+                                    {
+                                        a.id_Ciclo,
+                                        a.nombre_ciclo,
+                                        a.desde_ciclo,
+                                        a.hasta_ciclo,
+                                        a.estado,
+                                        b.descripcion_estado,
+                                        a.usuario_creacion
+                                    }).ToList();
+                    }
+
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 6)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idEstado = Convert.ToInt32(parametros[0].ToString());
+
+                    if (db.tbl_Ciclos_Gastos.Count(e => e.estado == idEstado) > 0)
+                    {
+                        resul = true;
+                    }
+                    else
+                    {
+                        resul = false;
+                    }
                 }
                 else
                 {

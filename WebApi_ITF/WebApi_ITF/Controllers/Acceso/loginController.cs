@@ -59,7 +59,6 @@ namespace WebApi_3R_Dominion.Controllers.Acceso
                                              nombre_principal = od.nombre_opcion,
                                              parent_id_principal = od.parentID,
                                              urlmagene_principal = od.urlImagen_Opcion
-
                                          }).Distinct();
 
                         foreach (var item in listaMenu)

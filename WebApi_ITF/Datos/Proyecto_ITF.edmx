@@ -66,6 +66,34 @@
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
         </EntityType>
+        <EntityType Name="tbl_Ciclos_Gastos">
+          <Key>
+            <PropertyRef Name="id_Ciclo" />
+          </Key>
+          <Property Name="id_Ciclo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_ciclo" Type="varchar" MaxLength="255" />
+          <Property Name="desde_ciclo" Type="smalldatetime" />
+          <Property Name="hasta_ciclo" Type="smalldatetime" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Conceptos_Gastos">
+          <Key>
+            <PropertyRef Name="id_conceptos_gastos" />
+          </Key>
+          <Property Name="id_conceptos_gastos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion_conceptos_gastos" Type="varchar" MaxLength="255" />
+          <Property Name="cuenta_contable" Type="varchar" MaxLength="20" />
+          <Property Name="requiere_imagen" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
         <EntityType Name="tbl_Control_Stock">
           <Key>
             <PropertyRef Name="id_Control_Stock" />
@@ -207,6 +235,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Cab' n
           <Property Name="fecha_creacion" Type="smalldatetime" />
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="smalldatetime" />
+          <Property Name="tipo_interfaz" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -220,6 +249,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="usuario_creacion" Type="int" />
           <Property Name="fecha_creacion" Type="smalldatetime" />
           <Property Name="texto_respuesta" Type="varchar" MaxLength="255" />
+          <Property Name="tipo_interfaz" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="tbl_Feriados">
           <Key>
@@ -233,6 +263,29 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="fecha_creacion" Type="datetime" />
           <Property Name="usuario_edicion" Type="int" />
           <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Gastos">
+          <Key>
+            <PropertyRef Name="id_gastos" />
+          </Key>
+          <Property Name="id_gastos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_gastos" Type="smalldatetime" />
+          <Property Name="ruc" Type="varchar" MaxLength="20" />
+          <Property Name="razon_social" Type="varchar" MaxLength="255" />
+          <Property Name="id_concepto_gastos" Type="int" />
+          <Property Name="id_tipo_documento" Type="varchar" MaxLength="5" />
+          <Property Name="serie_documento" Type="varchar" MaxLength="10" />
+          <Property Name="numero_documento" Type="varchar" MaxLength="20" />
+          <Property Name="id_moneda" Type="int" />
+          <Property Name="total" Type="float" />
+          <Property Name="observaciones" Type="varchar" MaxLength="255" />
+          <Property Name="imagen" Type="varchar" MaxLength="255" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="tipo_interfaz" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="tbl_Identificador_Medico">
           <Key>
@@ -516,6 +569,8 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="sexo_usuario" Type="varchar" MaxLength="1" />
           <Property Name="id_supervisor" Type="int" />
           <Property Name="es_supervisor" Type="int" />
+          <Property Name="centro_costos" Type="varchar" MaxLength="20" />
+          <Property Name="pres_movilidad" Type="float" />
         </EntityType>
         <Association Name="FK_tbl_Aceesid_Op_3C69FB99">
           <End Role="tbl_Definicion_Opciones" Type="Self.tbl_Definicion_Opciones" Multiplicity="0..1" />
@@ -546,6 +601,8 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySet Name="tbl_Actividades" EntityType="Self.tbl_Actividades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Categorias" EntityType="Self.tbl_Categorias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Ciclos" EntityType="Self.tbl_Ciclos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Ciclos_Gastos" EntityType="Self.tbl_Ciclos_Gastos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Conceptos_Gastos" EntityType="Self.tbl_Conceptos_Gastos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Control_Stock" EntityType="Self.tbl_Control_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Definicion_Opciones" EntityType="Self.tbl_Definicion_Opciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Duracion_Actividades" EntityType="Self.tbl_Duracion_Actividades" Schema="dbo" store:Type="Tables" />
@@ -557,6 +614,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySet Name="tbl_Examen_Rm_Det_Preguntas" EntityType="Self.tbl_Examen_Rm_Det_Preguntas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Examen_Rm_Det_Usuarios" EntityType="Self.tbl_Examen_Rm_Det_Usuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Feriados" EntityType="Self.tbl_Feriados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Gastos" EntityType="Self.tbl_Gastos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Identificador_Medico" EntityType="Self.tbl_Identificador_Medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Medicos" EntityType="Self.tbl_Medicos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Medicos_Direccion" EntityType="Self.tbl_Medicos_Direccion" Schema="dbo" store:Type="Tables" />
@@ -584,7 +642,8 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
     [tbl_Examen_Rm_Resolucion_Cab].[usuario_creacion] AS [usuario_creacion], 
     [tbl_Examen_Rm_Resolucion_Cab].[fecha_creacion] AS [fecha_creacion], 
     [tbl_Examen_Rm_Resolucion_Cab].[usuario_edicion] AS [usuario_edicion], 
-    [tbl_Examen_Rm_Resolucion_Cab].[fecha_edicion] AS [fecha_edicion]
+    [tbl_Examen_Rm_Resolucion_Cab].[fecha_edicion] AS [fecha_edicion], 
+    [tbl_Examen_Rm_Resolucion_Cab].[tipo_interfaz] AS [tipo_interfaz]
     FROM [dbo].[tbl_Examen_Rm_Resolucion_Cab] AS [tbl_Examen_Rm_Resolucion_Cab]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tbl_Examen_Rm_Resolucion_Det" EntityType="Self.tbl_Examen_Rm_Resolucion_Det" store:Type="Tables" store:Schema="dbo">
@@ -594,7 +653,8 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
     [tbl_Examen_Rm_Resolucion_Det].[id_Examen_RM_Det_Preguntas] AS [id_Examen_RM_Det_Preguntas], 
     [tbl_Examen_Rm_Resolucion_Det].[usuario_creacion] AS [usuario_creacion], 
     [tbl_Examen_Rm_Resolucion_Det].[fecha_creacion] AS [fecha_creacion], 
-    [tbl_Examen_Rm_Resolucion_Det].[texto_respuesta] AS [texto_respuesta]
+    [tbl_Examen_Rm_Resolucion_Det].[texto_respuesta] AS [texto_respuesta], 
+    [tbl_Examen_Rm_Resolucion_Det].[tipo_interfaz] AS [tipo_interfaz]
     FROM [dbo].[tbl_Examen_Rm_Resolucion_Det] AS [tbl_Examen_Rm_Resolucion_Det]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_tbl_Aceesid_Op_3C69FB99" Association="Self.FK_tbl_Aceesid_Op_3C69FB99">
@@ -630,13 +690,8 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySet Name="tbl_Stock" EntityType="ITF_PERUModel.tbl_Stock" />
           <EntitySet Name="tbl_Tipos_Productos" EntityType="ITF_PERUModel.tbl_Tipos_Productos" />
           <EntitySet Name="tbl_Ubigeo" EntityType="ITF_PERUModel.tbl_Ubigeo" />
-          <EntitySet Name="tbl_Usuarios" EntityType="ITF_PERUModel.tbl_Usuarios" />
           <AssociationSet Name="FK_tbl_Aceesid_Op_3C69FB99" Association="ITF_PERUModel.FK_tbl_Aceesid_Op_3C69FB99">
             <End Role="tbl_Definicion_Opciones" EntitySet="tbl_Definicion_Opciones" />
-            <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_Aceesid_Us_3E52440B" Association="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B">
-            <End Role="tbl_Usuarios" EntitySet="tbl_Usuarios" />
             <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
           </AssociationSet>
           <EntitySet Name="tbl_Medicos_Direccion" EntityType="ITF_PERUModel.tbl_Medicos_Direccion" />
@@ -654,6 +709,14 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySet Name="tbl_Examen_Rm_Det_Preguntas" EntityType="ITF_PERUModel.tbl_Examen_Rm_Det_Preguntas" />
           <EntitySet Name="tbl_Examen_Rm_Det_Usuarios" EntityType="ITF_PERUModel.tbl_Examen_Rm_Det_Usuarios" />
           <EntitySet Name="tbl_Examen_Rm_Cab" EntityType="ITF_PERUModel.tbl_Examen_Rm_Cab" />
+          <EntitySet Name="tbl_Conceptos_Gastos" EntityType="ITF_PERUModel.tbl_Conceptos_Gastos" />
+          <EntitySet Name="tbl_Gastos" EntityType="ITF_PERUModel.tbl_Gastos" />
+          <EntitySet Name="tbl_Usuarios" EntityType="ITF_PERUModel.tbl_Usuarios" />
+          <AssociationSet Name="FK_tbl_Aceesid_Us_3E52440B" Association="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B">
+            <End Role="tbl_Usuarios" EntitySet="tbl_Usuarios" />
+            <End Role="tbl_Accesos_Evento" EntitySet="tbl_Accesos_Evento" />
+          </AssociationSet>
+          <EntitySet Name="tbl_Ciclos_Gastos" EntityType="ITF_PERUModel.tbl_Ciclos_Gastos" />
         </EntityContainer>
         <EntityType Name="tbl_Accesos_Evento">
           <Key>
@@ -917,32 +980,6 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="COD_DEPT" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="tbl_Usuarios">
-          <Key>
-            <PropertyRef Name="id_Usuario" />
-          </Key>
-          <Property Name="id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nrodoc_usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="email_usuario" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="id_Perfil" Type="Int32" Nullable="false" />
-          <Property Name="fotourl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="login_usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="contrasenia_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Int32" Nullable="false" />
-          <Property Name="usuario_creacion" Type="Int32" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="Int32" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-          <Property Name="apellido_paterno_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="apellido_materno_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="nombres_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="celular_usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_nacimiento_usuario" Type="DateTime" Precision="3" />
-          <Property Name="sexo_usuario" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="id_supervisor" Type="Int32" />
-          <Property Name="es_supervisor" Type="Int32" />
-          <NavigationProperty Name="tbl_Accesos_Evento" Relationship="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B" FromRole="tbl_Usuarios" ToRole="tbl_Accesos_Evento" />
-        </EntityType>
         <Association Name="FK_tbl_Aceesid_Op_3C69FB99">
           <End Type="ITF_PERUModel.tbl_Definicion_Opciones" Role="tbl_Definicion_Opciones" Multiplicity="0..1" />
           <End Type="ITF_PERUModel.tbl_Accesos_Evento" Role="tbl_Accesos_Evento" Multiplicity="*" />
@@ -952,18 +989,6 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
             </Principal>
             <Dependent Role="tbl_Accesos_Evento">
               <PropertyRef Name="id_Opcion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_Aceesid_Us_3E52440B">
-          <End Type="ITF_PERUModel.tbl_Usuarios" Role="tbl_Usuarios" Multiplicity="0..1" />
-          <End Type="ITF_PERUModel.tbl_Accesos_Evento" Role="tbl_Accesos_Evento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_Usuarios">
-              <PropertyRef Name="id_Usuario" />
-            </Principal>
-            <Dependent Role="tbl_Accesos_Evento">
-              <PropertyRef Name="id_Usuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1143,6 +1168,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="fecha_creacion" Type="DateTime" Precision="0" />
           <Property Name="usuario_edicion" Type="Int32" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="0" />
+          <Property Name="tipo_interfaz" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Examen_Rm_Resolucion_Det">
           <Key>
@@ -1154,6 +1180,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="usuario_creacion" Type="Int32" />
           <Property Name="fecha_creacion" Type="DateTime" Precision="0" />
           <Property Name="texto_respuesta" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_interfaz" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Examen_Rm_Det_Preguntas">
           <Key>
@@ -1190,6 +1217,97 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <Property Name="usuario_edicion" Type="Int32" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
           <Property Name="fecha_hora_inicio" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Conceptos_Gastos">
+          <Key>
+            <PropertyRef Name="id_conceptos_gastos" />
+          </Key>
+          <Property Name="id_conceptos_gastos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion_conceptos_gastos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cuenta_contable" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="requiere_imagen" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Gastos">
+          <Key>
+            <PropertyRef Name="id_gastos" />
+          </Key>
+          <Property Name="id_gastos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_gastos" Type="DateTime" Precision="0" />
+          <Property Name="ruc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="razon_social" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_concepto_gastos" Type="Int32" />
+          <Property Name="id_tipo_documento" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="serie_documento" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="numero_documento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="id_moneda" Type="Int32" />
+          <Property Name="total" Type="Double" />
+          <Property Name="observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="tipo_interfaz" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Usuarios">
+          <Key>
+            <PropertyRef Name="id_Usuario" />
+          </Key>
+          <Property Name="id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nrodoc_usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email_usuario" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="id_Perfil" Type="Int32" Nullable="false" />
+          <Property Name="fotourl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="login_usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="contrasenia_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="apellido_paterno_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="apellido_materno_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nombres_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="celular_usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_nacimiento_usuario" Type="DateTime" Precision="3" />
+          <Property Name="sexo_usuario" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="id_supervisor" Type="Int32" />
+          <Property Name="es_supervisor" Type="Int32" />
+          <Property Name="centro_costos" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="pres_movilidad" Type="Double" />
+          <NavigationProperty Name="tbl_Accesos_Evento" Relationship="ITF_PERUModel.FK_tbl_Aceesid_Us_3E52440B" FromRole="tbl_Usuarios" ToRole="tbl_Accesos_Evento" />
+        </EntityType>
+        <Association Name="FK_tbl_Aceesid_Us_3E52440B">
+          <End Type="ITF_PERUModel.tbl_Usuarios" Role="tbl_Usuarios" Multiplicity="0..1" />
+          <End Type="ITF_PERUModel.tbl_Accesos_Evento" Role="tbl_Accesos_Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Usuarios">
+              <PropertyRef Name="id_Usuario" />
+            </Principal>
+            <Dependent Role="tbl_Accesos_Evento">
+              <PropertyRef Name="id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbl_Ciclos_Gastos">
+          <Key>
+            <PropertyRef Name="id_Ciclo" />
+          </Key>
+          <Property Name="id_Ciclo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_ciclo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="desde_ciclo" Type="DateTime" Precision="0" />
+          <Property Name="hasta_ciclo" Type="DateTime" Precision="0" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1475,32 +1593,6 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Usuarios">
-            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Usuarios">
-              <MappingFragment StoreEntitySet="tbl_Usuarios">
-                <ScalarProperty Name="es_supervisor" ColumnName="es_supervisor" />
-                <ScalarProperty Name="id_supervisor" ColumnName="id_supervisor" />
-                <ScalarProperty Name="sexo_usuario" ColumnName="sexo_usuario" />
-                <ScalarProperty Name="fecha_nacimiento_usuario" ColumnName="fecha_nacimiento_usuario" />
-                <ScalarProperty Name="celular_usuario" ColumnName="celular_usuario" />
-                <ScalarProperty Name="nombres_usuario" ColumnName="nombres_usuario" />
-                <ScalarProperty Name="apellido_materno_usuario" ColumnName="apellido_materno_usuario" />
-                <ScalarProperty Name="apellido_paterno_usuario" ColumnName="apellido_paterno_usuario" />
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="contrasenia_usuario" ColumnName="contrasenia_usuario" />
-                <ScalarProperty Name="login_usuario" ColumnName="login_usuario" />
-                <ScalarProperty Name="fotourl" ColumnName="fotourl" />
-                <ScalarProperty Name="id_Perfil" ColumnName="id_Perfil" />
-                <ScalarProperty Name="email_usuario" ColumnName="email_usuario" />
-                <ScalarProperty Name="nrodoc_usuario" ColumnName="nrodoc_usuario" />
-                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Medicos_Direccion">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Medicos_Direccion">
               <MappingFragment StoreEntitySet="tbl_Medicos_Direccion">
@@ -1678,6 +1770,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySetMapping Name="tbl_Examen_Rm_Resolucion_Cab">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Cab">
               <MappingFragment StoreEntitySet="tbl_Examen_Rm_Resolucion_Cab">
+                <ScalarProperty Name="tipo_interfaz" ColumnName="tipo_interfaz" />
                 <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
                 <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
                 <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
@@ -1692,6 +1785,7 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
           <EntitySetMapping Name="tbl_Examen_Rm_Resolucion_Det">
             <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Examen_Rm_Resolucion_Det">
               <MappingFragment StoreEntitySet="tbl_Examen_Rm_Resolucion_Det">
+                <ScalarProperty Name="tipo_interfaz" ColumnName="tipo_interfaz" />
                 <ScalarProperty Name="texto_respuesta" ColumnName="texto_respuesta" />
                 <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
                 <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
@@ -1737,6 +1831,88 @@ advertencia 6002: La tabla o vista 'ITF_PERU.dbo.tbl_Examen_Rm_Resolucion_Det' n
                 <ScalarProperty Name="tiempo_examen_rm" ColumnName="tiempo_examen_rm" />
                 <ScalarProperty Name="nombre_examen_rm_cab" ColumnName="nombre_examen_rm_cab" />
                 <ScalarProperty Name="id_Examen_Rm_Cab" ColumnName="id_Examen_Rm_Cab" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Conceptos_Gastos">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Conceptos_Gastos">
+              <MappingFragment StoreEntitySet="tbl_Conceptos_Gastos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="requiere_imagen" ColumnName="requiere_imagen" />
+                <ScalarProperty Name="cuenta_contable" ColumnName="cuenta_contable" />
+                <ScalarProperty Name="descripcion_conceptos_gastos" ColumnName="descripcion_conceptos_gastos" />
+                <ScalarProperty Name="id_conceptos_gastos" ColumnName="id_conceptos_gastos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Gastos">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Gastos">
+              <MappingFragment StoreEntitySet="tbl_Gastos">
+                <ScalarProperty Name="tipo_interfaz" ColumnName="tipo_interfaz" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="id_moneda" ColumnName="id_moneda" />
+                <ScalarProperty Name="numero_documento" ColumnName="numero_documento" />
+                <ScalarProperty Name="serie_documento" ColumnName="serie_documento" />
+                <ScalarProperty Name="id_tipo_documento" ColumnName="id_tipo_documento" />
+                <ScalarProperty Name="id_concepto_gastos" ColumnName="id_concepto_gastos" />
+                <ScalarProperty Name="razon_social" ColumnName="razon_social" />
+                <ScalarProperty Name="ruc" ColumnName="ruc" />
+                <ScalarProperty Name="fecha_gastos" ColumnName="fecha_gastos" />
+                <ScalarProperty Name="id_gastos" ColumnName="id_gastos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Usuarios">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Usuarios">
+              <MappingFragment StoreEntitySet="tbl_Usuarios">
+                <ScalarProperty Name="pres_movilidad" ColumnName="pres_movilidad" />
+                <ScalarProperty Name="centro_costos" ColumnName="centro_costos" />
+                <ScalarProperty Name="es_supervisor" ColumnName="es_supervisor" />
+                <ScalarProperty Name="id_supervisor" ColumnName="id_supervisor" />
+                <ScalarProperty Name="sexo_usuario" ColumnName="sexo_usuario" />
+                <ScalarProperty Name="fecha_nacimiento_usuario" ColumnName="fecha_nacimiento_usuario" />
+                <ScalarProperty Name="celular_usuario" ColumnName="celular_usuario" />
+                <ScalarProperty Name="nombres_usuario" ColumnName="nombres_usuario" />
+                <ScalarProperty Name="apellido_materno_usuario" ColumnName="apellido_materno_usuario" />
+                <ScalarProperty Name="apellido_paterno_usuario" ColumnName="apellido_paterno_usuario" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="contrasenia_usuario" ColumnName="contrasenia_usuario" />
+                <ScalarProperty Name="login_usuario" ColumnName="login_usuario" />
+                <ScalarProperty Name="fotourl" ColumnName="fotourl" />
+                <ScalarProperty Name="id_Perfil" ColumnName="id_Perfil" />
+                <ScalarProperty Name="email_usuario" ColumnName="email_usuario" />
+                <ScalarProperty Name="nrodoc_usuario" ColumnName="nrodoc_usuario" />
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Ciclos_Gastos">
+            <EntityTypeMapping TypeName="ITF_PERUModel.tbl_Ciclos_Gastos">
+              <MappingFragment StoreEntitySet="tbl_Ciclos_Gastos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="hasta_ciclo" ColumnName="hasta_ciclo" />
+                <ScalarProperty Name="desde_ciclo" ColumnName="desde_ciclo" />
+                <ScalarProperty Name="nombre_ciclo" ColumnName="nombre_ciclo" />
+                <ScalarProperty Name="id_Ciclo" ColumnName="id_Ciclo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -44,7 +44,6 @@ namespace Datos
         public virtual DbSet<tbl_Stock> tbl_Stock { get; set; }
         public virtual DbSet<tbl_Tipos_Productos> tbl_Tipos_Productos { get; set; }
         public virtual DbSet<tbl_Ubigeo> tbl_Ubigeo { get; set; }
-        public virtual DbSet<tbl_Usuarios> tbl_Usuarios { get; set; }
         public virtual DbSet<tbl_Medicos_Direccion> tbl_Medicos_Direccion { get; set; }
         public virtual DbSet<tbl_Programacion_Det> tbl_Programacion_Det { get; set; }
         public virtual DbSet<tbl_Sol_Medico_Direccion> tbl_Sol_Medico_Direccion { get; set; }
@@ -60,5 +59,9 @@ namespace Datos
         public virtual DbSet<tbl_Examen_Rm_Det_Preguntas> tbl_Examen_Rm_Det_Preguntas { get; set; }
         public virtual DbSet<tbl_Examen_Rm_Det_Usuarios> tbl_Examen_Rm_Det_Usuarios { get; set; }
         public virtual DbSet<tbl_Examen_Rm_Cab> tbl_Examen_Rm_Cab { get; set; }
+        public virtual DbSet<tbl_Conceptos_Gastos> tbl_Conceptos_Gastos { get; set; }
+        public virtual DbSet<tbl_Gastos> tbl_Gastos { get; set; }
+        public virtual DbSet<tbl_Usuarios> tbl_Usuarios { get; set; }
+        public virtual DbSet<tbl_Ciclos_Gastos> tbl_Ciclos_Gastos { get; set; }
     }
 }

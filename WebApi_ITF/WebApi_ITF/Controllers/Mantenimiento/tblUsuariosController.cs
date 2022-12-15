@@ -69,7 +69,9 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                                         a.fecha_nacimiento_usuario,
                                         a.sexo_usuario,
                                         a.id_supervisor,
-                                        a.es_supervisor
+                                        a.es_supervisor,
+                                        a.centro_costos,
+                                        a.pres_movilidad
                                     }).ToList();
                     }
                     else {
@@ -97,7 +99,9 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                                         a.fecha_nacimiento_usuario,
                                         a.sexo_usuario,
                                         a.id_supervisor,
-                                        a.es_supervisor
+                                        a.es_supervisor,
+                                        a.centro_costos,
+                                        a.pres_movilidad
                                     }).ToList();
                     }
 
@@ -411,6 +415,34 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
 
                     return res;
                 }
+               else if (opcion == 23)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idEstado = Convert.ToInt32(parametros[0].ToString());
+ 
+                    res.data = (from a in db.tbl_Usuarios
+                                join b in db.tbl_Perfil on a.id_Perfil equals b.id_perfil
+                                where a.estado == idEstado
+                                select new
+                                {
+                                    a.id_Usuario,
+                                    a.nrodoc_usuario,
+                                    a.email_usuario,    
+                                    a.estado,
+                                    descripcion_estado = a.estado == 2 ? "INACTIVO" : "ACTIVO",
+                                    a.usuario_creacion,
+                                    a.apellido_paterno_usuario,
+                                    a.apellido_materno_usuario,
+                                    a.nombres_usuario,
+                                    a.celular_usuario,
+                                    a.fecha_nacimiento_usuario,
+                                    a.sexo_usuario
+                                }).ToList();         
+                    res.ok = true;
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
 
                 else
                 {
@@ -471,7 +503,9 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
                                 a.fecha_nacimiento_usuario,
                                 a.sexo_usuario,
                                 a.id_supervisor,
-                                a.es_supervisor
+                                a.es_supervisor,
+                                a.centro_costos,
+                                a.pres_movilidad
                             }).ToList();
 
                 res.totalpage = 0;
@@ -510,6 +544,15 @@ namespace WebApi_3R_Dominion.Controllers.Mantenimiento
             objReemplazar.sexo_usuario = tbl_Usuarios.sexo_usuario;
             objReemplazar.id_supervisor = tbl_Usuarios.id_supervisor;
             objReemplazar.es_supervisor = tbl_Usuarios.es_supervisor;
+
+            if (tbl_Usuarios.centro_costos != null)
+            {
+                objReemplazar.centro_costos = tbl_Usuarios.centro_costos;
+            }
+            if (tbl_Usuarios.pres_movilidad != null)
+            {
+                objReemplazar.pres_movilidad = tbl_Usuarios.pres_movilidad;
+            }
 
             db.Entry(objReemplazar).State = EntityState.Modified;
 

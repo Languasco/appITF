@@ -1,0 +1,269 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> REGISTRO DE GASTO </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+
+                <div class=" col-sm-6  col-md-6 lg-3">
+                    <label> Mes-Año</label>                 
+                    <input type="month" name="fecha" id="fecha" class="form-control" formControlName="mesAnio" required  >
+                </div>
+                <div class="col-sm-6 col-md-6 lg-3 ">
+                    <label for=""> Usuario</label>
+                    <select class="form-control comboBox" formControlName="idUsuario">
+                        <option [value]="user.id_Usuario" *ngFor="let user of usuarios">{{user.descripcionUsuario}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-12 lg-6 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-sm btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> </i> Mostrar </button>
+                        <button class="btn btn-sm btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> </i> Nuevo</button>
+
+                        <button class="btn btn-sm btn-info ml-2 " (click)="reporteGastos(1)" style="font-size: 13px;">  <i class="fas fa-chart-line"></i> DDJJ</button>
+                        <button class="btn btn-sm btn-success ml-2 " (click)="reporteGastos(2)" style="font-size: 13px;">  <i class="fas fa-chart-line"></i> Gasto Actividades </button>
+                        <button class="btn btn-sm btn-danger ml-2 " (click)="reporteGastos(3)" style="font-size: 13px;">  <i class="fas fa-chart-line"></i> Planilla Movilidad</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarMantenimiento">
+            </div>
+            <div class="p-2 bd-highlight" *ngIf="idPerfilGlobal == 1 ||idPerfilGlobal == 15 " >
+                <button class="btn btn-sm btn-dark ml-2" style="border: 1px solid red;" *ngIf= "gastosCab.length > 0 " (click)="descargar_grillaGastos()" >  <i class="fas fa-file-download" style="color:red">  </i> Exportar </button>    
+            </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table id= "tableGastos"  class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Ruc</th>
+                        <th scope="col">Razon social</th>
+                        <th scope="col">Fecha Documento</th>
+
+
+                        <th scope="col">Tipo Documento</th>
+                        <th scope="col">Serie</th>
+                        <th scope="col">Numero</th>
+                        <th scope="col">Concepto Gasto</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of gastosCab |  filter: filtrarMantenimiento  ; index as j" [ngStyle]="item.estado == 2 && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>
+                            <div style="width: 200px;">
+                                {{item.usuario}}
+                            </div>
+                        </td>
+                        <td>{{item.ruc}}</td>
+                        <td>
+                            <div style="width: 250px;">
+                                {{item.razon_social}}
+                            </div>
+                        </td>
+                        <td>{{item.fecha_doc}}</td>
+
+                        <td> 
+                            <div style="width: 200px;">
+                                {{item.descripcion_tipo_documento}}
+                            </div>
+                        </td>
+                        <td>{{item.serie_documento}}</td>
+                        <td>{{item.numero_documento}}</td>
+                        <td> 
+                            <div style="width: 250px;">
+                                {{item.descripcion_conceptos_gastos}}
+                            </div>
+                        </td>
+                        <td>{{item.descripcion_estado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="font-size: 12px; padding: 5px;" title="Editar" (click)="editar(item)">  <i class="fas fa-edit"></i> </span>
+                            <span class="badge badge-danger puntero ml-2" *ngIf="item.estado == 1" style="font-size: 12px;  padding: 5px;" title="Anular" (click)="anular(item)">  <i class="fas fa-power-off"></i> </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+                          
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE GASTO </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                            <fieldset class="shadow" style=" margin-top: -15px;" >
+                                <legend>Datos Generales</legend>
+                                <div class="panel panel-default ">                         
+                                    <div class="panel-body">
+                                        <form [formGroup]="formParams" >
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label> Fecha</label>
+                                                    <input class="form-control"[minDate]="desde_ciclo" [maxDate]="hasta_ciclo"  #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_gastos" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-4 ">       
+                                                            <label> Ruc</label>                                     
+                                                           <div class="input-group mb-3">
+                                                            <input type="text" class="form-control" style="background-color: beige;"  placeholder="Ruc" (keyup.enter)="buscarRuc()" maxlength="20" formControlName="ruc" >
+                                                            <div class="input-group-append">
+                                                              <button class="btn btn-sm btn-outline-secondary" type="button" (click)="buscarRuc()" > <i class="fas fa-search"></i>  </button>
+                                                            </div>
+                                                          </div>
+
+                                                       </div>
+                                                       <div class="col-sm-8 ">       
+                                                        <label> Razon Social</label>                                     
+                                                        <input type="text" class="form-control"  maxlength="250" formControlName="razon_social">
+                                                    </div>
+                                                   </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-6  col-md-3">
+                                                    <label> Concepto de Gasto</label>
+                                                    <select class="form-control comboBox"  formControlName="id_concepto_gastos" (change)="change_conceptoGasto($event)">
+                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option [value]="item.id_conceptos_gastos" *ngFor="let item of conceptosGastos">{{item.descripcionConcepto}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6  col-md-4">
+                                                    <label> Tipo de Comprobante</label>
+                                                    <select class="form-control comboBox"   formControlName="id_tipo_documento">
+                                                        <option value="0"> [ --SELECCIONE-- ]</option>
+                                                        <option [value]="item.id_tipo_documento" *ngFor="let item of tiposComprobantes">{{item.descripcionTipoDocumento}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6  col-md-2">
+                                                    <label> Serie Comprobante</label>
+                                                    <input type="text" class="form-control " maxlength="10" formControlName="serie_documento">
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <label> Nro. Comprobante</label>
+                                                    <input type="text" class="form-control " maxlength="20" formControlName="numero_documento">
+                                                </div>
+                                            </div>
+           
+                                            <div class="row">
+                                                <div class="col-md-8 col-lg-8 ">
+                                                    <br>
+                                                    <form [formGroup]="formParams" >
+                                                        <div class="row">
+                                                            <div class="col-sm-6  col-md-6 ">       
+                                                                <label> Moneda</label>
+                                                                <select class="form-control comboBox"  formControlName="id_moneda">
+                                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                    <option [value]="item.id_Moneda" *ngFor="let item of monedas">{{item.descripcionMoneda}}</option>
+                                                                </select>
+            
+                                                            </div>
+                                                            <div class="col-sm-6  col-md-6 ">       
+                                                                <label> Total</label>
+                                                                <input type="number" class="form-control text-right" style="font-size: 20px; font-weight: bold;" (keypress)="onlyDecimalNumberKey($event)" maxlength="10" formControlName="total">            
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                             <div class="col-sm-12 ">       
+                                                                <label> Observaciones</label>                                     
+                                                                <textarea class="form-control" maxlength="255" formControlName="observaciones" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label> Estado</label>
+                                                                <select class="form-control comboBox" formControlName="estado">
+                                                                    <option value="1"> Activo </option>
+                                                                    <option value="2"> Anulado </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="p-2 bd-highlight">
+                                                            <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4 col-lg-4 ">                                                    
+                                                    <fieldset class="shadow" >
+                                                        <legend> Comprobante</legend>
+                                                        <div class="panel panel-default ">
+                                                            <div class="panel-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-sm-12">
+                                                                            <div (click)="openFile();" style="text-align: center; cursor:pointer" title=" Click para agregar o reemplazar el Comprobante">
+                                                                                <img [src]="imgVoucher" title=" Click para agregar o reemplazar el Comprobante" class="mx-auto d-block" style="width: 100%;height: 230px; font-family: 'Montserrat' ">
+                                                                            </div>
+                                                                            <label class="import-file" style="display:none;">                                                  
+                                                                                <input type="file" id="inputFileOpen" class="form-control-file btn" name="file" accept="image/x-png,image/gif,image/jpeg" (change)="onFileChange($event)" />
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>                         
+                                </div>
+                            </fieldset>
+                          <br>
+
+            
+      
+        
+                    </div>
+ 
+                </div>
+
+
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>

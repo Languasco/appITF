@@ -456,6 +456,81 @@ namespace WebApi_3R_Dominion.Controllers.upload
         }
 
 
+        [HttpPost]
+        [Route("api/Uploads/post_imagenGasto")]
+        public object post_imagenGasto(string filtros)
+        {
+            Resultado res = new Resultado();
+            string nombreFile = "";
+            string nombreFileServer = "";
+            string path = "";
+            string url = ConfigurationManager.AppSettings["imagen"];
+
+            try
+            {
+                var file = HttpContext.Current.Request.Files["file"];
+                string extension = System.IO.Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                int idGasto = Convert.ToInt32(parametros[0].ToString());
+                int idusuarioLogin = Convert.ToInt32(parametros[1].ToString());
+
+
+                nombreFile = file.FileName;
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFileServer = idGasto + "_comprobante_" + Guid.Parse(guidB) + extension;
+
+                //---almacenando la imagen--
+                path = System.Web.Hosting.HostingEnvironment.MapPath("~/Imagen/" + nombreFileServer);
+                file.SaveAs(path);
+
+
+                //------suspendemos el hilo, y esperamos ..
+                System.Threading.Thread.Sleep(1000);
+
+                if (File.Exists(path))
+                {
+                    ///----validando que en servidor solo halla una sola foto---
+                    tbl_Gastos object_usuario;
+                    object_usuario = db.tbl_Gastos.Where(p => p.id_gastos == idGasto).FirstOrDefault<tbl_Gastos>();
+                    string urlFotoAntes = (string.IsNullOrEmpty(object_usuario.imagen)) ? "" : object_usuario.imagen;
+
+                    Usuarios_BL obj_negocio = new Usuarios_BL();
+                    obj_negocio.Set_Actualizar_imagenGasto(idGasto, nombreFileServer);
+
+                    res.ok = true;
+                    res.data = url + nombreFileServer;
+
+                    //---si previamente habia una foto, al reemplazarla borramos la anterior
+                    if (urlFotoAntes.Length > 0)
+                    {
+                        path = System.Web.Hosting.HostingEnvironment.MapPath("~/Imagen/" + urlFotoAntes);
+
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                    }
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo guardar el archivo en el servidor..";
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+
+            return res;
+        }
+
+
 
     }
 }

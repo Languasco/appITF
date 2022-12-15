@@ -12,11 +12,20 @@ namespace Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Examen_Rm_Resolucion_Cab
+    public partial class tbl_Gastos
     {
-        public int id_Examen_Rm_Resolucion_Cab { get; set; }
-        public Nullable<int> id_Examen_Rm_Cab { get; set; }
-        public Nullable<int> calificacion { get; set; }
+        public int id_gastos { get; set; }
+        public Nullable<System.DateTime> fecha_gastos { get; set; }
+        public string ruc { get; set; }
+        public string razon_social { get; set; }
+        public Nullable<int> id_concepto_gastos { get; set; }
+        public string id_tipo_documento { get; set; }
+        public string serie_documento { get; set; }
+        public string numero_documento { get; set; }
+        public Nullable<int> id_moneda { get; set; }
+        public Nullable<double> total { get; set; }
+        public string observaciones { get; set; }
+        public string imagen { get; set; }
         public Nullable<int> estado { get; set; }
         public Nullable<int> usuario_creacion { get; set; }
         public Nullable<System.DateTime> fecha_creacion { get; set; }

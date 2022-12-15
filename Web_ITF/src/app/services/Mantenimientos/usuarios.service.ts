@@ -144,6 +144,8 @@ export class UsuariosService {
       sexo_usuario: objUsuarios.sexo_usuario ,  
       id_supervisor: objUsuarios.id_supervisor ,  
       es_supervisor:  (objUsuarios.es_supervisor== true) ? 1:0 ,  
+      centro_costos: objUsuarios.centro_costos,
+      pres_movilidad: objUsuarios.pres_movilidad
     }
     return this.http.post(this.URL + 'tblUsuarios', JSON.stringify(usuario_BD), httpOptions);
   }
@@ -169,6 +171,8 @@ export class UsuariosService {
       sexo_usuario: objUsuarios.sexo_usuario ,  
       id_supervisor: objUsuarios.id_supervisor ,  
       es_supervisor:  (objUsuarios.es_supervisor== true) ? 1:0 ,  
+      centro_costos: objUsuarios.centro_costos,
+      pres_movilidad: objUsuarios.pres_movilidad
     }
     return this.http.put(this.URL + 'tblUsuarios/' + idUsuario , JSON.stringify(usuario_BD), httpOptions);
   }
@@ -303,6 +307,18 @@ export class UsuariosService {
       return this.http.get( this.URL + 'tblUsuarios' , {params: parametros}).toPromise();
     } 
 
+
+    ///--- MANT USUARIOS GASTOS 
+
+    
+    get_mostrarUsuario_gastos(idEstado:number){
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '23');
+      parametros = parametros.append('filtro', String(idEstado));
+  
+      return this.http.get( this.URL + 'tblUsuarios' , {params: parametros});
+    }
+  
 
 
  

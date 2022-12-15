@@ -13,13 +13,15 @@ import { UploadService } from '../../../services/Upload/upload.service';
 import { UsuariosService } from '../../../services/Mantenimientos/usuarios.service';
 
 declare var $:any;
-@Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css']
-})
 
-export class UsuariosComponent implements OnInit {
+@Component({
+  selector: 'app-usuario-gastos',
+  templateUrl: './usuario-gastos.component.html',
+  styleUrls: ['./usuario-gastos.component.css']
+}) 
+ 
+
+export class UsuarioGastosComponent implements OnInit {
 
   formParamsFiltro : FormGroup;
   formParams: FormGroup;
@@ -85,6 +87,8 @@ export class UsuariosComponent implements OnInit {
 
       nro_contactos_medicos: new FormControl(''),  
       nro_contactos_byf: new FormControl(''),  
+      centro_costos: new FormControl(''),  
+      pres_movilidad: new FormControl(''),
     }) 
  }
 
@@ -294,8 +298,9 @@ export class UsuariosComponent implements OnInit {
               obj.fecha_nacimiento_usuario= this.formParams.value.fecha_nacimiento_usuario ; 
               obj.sexo_usuario= this.formParams.value.sexo_usuario ; 
               obj.id_supervisor= this.formParams.value.id_supervisor ; 
-              obj.es_supervisor= (this.formParams.value.es_supervisor == true) ? 1:0;             
-
+              obj.es_supervisor= (this.formParams.value.es_supervisor == true) ? 1:0;          
+              obj.centro_costos= this.formParams.value.centro_costos;
+              obj.pres_movilidad= this.formParams.value.pres_movilidad;
               break;
            }
          }
@@ -311,12 +316,12 @@ export class UsuariosComponent implements OnInit {
 
  } 
 
- editar({ id_Usuario, nrodoc_usuario, email_usuario, id_Perfil, fotourl, login_usuario, contrasenia_usuario, estado, apellido_paterno_usuario, apellido_materno_usuario, nombres_usuario, celular_usuario, fecha_nacimiento_usuario, sexo_usuario, id_supervisor, es_supervisor }){
+ editar({ id_Usuario, nrodoc_usuario, email_usuario, id_Perfil, fotourl, login_usuario, contrasenia_usuario, estado, apellido_paterno_usuario, apellido_materno_usuario, nombres_usuario, celular_usuario, fecha_nacimiento_usuario, sexo_usuario, id_supervisor, es_supervisor, centro_costos, pres_movilidad }){
 
    this.flag_modoEdicion=true;
    const { nro_contactos_byf, nro_contactos_medicos} =  this.datosGeneralesEmpresa[0];
 
-   this.formParams.patchValue({ "id_Usuario" : id_Usuario,  "nrodoc_usuario" : nrodoc_usuario ,"email_usuario" : email_usuario, "id_Perfil" : id_Perfil , "login_usuario" : login_usuario, "contrasenia_usuario" : contrasenia_usuario, "estado" : estado, "usuario_creacion" : this.idUserGlobal, "apellido_paterno_usuario" : apellido_paterno_usuario, "apellido_materno_usuario" : apellido_materno_usuario,"nombres_usuario" : nombres_usuario , "fecha_nacimiento_usuario" : new Date(fecha_nacimiento_usuario), "sexo_usuario" : sexo_usuario, "id_supervisor" : id_supervisor, "es_supervisor" : es_supervisor }
+   this.formParams.patchValue({ "id_Usuario" : id_Usuario,  "nrodoc_usuario" : nrodoc_usuario ,"centro_costos": centro_costos, "pres_movilidad": pres_movilidad   ,  "celular_usuario" :  celular_usuario,  "email_usuario" : email_usuario, "id_Perfil" : id_Perfil , "login_usuario" : login_usuario, "contrasenia_usuario" : contrasenia_usuario, "estado" : estado, "usuario_creacion" : this.idUserGlobal, "apellido_paterno_usuario" : apellido_paterno_usuario, "apellido_materno_usuario" : apellido_materno_usuario,"nombres_usuario" : nombres_usuario , "fecha_nacimiento_usuario" : new Date(fecha_nacimiento_usuario), "sexo_usuario" : sexo_usuario, "id_supervisor" : id_supervisor, "es_supervisor" : es_supervisor }
    );
    this.formParams.patchValue({ "nro_contactos_byf" : nro_contactos_byf , "nro_contactos_medicos" : nro_contactos_medicos  });
 

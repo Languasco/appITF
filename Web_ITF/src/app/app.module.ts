@@ -96,6 +96,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ExamenComponent } from './pages/mantenimientos/examen/examen.component';
 import { RendirExamenComponent } from './pages/procesos/rendir-examen/rendir-examen.component';
 import { ImprimirExamenComponent } from './pages/procesos/imprimir-examen/imprimir-examen.component';
+import { GastosComponent } from './pages/mantenimientos/gastos/gastos.component';
+import { ConceptosGastosComponent } from './pages/mantenimientos/conceptos-gastos/conceptos-gastos.component';
+import { UsuarioGastosComponent } from './pages/mantenimientos/usuario-gastos/usuario-gastos.component';
+import { CicloGastosComponent } from './pages/Mantenimientos/ciclo-gastos/ciclo-gastos.component';
  
  
 
@@ -148,7 +152,11 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, Widgets, Gantt);
     ProgramacionBoticasFarmaciasComponent,
     ExamenComponent,
     RendirExamenComponent,
-    ImprimirExamenComponent     
+    ImprimirExamenComponent,
+    GastosComponent,
+    ConceptosGastosComponent,
+    UsuarioGastosComponent,
+    CicloGastosComponent,     
   ],
   imports: [
     BrowserModule,

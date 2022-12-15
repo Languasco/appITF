@@ -1,6 +1,6 @@
 <div class="card border-left-warning  shadow   ">
     <div class="card-header">
-        <h5 class="headerTitle"> MANTENIMIENTO USUARIOS </h5>
+        <h5 class="headerTitle"> MANTENIMIENTO USUARIOS PARA GASTOS</h5>
     </div>
     <div class="card-body">
 
@@ -9,8 +9,6 @@
                 <div class="col-md-3">
                     <label for=""> Estado</label>
                     <select class="form-control comboBox" formControlName="idEstado">
-                        <!-- <option value="0"> [ --SELECCIONE-- ]</option> -->
-                        <!-- <option [value]="estado.id_Estado" *ngFor="let estado of estados">{{estado.descripcion_estado}}</option> -->
                         <option value="1"> Activo </option>
                         <option value="0"> Inactivo </option>
                     </select>
@@ -112,7 +110,7 @@
                                                 <label> Código Usuario</label>
                                                 <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Usuario">
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-6">
                                                 <br>
                                                 <div class="custom-control custom-checkbox custom-control-inline ">
                                                     <input type="checkbox" [id]="9999" formControlName="es_supervisor" (change)="onChange_supervisor($event)" class="custom-control-input">
@@ -167,12 +165,23 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-6" style="margin-bottom: 15px;">
+                                            <div class="col-md-6" style="margin-bottom: 15px;">
                                                 <label> Supervisor</label>
                                                 <select class="form-control comboBox" id="cbo_supervisor" formControlName="id_supervisor">
                                                     <option value="0"> [ --SELECCIONE-- ]</option>
                                                     <option [value]="sup.id_Usuario" *ngFor="let sup of supervisores">{{sup.supervisor}}</option>
                                                 </select>
+                                            </div>
+                                            <div class="col-md-6" style="margin-bottom: 15px;">
+                                                <label> Centro de Costo </label>
+                                                <input type="text" class="form-control " style="background-color: beige;" maxlength="20" formControlName="centro_costos">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6" style="margin-bottom: 15px;">
+                                                <label> Presupuesto Movilidad </label>
+                                                <input type="number" class="form-control text-right" style="font-size: 20px; font-weight: bold;" (keypress)="onlyDecimalNumberKey($event)" maxlength="10" formControlName="pres_movilidad">   
                                             </div>
                                         </div>
                                     </div>
@@ -191,13 +200,12 @@
                                                         <label> Login </label>
                                                         <input type="text" class="form-control " maxlength="100" formControlName="login_usuario">
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <label> Constraseña </label>
                                                         <input type="password" class="form-control " maxlength="50" formControlName="contrasenia_usuario">
                                                     </div>
                                                 </div>
+    
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for=""> Rol</label>
@@ -206,9 +214,6 @@
                                                             <option [value]="cargo.id_perfil" *ngFor="let cargo of perfiles">{{cargo.descripcion_perfil}}</option>
                                                         </select>
                                                     </div>
-                                                </div>
-
-                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <label> Estado</label>
                                                         <select class="form-control comboBox" formControlName="estado">
@@ -218,6 +223,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
+ 
                                                 <br>
                                             </div>
                                         </div>
@@ -250,7 +256,8 @@
                         </fieldset>
                         <br>
 
-                        <form [formGroup]="formParams" style=" margin-top: -15px;" *ngIf="idPerfilGlobal == 1" >
+                        <!-- <form [formGroup]="formParams" style=" margin-top: -15px;" *ngIf="idPerfilGlobal == 1" > -->
+                        <form [formGroup]="formParams" style=" margin-top: -15px; display: none;"  >
                             <div class="row">
                                 <div class="col-md-12 ">
                                     <label> Nro. Max de contactos Médicos </label>
@@ -265,7 +272,6 @@
                                 </div>
                              </div>
                         </form>
-
                     </div>
                 </div>
 
@@ -274,11 +280,8 @@
                         <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
                     </div>
                 </div>
-
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Close</button>
-            </div> -->
+ 
         </div>
     </div>
 </div>

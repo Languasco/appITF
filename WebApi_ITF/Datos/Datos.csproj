@@ -79,6 +79,12 @@
     <Compile Include="tbl_Ciclos.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tbl_Ciclos_Gastos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Conceptos_Gastos.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_Control_Stock.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
@@ -116,6 +122,9 @@
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_Feriados.cs">
+      <DependentUpon>Proyecto_ITF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Gastos.cs">
       <DependentUpon>Proyecto_ITF.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_Identificador_Medico.cs">

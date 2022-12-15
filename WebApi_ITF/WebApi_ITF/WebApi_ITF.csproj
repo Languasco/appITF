@@ -202,9 +202,11 @@
     <Compile Include="Controllers\Acceso\loginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Mantenimiento\BoticasFarmaciasController.cs" />
+    <Compile Include="Controllers\Mantenimiento\GastosController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblActividadesController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblCategoriasController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblCiclosController.cs" />
+    <Compile Include="Controllers\Mantenimiento\tblCiclos_GastosController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblEspecialidadesController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblExamen_Rm_CabController.cs" />
     <Compile Include="Controllers\Mantenimiento\tblExamen_Rm_Det_PreguntasController.cs" />

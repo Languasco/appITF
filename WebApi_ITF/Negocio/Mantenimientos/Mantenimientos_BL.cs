@@ -4,13 +4,19 @@ using Negocio.Conexion;
 using Negocio.Resultados;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+
+using Excel = OfficeOpenXml;
+using Style = OfficeOpenXml.Style;
 
 namespace Negocio.Mantenimientos
 {
@@ -1686,6 +1692,487 @@ namespace Negocio.Mantenimientos
         }
 
 
+        public DataTable get_conceptosGastos(int idEstado)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_LISTA_CONCEPTOS_GASTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idEstado", SqlDbType.Int).Value = idEstado;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_Gastos(string mesAnio, int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+ 
+            string[] fechaMesAnio = mesAnio.Split('-');
+
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_CAB_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@anio", SqlDbType.Int).Value = fechaMesAnio[0];
+                        cmd.Parameters.Add("@mes", SqlDbType.Int).Value = fechaMesAnio[1];
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_usuariosGastos(int idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_REGISTRO_GASTOS_COMBO_USUARIOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_cosultaRucGastos(string ruc)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_MANT_GASTOS_CONSULTA_RUC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@nroRuc", SqlDbType.VarChar).Value = ruc;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_conceptoGastos_combo()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_COMBO_CONCEPTOS_GASTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_tipoComprobante_combo()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_COMBO_TIPO_DOCUMENTO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_monedas_combo()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_COMBO_MONEDAS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_reporteGastos(string mesAnio, int idUsuario, int TipoReporte)
+        {
+            DataTable dt_detalle = new DataTable();
+            string[] fechaMesAnio = mesAnio.Split('-');
+            try
+            {
+
+                string nameProcedure = "";
+                if (TipoReporte == 1)
+                {
+                    nameProcedure = "SP_PROY_W_PROC_GASTOS_RPT_GASTO_REPRESENTACION";
+                }
+                else if (TipoReporte == 2)
+                {
+                    nameProcedure = "SP_PROY_W_PROC_GASTOS_RPT_GASTOS";
+                }
+                else if (TipoReporte == 3)
+                {
+                    nameProcedure = "SP_PROY_W_PROC_GASTOS_RPT_GASTO_MOVILIDAD";
+                }
+
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand(nameProcedure, cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@anio", SqlDbType.Int).Value = fechaMesAnio[0];
+                        cmd.Parameters.Add("@mes", SqlDbType.Int).Value = fechaMesAnio[1];
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable get_fechasCiclos()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_LISTA_INICIO_FIN_CICLO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public DataTable get_verificarPresupuesto(string usuario,string fecha_gastos,string id_concepto_gastos,string total)
+        {
+            DataTable dt_detalle = new DataTable();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_VERIFICA_PRESUPUESTO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idusuario", SqlDbType.Int).Value = usuario;
+                        cmd.Parameters.Add("@fechaGasto", SqlDbType.VarChar).Value = fecha_gastos;
+                        cmd.Parameters.Add("@id_concepto_gastos", SqlDbType.Int).Value = id_concepto_gastos;
+                        cmd.Parameters.Add("@monto", SqlDbType.VarChar).Value = total;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public object GenerarReporte_grillaGastos(string mesAnio, int idUsuario)
+        {
+            Resultado res = new Resultado();
+            string[] fechaMesAnio = mesAnio.Split('-');
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_ASIENTO_CONTABLE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@anio", SqlDbType.Int).Value = fechaMesAnio[0];
+                        cmd.Parameters.Add("@mes", SqlDbType.Int).Value = fechaMesAnio[1];
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            if (dt_detalle.Rows.Count <= 0)
+                            {
+                                res.ok = false;
+                                res.data = "0|No hay informacion disponible";
+                            }
+                            else
+                            {
+                                res.ok = true;
+                                res.data = generarExcel_pagos(dt_detalle, idUsuario);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+        public string generarExcel_pagos(DataTable listPendientes, int idUsuario)
+        {
+            string Res = "";
+            string FileRuta = "";
+            string FileExcel = "";
+            int _fila = 0;
+            int index = 0;
+            int cantCol = 0;
+
+            try
+            {
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                var nombreFile = idUsuario + "_gastos_" + Guid.Parse(guidB) + ".xlsx";
+
+                FileRuta = System.Web.Hosting.HostingEnvironment.MapPath("~/Archivos/Excel/" + nombreFile);
+                FileExcel = ConfigurationManager.AppSettings["Archivos"] + "/Excel/" + nombreFile;
+
+                FileInfo _file = new FileInfo(FileRuta);
+
+                using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                {
+                    Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("Gastos");
+                    oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 8));
+
+                    cantCol = listPendientes.Columns.Count;
+
+                    //oWs.Cells[1, 1].Value = "Fecha : " + listPendientes.Rows[0]["fecha"].ToString();
+                    //oWs.Cells[2, 1].Value = "Hora : " + listPendientes.Rows[0]["hora"].ToString();
+
+                    //oWs.Cells[_fila, 1, _fila, cantCol].Merge = true;  // combinar celdaS dt
+                    //oWs.Cells[_fila, 1].Value = listPendientes.Rows[0]["tituloReporte"].ToString();
+                    //oWs.Cells[_fila, 1].Style.Font.Size = 15; //letra tamaño  
+                    //oWs.Cells[_fila, 1].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    //oWs.Cells[_fila, 1].Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    //oWs.Cells[_fila, 1].Style.Font.Bold = true; //Letra negrita
+
+                    _fila += 1;
+                    //---- incrustando las columnas ------
+                    foreach (DataColumn col in listPendientes.Columns)
+                    {
+                        index += 1; 
+                        oWs.Cells[_fila, index].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);    //--bordes en una celda-------
+                        oWs.Cells[_fila, index].Value = col;
+    
+                    }
+                    _fila += 1;
+
+                    //---- incrustando del detalle ----
+                    foreach (DataRow row in listPendientes.Rows)
+                    {
+                        index = 0;
+                        foreach (DataColumn col in listPendientes.Columns)
+                        {
+                            index += 1;    
+                            oWs.Cells[_fila, index].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);    //--bordes en una celda-------
+                            oWs.Cells[_fila, index].Value = row[col].ToString();                          
+                        }
+                        _fila++;
+                    }
+
+                    oWs.Row(1).Style.Font.Bold = true;
+                    oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+
+                    for (int k = 1; k <= cantCol; k++)
+                    {
+                        oWs.Column(k).AutoFit();
+                    }
+
+                    oEx.Save();
+                    Res = FileExcel;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Res;
+        }
+
+        public DataTable get_fechasCiclos_Gastos()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_LISTA_INICIO_FIN_CICLO_GASTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string set_gastos_insertUpdate(int id_gastos, int idusuario, string opcion)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_PROY_W_PROC_GASTOS_INSERT_UPDATE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_gastos", SqlDbType.Int).Value = id_gastos;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idusuario;
+                        cmd.Parameters.Add("@opcion", SqlDbType.VarChar).Value = opcion;
+                        cmd.ExecuteNonQuery();
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
 
     }
 }
